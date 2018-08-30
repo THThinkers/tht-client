@@ -6,18 +6,21 @@ export interface IRootState {
 }
 const initialState = {
   value: 42,
-}
+};
 
-const rootReducer = (state: IRootState = initialState, action: RootAction): IRootState => {
+const rootReducer = (
+  state: IRootState = initialState,
+  action: RootAction,
+): IRootState => {
   switch (action.type) {
     case SET_ROOT_VALUE: {
       return {
         ...state,
         value: action.value,
-      }
+      };
     }
-    default: 
+    default:
       return state;
   }
-}
+};
 export default rootReducer;
