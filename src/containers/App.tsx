@@ -1,7 +1,23 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
+import { Route } from 'react-router';
+import styled from 'styled-components';
 import { setRootValue } from '../actions/root';
+import { Header } from '../components';
+import { Introduction } from '../pages';
 import { IRootState } from '../reducers';
+
+const AppBody = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+const MainContainer = styled.div`
+  width: 1366px;
+  justify-content: center;
+`;
 
 interface IAppProps {
   value: number;
@@ -9,12 +25,17 @@ interface IAppProps {
 }
 
 const App = ({ value, setValue }: IAppProps) => (
-  <div>
-    <h1>Hello</h1>
-    {value}
-    <button onClick={() => setValue(value + 1)}>Up</button>
-    <button onClick={() => setValue(value - 1)}>Down</button>
-  </div>
+  <AppBody>
+    <Header />
+    <MainContainer>
+      <h1>Hello</h1>
+      {value}
+      <button onClick={() => setValue(value + 1)}>Up</button>
+      <button onClick={() => setValue(value - 1)}>Down</button>
+      <Route exact path="/info" component={Introduction} />
+      <Route exact path="/info/history" />
+    </MainContainer>
+  </AppBody>
 );
 
 const mapStateToProps = (state: IRootState) => ({

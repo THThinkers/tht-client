@@ -5,7 +5,7 @@ export interface IRootState {
   readonly value: number;
 }
 const initialState = {
-  value: 42,
+  value: 4,
 };
 
 const rootReducer = (

@@ -12,6 +12,7 @@ module.exports = (option) => ({
   },
   entry: option.entry,
   devtool: option.devtool,
+  devServer: option.devServer,
   output: {
     path: path.resolve(process.cwd(), 'dist'),
     publicPath: '/',
