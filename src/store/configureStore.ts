@@ -2,12 +2,15 @@ import { applyMiddleware, compose, createStore, Store } from 'redux';
 import reduxImmutableStateInvariant from 'redux-immutable-state-invariant';
 import createSagaMiddleware from 'redux-saga';
 import rootReducer from '../reducers';
-// import rootSaga from '../sagas';
+import rootSaga from '../sagas';
+
+const sagaMiddleware = createSagaMiddleware();
 
 const configureStoreDev = (initialState?: object): Store => {
   const middlewares = [
     /* redux-logger 같은거 넣어주면 될듯 */
     reduxImmutableStateInvariant(),
+    sagaMiddleware,
   ];
   // redux devtool과 middleware를 compose
   const composeEnhancers =
@@ -19,12 +22,15 @@ const configureStoreDev = (initialState?: object): Store => {
     initialState!,
     composeEnhancers(applyMiddleware(...middlewares)),
   );
+  // 반드시 store을 먼저 생성하고 run을 한다.
+  sagaMiddleware.run(rootSaga);
   return store;
 };
 
 const configureStoreProd = (initialState?: object): Store => {
   const middlewares = [
     /* redux-logger 같은거 넣어주면 될듯 */
+    sagaMiddleware,
   ];
   // !는 typescript보다 내가 type을 더 잘할 때,
   // 있다고 확신할 때 쓰면 됨.
@@ -33,6 +39,8 @@ const configureStoreProd = (initialState?: object): Store => {
     initialState!,
     // applyMiddleware(...middlewares)
   );
+  // 반드시 store을 먼저 생성하고 run을 한다.
+  sagaMiddleware.run(rootSaga);
   return store;
 };
 
