@@ -1,3 +1,3 @@
 import Introduction from './Introduction';
-
-export { Introduction };
+import OauthSignup from './OauthSignup';
+export { Introduction, OauthSignup };
