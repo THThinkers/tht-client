@@ -5,6 +5,6 @@
     "no-console": false,
     "no-submodule-imports": false,
     "member-access": false,
-    "semicolon": false,
+    "semicolon": false
   }
 }

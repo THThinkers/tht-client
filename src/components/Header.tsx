@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { Link, RouteComponentProps, withRouter } from 'react-router-dom';
 import styled, { ThemedBaseStyledInterface } from 'styled-components';
-import { connect } from 'react-redux';
 import { logout } from '../actions/auth';
 import * as logo from '../assets/logo';
 
@@ -111,10 +111,10 @@ interface IHeaderProps extends RouteComponentProps<any> {
 
 class Header extends Component<IHeaderProps> {
   public render() {
-    const paths = this.props.location.pathname.split('/');
+    const { location, handleLogout } = this.props;
+    const paths = location.pathname.split('/');
     const currentSection: string = paths[1];
     const currentLocation: string = paths[2];
-    console.log(currentSection);
     return (
       <HeaderBar>
         <HeaderArea>
@@ -161,7 +161,7 @@ class Header extends Component<IHeaderProps> {
               </Menu>
             </MenuContainer>
           </HeaderContent>
-          <button onClick={this.props.handleLogout}>LOGOUT</button>
+          <button onClick={handleLogout}>LOGOUT</button>
         </HeaderArea>
       </HeaderBar>
     );

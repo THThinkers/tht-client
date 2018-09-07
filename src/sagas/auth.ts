@@ -5,6 +5,7 @@ import {
   GET_PROFILE,
   GET_PROFILE_FAILURE,
   GET_PROFILE_SUCCESS,
+  LOGOUT,
   PUT_PROFILE,
   PUT_PROFILE_FAILURE,
   PUT_PROFILE_SUCCESS,
@@ -28,14 +29,14 @@ function* getProfile(action: IGetProfile) {
   }
 }
 function* putProfile(action: IPutProfile) {
-  const { name, userId } = action;
+  const { user } = action;
   try {
     const {
-      data: { user },
-    } = yield call(authApi.updateProfile, userId, name);
+      data: { user: updatedUser },
+    } = yield call(authApi.updateProfile, user);
     yield put({
       type: PUT_PROFILE_SUCCESS,
-      user,
+      user: updatedUser,
     });
   } catch (error) {
     yield put({
@@ -55,6 +56,12 @@ function* watchPutProfile() {
     yield call(putProfile, action);
   }
 }
+function* watchLogout() {
+  while (true) {
+    yield take(LOGOUT);
+    yield call(authApi.logout);
+  }
+}
 export default function* authSaga() {
-  yield all([fork(watchGetProfile), fork(watchPutProfile)]);
+  yield all([fork(watchGetProfile), fork(watchPutProfile), fork(watchLogout)]);
 }

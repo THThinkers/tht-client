@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import { getProfile } from '../actions/auth';
 import { Header } from '../components';
 import { IUser } from '../models/user';
-import { Introduction, OauthSignup } from '../pages';
+import { Introduction, Landing, OauthSignup } from '../pages';
 import { IRootState } from '../reducers';
 
 const AppBody = styled.div`
@@ -32,22 +32,19 @@ class App extends React.Component<IAppProps> {
   }
   render() {
     const { user, status } = this.props;
-    if (status !== 'SUCCESS') {
-      return (
-        <div>
-          <a href="http://localhost:4000/api/auth/oauth/google">구글 로그인</a>
-        </div>
-      );
+    if (status === 'WAITING') {
+      return null;
     }
-    console.log(user);
-    if (!user.name) {
+    if (status !== 'SUCCESS') {
+      return <Landing />;
+    }
+    if (!user.isVerified) {
       return <OauthSignup userId={user._id} />;
     }
     return (
       <AppBody>
         <Header />
         <MainContainer>
-          <h1>Hello {user.name}</h1>
           <Route exact path="/info/introduction" component={Introduction} />
           <Route exact path="/info/history" />
         </MainContainer>

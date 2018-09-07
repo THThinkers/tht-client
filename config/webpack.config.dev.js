@@ -14,7 +14,7 @@ module.exports = common({
   devServer: {
     historyApiFallback: true,
     proxy: {
-      '**': 'http://localhost:4000/'
+      '/api': 'http://localhost:4000/'
     }
   },
   // react-hot-loader를 위한 설정인데,

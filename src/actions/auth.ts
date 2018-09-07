@@ -2,12 +2,12 @@ import {
   GET_PROFILE,
   GET_PROFILE_FAILURE,
   GET_PROFILE_SUCCESS,
+  LOGOUT,
   PUT_PROFILE,
   PUT_PROFILE_FAILURE,
   PUT_PROFILE_SUCCESS,
-  LOGOUT,
 } from '../constants/actionTypes';
-import { IUser } from '../models/user';
+import { IUser, PartialUser } from '../models/user';
 export interface IGetProfile {
   type: typeof GET_PROFILE;
 }
@@ -20,8 +20,7 @@ export interface IGetProfileFailure {
 }
 export interface IPutProfile {
   type: typeof PUT_PROFILE;
-  userId: string;
-  name: string;
+  user: PartialUser;
 }
 export interface IPutProfileSuccess {
   type: typeof PUT_PROFILE_SUCCESS;
@@ -46,10 +45,9 @@ export const getProfile = (): IGetProfile => ({
   type: GET_PROFILE,
 });
 
-export const putProfile = (userId: string, name: string): IPutProfile => ({
-  name,
+export const putProfile = (user: PartialUser): IPutProfile => ({
   type: PUT_PROFILE,
-  userId,
+  user,
 });
 
 export const logout = (): ILogout => ({

@@ -1,44 +1,40 @@
 /* 임시 페이지 */
 import React from 'react';
 import { connect } from 'react-redux';
+import styled from 'styled-components';
 import { putProfile } from '../actions/auth';
+import { SignupDetail } from '../containers';
+import { PartialUser } from '../models/user';
+
+const Container = styled.div`
+  width: 100%;
+  height: 100%;
+`;
+const HeaderWrapper = styled.div`
+  text-align: center;
+  margin: 1.5rem 0;
+`;
 interface IOauthSignupProps {
   userId: string;
-  updateProfile: (userId: string, name: string) => void;
+  updateProfile: (user: PartialUser) => void;
 }
-interface IOauthSignupState {
-  readonly name: string;
-}
-class OauthSignup extends React.Component<
-  IOauthSignupProps,
-  IOauthSignupState
-> {
-  state = {
-    name: '',
-  };
-  onInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    this.setState({
-      name: e.target.value,
-    });
-    // tslint:disable-next-line:semicolon
-  };
-  handleUpdate = () => {
-    const { name } = this.state;
-    const { userId, updateProfile } = this.props;
-    updateProfile(userId, name);
+class OauthSignup extends React.Component<IOauthSignupProps> {
+  handleUpdate = (user: PartialUser) => {
+    const updateUser = {
+      _id: this.props.userId,
+      ...user,
+    };
+    this.props.updateProfile(updateUser);
   };
   render() {
-    const { name } = this.state;
     return (
-      <div>
-        <h1>THThinkers에 오신걸 환영합니다.</h1>
-        <input
-          onChange={this.onInputChange}
-          placeholder="THThinkers에서 사용할 이름"
-          value={name}
-        />
-        <button onClick={this.handleUpdate}>등록</button>
-      </div>
+      <Container>
+        <HeaderWrapper>
+          <h1>THThinkers</h1>
+          <h2>서비스를 이용하기 위해 다음 항목을 작성해주세요.</h2>
+        </HeaderWrapper>
+        <SignupDetail handleUpdate={this.handleUpdate} />
+      </Container>
     );
   }
 }

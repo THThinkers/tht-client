@@ -1,9 +1,9 @@
 import { AuthAction } from '../actions/auth';
 import {
-  LOGOUT,
   GET_PROFILE,
   GET_PROFILE_FAILURE,
   GET_PROFILE_SUCCESS,
+  LOGOUT,
   PUT_PROFILE,
   PUT_PROFILE_SUCCESS,
 } from '../constants/actionTypes';
@@ -20,6 +20,7 @@ const initialState: IAuthState = {
     status: 'INIT',
     user: {
       _id: '',
+      isVerified: false,
       name: '',
     },
   },
