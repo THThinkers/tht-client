@@ -1,26 +1,37 @@
-import { RootAction } from '../actions/root';
-import { SET_ROOT_VALUE } from '../constants/actionTypes';
+import { combineReducers } from 'redux';
+import auth, { IAuthState } from './auth';
+// import { RootAction } from '../actions/root';
+// import { SET_ROOT_VALUE } from '../constants/actionTypes';
 
+// export interface IRootState {
+//   readonly value: number;
+// }
+// const initialState = {
+//   value: 4,
+// };
+
+// const rootReducer = (
+//   state: IRootState = initialState,
+//   action: RootAction,
+// ): IRootState => {
+//   switch (action.type) {
+//     case SET_ROOT_VALUE: {
+//       return {
+//         ...state,
+//         value: action.value,
+//       };
+//     }
+//     default:
+//       return state;
+//   }
+// };
 export interface IRootState {
-  readonly value: number;
+  auth: IAuthState;
+  // ..추가될 리듀서 타입
 }
-const initialState = {
-  value: 4,
-};
+const appReducer = combineReducers<IRootState>({
+  auth,
+  // ..추가될 리듀서
+});
 
-const rootReducer = (
-  state: IRootState = initialState,
-  action: RootAction,
-): IRootState => {
-  switch (action.type) {
-    case SET_ROOT_VALUE: {
-      return {
-        ...state,
-        value: action.value,
-      };
-    }
-    default:
-      return state;
-  }
-};
-export default rootReducer;
+export default appReducer;

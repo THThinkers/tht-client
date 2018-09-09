@@ -2,9 +2,10 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Route } from 'react-router';
 import styled from 'styled-components';
-import { setRootValue } from '../actions/root';
+import { getProfile } from '../actions/auth';
 import { Header } from '../components';
-import { Introduction } from '../pages';
+import { IUser } from '../models/user';
+import { Introduction, Landing, OauthSignup } from '../pages';
 import { IRootState } from '../reducers';
 
 const AppBody = styled.div`
@@ -20,26 +21,41 @@ const MainContainer = styled.div`
 `;
 
 interface IAppProps {
-  value: number;
-  setValue: (value: number) => void;
+  user: IUser;
+  status: string;
+  getProfile: () => void;
 }
 
-const App = ({ value, setValue }: IAppProps) => (
-  <AppBody>
-    <Header />
-    <MainContainer>
-      <h1>Hello</h1>
-      {value}
-      <button onClick={() => setValue(value + 1)}>Up</button>
-      <button onClick={() => setValue(value - 1)}>Down</button>
-      <Route exact path="/info/introduction" component={Introduction} />
-      <Route exact path="/info/history" />
-    </MainContainer>
-  </AppBody>
-);
+class App extends React.Component<IAppProps> {
+  componentDidMount() {
+    this.props.getProfile();
+  }
+  render() {
+    const { user, status } = this.props;
+    if (status === 'WAITING') {
+      return null;
+    }
+    if (status !== 'SUCCESS') {
+      return <Landing />;
+    }
+    if (!user.isVerified) {
+      return <OauthSignup userId={user._id} />;
+    }
+    return (
+      <AppBody>
+        <Header />
+        <MainContainer>
+          <Route exact path="/info/introduction" component={Introduction} />
+          <Route exact path="/info/history" />
+        </MainContainer>
+      </AppBody>
+    );
+  }
+}
 
 const mapStateToProps = (state: IRootState) => ({
-  value: state.value,
+  status: state.auth.profile.status,
+  user: state.auth.profile.user,
 });
 
 // 2번째 인자로 object를 넘겨주면, 각 키의 해당하는 값이 actionCreator임을 알고 dispatch한다.
@@ -49,6 +65,6 @@ const mapStateToProps = (state: IRootState) => ({
 export default connect(
   mapStateToProps,
   {
-    setValue: setRootValue,
+    getProfile,
   },
 )(App);

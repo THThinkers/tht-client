@@ -13,6 +13,9 @@ module.exports = common({
   // app.get('/*', (req, res) => res.sendFile(index.html)); 대충 이런 역할 
   devServer: {
     historyApiFallback: true,
+    proxy: {
+      '/api': 'http://localhost:4000/'
+    }
   },
   // react-hot-loader를 위한 설정인데,
   // 쓸지 안 쓸지 먼저 정하고.. typescript에 대한 설정 하겠음.

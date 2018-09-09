@@ -1,5 +1,4 @@
 import { injectGlobal } from 'styled-components';
-
 /* tslint:disable */
 // Inject Normalize Css
 injectGlobal`

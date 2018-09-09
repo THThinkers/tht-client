@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { Link, RouteComponentProps, withRouter } from 'react-router-dom';
 import styled, { ThemedBaseStyledInterface } from 'styled-components';
+import { logout } from '../actions/auth';
 import * as logo from '../assets/logo';
 
 const HeaderBar = styled.div`
@@ -119,14 +121,15 @@ interface IHeaderProps extends RouteComponentProps<any> {
   // 헤더컴포넌트 로그인데이터 확정나면 넣음될듯
   // 프레젠테이션? 컨테이너?
   user?: string;
+  handleLogout: () => void;
 }
 
 class Header extends Component<IHeaderProps> {
   public render() {
-    const paths = this.props.location.pathname.split('/');
+    const { location, handleLogout } = this.props;
+    const paths = location.pathname.split('/');
     const currentSection: string = paths[1];
     const currentLocation: string = paths[2];
-    console.log(currentSection);
     return (
       <HeaderBar>
         <HeaderArea>
@@ -173,10 +176,16 @@ class Header extends Component<IHeaderProps> {
               </Menu>
             </MenuContainer>
           </HeaderContent>
+          <button onClick={handleLogout}>LOGOUT</button>
         </HeaderArea>
       </HeaderBar>
     );
   }
 }
 
-export default withRouter(Header);
+export default withRouter(
+  connect(
+    null,
+    { handleLogout: logout },
+  )(Header),
+);
