@@ -23,13 +23,15 @@ const HeaderImage = styled.img`
 `;
 
 const HeaderArea = styled.div`
-  width: 1366px;
+  max-width: 1366px;
   height: 100%;
   display: flex;
   align-items: center;
+  width: 100%;
 `;
 
 const HeaderContent = styled.div`
+  flex: 1 0;
   width: 100%;
   height: 100%;
   display: flex;
@@ -38,6 +40,7 @@ const HeaderContent = styled.div`
 `;
 
 const MainLogo = styled.div`
+  flex: 0 1;
   display: flex;
   position: absolute;
   flex-direction: row;
@@ -64,20 +67,31 @@ const Menu = styled.div`
   text-align: center;
   font-weight: 500;
   font-size: 20px;
+  margin-bottom: 10px;
 `;
-
+const menuHover = () => `
+  visibility: visible;
+  top: 60px;
+  opacity: 1;
+  transition: opacity 0.1s ease-in-out;
+`;
 const MenuDropDown = styled.div`
   position: absolute;
-  display: none;
+  display: flex;
+  visibility: hidden;
   z-index: 9;
   height: 150px;
   width: 100%;
   justify-content: center;
   background-color: #ffffff;
   border-bottom: 1px solid #cccccc;
+  box-shadow: 0 10px 8px 0 rgba(0, 0, 0, 0.2);
+  opacity: 0;
   ${HeaderContent}:hover & {
-    display: flex;
-    top: 63px;
+    ${menuHover()}
+  }
+  &:hover {
+    ${menuHover()}
   }
 `;
 
@@ -88,6 +102,7 @@ const MenuDropDownContentWrapper = styled.div`
 
 const MenuDropDownItemList = styled.div`
   display: inline-block;
+  text-align: center;
   width: 200px;
   & > a {
     text-decoration: none;
