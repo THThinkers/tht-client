@@ -26,6 +26,7 @@
     "redux": "^4.0.0",
     "redux-immutable-state-invariant": "^2.1.0",
     "redux-saga": "^0.16.0",
+    "regenerator-runtime": "^0.12.1",
     "styled-components": "^4.0.0-beta.3"
   },
   "devDependencies": {
@@ -36,7 +37,6 @@
     "@babel/preset-react": "^7.0.0",
     "@babel/preset-typescript": "^7.0.0",
     "autoprefixer": "^9.1.3",
-    "awesome-typescript-loader": "^5.2.0",
     "babel-loader": "^8.0.2",
     "css-loader": "^1.0.0",
     "file-loader": "^2.0.0",
