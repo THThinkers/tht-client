@@ -46,6 +46,14 @@ const auth = (
           user: action.user,
         },
       };
+    case GET_PROFILE_FAILURE:
+      return {
+        ...state,
+        profile: {
+          ...state.profile,
+          status: 'FAILURE',
+        },
+      }
     case PUT_PROFILE: {
       return {
         ...state,

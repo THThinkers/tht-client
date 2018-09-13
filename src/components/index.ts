@@ -1,3 +1,4 @@
 import Field from './Field';
+import GlobalStyle from './GlobalStyle';
 import Header from './Header';
-export { Field, Header };
+export { GlobalStyle, Field, Header };

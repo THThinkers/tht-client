@@ -38,7 +38,7 @@ module.exports = (option) => ({
       {
         test: /\.tsx?$/,
         exclude: /node_modules/,
-        use: 'awesome-typescript-loader',
+        use: 'babel-loader',
       },
       {
         test: /\.eot(\?v=\d+.\d+.\d+)?$/,

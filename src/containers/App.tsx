@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Route } from 'react-router';
 import styled from 'styled-components';
 import { getProfile } from '../actions/auth';
-import { Header } from '../components';
+import { GlobalStyle, Header } from '../components';
 import { IUser } from '../models/user';
 import { Introduction, Landing, OauthSignup } from '../pages';
 import { IRootState } from '../reducers';
@@ -32,6 +32,7 @@ class App extends React.Component<IAppProps> {
   }
   render() {
     const { user, status } = this.props;
+    console.log(user, status);
     if (status === 'WAITING') {
       return null;
     }
@@ -43,6 +44,7 @@ class App extends React.Component<IAppProps> {
     }
     return (
       <AppBody>
+        <GlobalStyle />
         <Header />
         <MainContainer>
           <Route exact path="/info/introduction" component={Introduction} />

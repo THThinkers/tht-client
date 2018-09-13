@@ -1,7 +1,7 @@
-import { injectGlobal } from 'styled-components';
+import { createGlobalStyle } from 'styled-components';
 /* tslint:disable */
 // Inject Normalize Css
-injectGlobal`
+const GlobalStyle = createGlobalStyle`
 @font-face {
   font-family: 'Nanum Gothic', sans-serif;
   src: https://fonts.googleapis.com/css?family=Nanum+Gothic:400,700,800&subset=korean;
@@ -152,3 +152,5 @@ template {
   display: none;
 }
 `;
+
+export default GlobalStyle;
