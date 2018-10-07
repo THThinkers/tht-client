@@ -1,4 +1,4 @@
 /* tslint:disable */
 const googleSigninBtn = require('./google-signin.png');
-
-export { googleSigninBtn };
+const kakaoSigninBtn = require('./kakao-signin.png');
+export { googleSigninBtn, kakaoSigninBtn };

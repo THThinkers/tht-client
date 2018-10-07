@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { googleSigninBtn } from '../assets/images';
+import { googleSigninBtn, kakaoSigninBtn } from '../assets/images';
 import * as logo from '../assets/logo';
 
 const Container = styled.div`
@@ -23,9 +23,16 @@ const Landing = () => {
       <Content>
         <Header>THThinkers</Header>
         <p>THE HYBRID THINKERS</p>
-        <a href="/api/auth/oauth/google">
-          <img src={googleSigninBtn} width="160px" />
-        </a>
+        <div>
+          <a href="/api/auth/oauth/google">
+            <img src={googleSigninBtn} width="180px" />
+          </a>
+        </div>
+        <div>
+          <a href="/api/auth/oauth/kakao">
+            <img src={kakaoSigninBtn} width="180px" />
+          </a>
+        </div>
       </Content>
       <Content>
         <img src={logo.logoSquare} width="480px" />

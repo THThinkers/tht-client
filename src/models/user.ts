@@ -4,7 +4,7 @@ export interface IUser {
   isVerified: boolean;
   password?: string;
   isAdmin?: boolean;
-  facebookId?: string;
+  kakaoId?: string;
   googleId?: string;
   profilePicture?: string;
   description?: string;
