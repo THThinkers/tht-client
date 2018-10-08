@@ -10,12 +10,12 @@ module.exports = common({
   mode: 'development',
   devtool: 'cheap-module-eval-source-map',
   // historyApiFallback: html5 history api 사용할 때, 해당하는 라우트 없으면 index.html 로드
-  // app.get('/*', (req, res) => res.sendFile(index.html)); 대충 이런 역할 
+  // app.get('/*', (req, res) => res.sendFile(index.html)); 대충 이런 역할
   devServer: {
     historyApiFallback: true,
     proxy: {
-      '/api': 'http://localhost:4000/'
-    }
+      '/api': 'http://localhost:4000/',
+    },
   },
   // react-hot-loader를 위한 설정인데,
   // 쓸지 안 쓸지 먼저 정하고.. typescript에 대한 설정 하겠음.
@@ -25,9 +25,7 @@ module.exports = common({
     plugins: ['react-hot-loader/babel'],
   },
   // webpack이 dependency graph를 만들기 시작하는 포인트.
-  entry: [
-    path.resolve(process.cwd(), 'src/index.tsx'),
-  ],
+  entry: [path.resolve(process.cwd(), 'src/index.tsx')],
   // webpack 번들링 결과가 나오는 곳과 파일 이름. 나오는 곳은 common에 있음.
   output: {
     filename: 'bundle.js',

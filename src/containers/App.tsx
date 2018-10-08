@@ -1,11 +1,12 @@
 import React from 'react';
+import Loadable from 'react-loadable';
 import { connect } from 'react-redux';
 import { Route } from 'react-router';
 import styled from 'styled-components';
 import { getProfile } from '../actions/auth';
 import { GlobalStyle, Header } from '../components';
 import { IUser } from '../models/user';
-import { Introduction, Landing, OauthSignup } from '../pages';
+import { Introduction } from '../pages';
 import { IRootState } from '../reducers';
 
 const AppBody = styled.div`
@@ -19,6 +20,15 @@ const MainContainer = styled.div`
   width: 1366px;
   justify-content: center;
 `;
+
+const LoadableLanding = Loadable({
+  loader: () => import('../pages/Landing'),
+  loading: () => <div>Loading...</div>,
+});
+const LoadableOauthSignup = Loadable({
+  loader: () => import('../pages/OauthSignup'),
+  loading: () => <div>Loading...</div>,
+});
 
 interface IAppProps {
   user: IUser;
@@ -37,10 +47,10 @@ class App extends React.Component<IAppProps> {
       return null;
     }
     if (status !== 'SUCCESS') {
-      return <Landing />;
+      return <LoadableLanding />;
     }
     if (!user.isVerified) {
-      return <OauthSignup userId={user._id} />;
+      return <LoadableOauthSignup userId={user._id} />;
     }
     return (
       <AppBody>
