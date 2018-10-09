@@ -1,7 +1,7 @@
 import React from 'react';
 import Loadable from 'react-loadable';
 import { connect } from 'react-redux';
-import { Route, RouteComponentProps, withRouter } from 'react-router-dom';
+import { BrowserRouter, Route } from 'react-router-dom';
 import styled from 'styled-components';
 import { getProfile } from '../actions/auth';
 import { GlobalStyle, Header } from '../components';
@@ -33,7 +33,7 @@ const LoadableIntroduction = Loadable({
   loading: () => <div>Loading...</div>,
 });
 
-interface IAppProps extends RouteComponentProps<any> {
+interface IAppProps {
   user: IUser;
   status: string;
   getProfile: () => void;
@@ -55,19 +55,21 @@ class App extends React.Component<IAppProps> {
       return <LoadableOauthSignup userId={user._id} />;
     }
     return (
-      <AppBody>
-        <GlobalStyle />
-        <Header />
-        <MainContainer>
-          <Route exact path="/" render={() => <div>dd</div>} />
-          <Route
-            exact
-            path="/info/introduction"
-            component={LoadableIntroduction}
-          />
-          <Route exact path="/info/history" />
-        </MainContainer>
-      </AppBody>
+      <BrowserRouter>
+        <AppBody>
+          <GlobalStyle />
+          <Header />
+          <MainContainer>
+            <Route exact path="/" render={() => <div>HOME</div>} />
+            <Route
+              exact
+              path="/info/introduction"
+              component={LoadableIntroduction}
+            />
+            <Route exact path="/info/history" />
+          </MainContainer>
+        </AppBody>
+      </BrowserRouter>
     );
   }
 }
@@ -81,15 +83,9 @@ const mapStateToProps = (state: IRootState) => ({
 // typescript에서 connect 정의하는 여러 방법이 있는데,
 // https://github.com/piotrwitek/react-redux-typescript-guide 참고
 
-// withRouter 쓴 이유.
-// https://github.com/reduxjs/react-redux/issues/507
-// React Router 내에서 context를 통해 교류하는데, connect 된 컴포넌트는 shouldComponentUpdate를 통해 props의 변화가 없는 이상 rerender를 막음.
-// 그래서 <Link> 를 통해 context를 바꿔줘도 rerender가 일어나지 않음.
-export default withRouter(
-  connect(
-    mapStateToProps,
-    {
-      getProfile,
-    },
-  )(App),
-);
+export default connect(
+  mapStateToProps,
+  {
+    getProfile,
+  },
+)(App);

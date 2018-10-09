@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import { putProfile } from '../actions/auth';
 import { SignupDetail } from '../containers';
 import { PartialUser } from '../models/user';
-console.log('ff');
+
 const Container = styled.div`
   width: 100%;
   height: 100%;
