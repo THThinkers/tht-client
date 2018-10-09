@@ -41,15 +41,19 @@ const HeaderContent = styled.div`
 
 const MainLogo = styled.div`
   flex: 0 1;
-  display: flex;
   position: absolute;
   flex-direction: row;
+`;
+
+const LogoLink = styled(Link)`
+  display: flex;
+  text-decoration: none;
   align-items: center;
   font-size: 36px;
   color: #1069ef;
   font-weight: bolder;
+  cursor: pointer;
 `;
-
 const MenuContainer = styled.div`
   width: 800px;
 `;
@@ -88,10 +92,10 @@ const MenuDropDown = styled.div`
   box-shadow: 0 10px 8px 0 rgba(0, 0, 0, 0.2);
   opacity: 0;
   ${HeaderContent}:hover & {
-    ${menuHover()}
+    ${menuHover()};
   }
   &:hover {
-    ${menuHover()}
+    ${menuHover()};
   }
 `;
 
@@ -134,8 +138,10 @@ class Header extends Component<IHeaderProps> {
       <HeaderBar>
         <HeaderArea>
           <MainLogo>
-            <HeaderImage src={logo.logoSquare} />
-            THT
+            <LogoLink to="/">
+              <HeaderImage src={logo.logoSquare} />
+              THT
+            </LogoLink>
           </MainLogo>
           <HeaderContent>
             <MenuDropDown>

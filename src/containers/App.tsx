@@ -1,12 +1,11 @@
 import React from 'react';
 import Loadable from 'react-loadable';
 import { connect } from 'react-redux';
-import { Route } from 'react-router';
+import { Route, RouteComponentProps, withRouter } from 'react-router-dom';
 import styled from 'styled-components';
 import { getProfile } from '../actions/auth';
 import { GlobalStyle, Header } from '../components';
 import { IUser } from '../models/user';
-import { Introduction } from '../pages';
 import { IRootState } from '../reducers';
 
 const AppBody = styled.div`
@@ -29,8 +28,12 @@ const LoadableOauthSignup = Loadable({
   loader: () => import('../pages/OauthSignup'),
   loading: () => <div>Loading...</div>,
 });
+const LoadableIntroduction = Loadable({
+  loader: () => import('../pages/Introduction'),
+  loading: () => <div>Loading...</div>,
+});
 
-interface IAppProps {
+interface IAppProps extends RouteComponentProps<any> {
   user: IUser;
   status: string;
   getProfile: () => void;
@@ -42,7 +45,6 @@ class App extends React.Component<IAppProps> {
   }
   render() {
     const { user, status } = this.props;
-    console.log(user, status);
     if (status === 'WAITING') {
       return null;
     }
@@ -57,7 +59,12 @@ class App extends React.Component<IAppProps> {
         <GlobalStyle />
         <Header />
         <MainContainer>
-          <Route exact path="/info/introduction" component={Introduction} />
+          <Route exact path="/" render={() => <div>dd</div>} />
+          <Route
+            exact
+            path="/info/introduction"
+            component={LoadableIntroduction}
+          />
           <Route exact path="/info/history" />
         </MainContainer>
       </AppBody>
@@ -74,9 +81,15 @@ const mapStateToProps = (state: IRootState) => ({
 // typescript에서 connect 정의하는 여러 방법이 있는데,
 // https://github.com/piotrwitek/react-redux-typescript-guide 참고
 
-export default connect(
-  mapStateToProps,
-  {
-    getProfile,
-  },
-)(App);
+// withRouter 쓴 이유.
+// https://github.com/reduxjs/react-redux/issues/507
+// React Router 내에서 context를 통해 교류하는데, connect 된 컴포넌트는 shouldComponentUpdate를 통해 props의 변화가 없는 이상 rerender를 막음.
+// 그래서 <Link> 를 통해 context를 바꿔줘도 rerender가 일어나지 않음.
+export default withRouter(
+  connect(
+    mapStateToProps,
+    {
+      getProfile,
+    },
+  )(App),
+);
