@@ -79,6 +79,7 @@ const menuHover = () => `
   opacity: 1;
   transition: opacity 0.1s ease-in-out;
 `;
+
 const MenuDropDown = styled.div`
   position: absolute;
   display: flex;
@@ -111,6 +112,7 @@ const MenuDropDownItemList = styled.div`
   & > a {
     text-decoration: none;
     display: inline-block;
+    text-align: center;
     height: 20px;
     padding: 5px;
     width: 190px;
@@ -149,7 +151,7 @@ class Header extends Component<IHeaderProps> {
                 {/* About THT */}
                 <MenuDropDownItemList>
                   <Link to="/info/introduction">THT</Link>
-                  <Link to="/info/introduction">THT History</Link>
+                  <Link to="/info/history">THT History</Link>
                   <Link to="/info/introduction">트트인</Link>
                 </MenuDropDownItemList>
                 {/* Events */}
@@ -181,8 +183,8 @@ class Header extends Component<IHeaderProps> {
                 잇다
               </Menu>
             </MenuContainer>
+            <button onClick={handleLogout}>LOGOUT</button>
           </HeaderContent>
-          <button onClick={handleLogout}>LOGOUT</button>
         </HeaderArea>
       </HeaderBar>
     );
