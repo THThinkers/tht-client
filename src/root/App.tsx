@@ -4,21 +4,21 @@ import { connect } from 'react-redux';
 import { BrowserRouter, Route } from 'react-router-dom';
 import styled from 'styled-components';
 import { getProfile } from '../actions/auth';
-import { GlobalStyle, Header } from '../components';
+import { Footer, GlobalStyle, Header } from '../components';
 import { IUser } from '../models/user';
 import { IRootState } from '../reducers';
 
 const AppBody = styled.div`
   width: 100%;
   min-width: 1366px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
 `;
 
 const MainContainer = styled.div`
   width: 1366px;
+  margin-right: auto;
+  margin-left: auto;
   justify-content: center;
+  padding-bottom: 120px;
 `;
 
 const LoadableLanding = Loadable({
@@ -79,6 +79,7 @@ class App extends React.Component<IAppProps> {
             />
             <Route exact path="/info/history" component={LoadableHistory} />
           </MainContainer>
+          <Footer />
         </AppBody>
       </BrowserRouter>
     );
