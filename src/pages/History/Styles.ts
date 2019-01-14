@@ -111,14 +111,14 @@ export const HistoryWrapper = styled.div`
 `;
 
 interface IEventProps {
-  paddingBottom?: number;
+  marginTop?: number;
 }
 
 export const HistoryEventWrapper = styled.li<IEventProps>`
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  margin-bottom: ${({ paddingBottom = 0 }) => paddingBottom}px;
+  margin-top: ${({ marginTop = 0 }) => marginTop}px;
 `;
 
 export const HistoryEvent = styled.div`

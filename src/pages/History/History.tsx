@@ -55,21 +55,21 @@ const History = () => {
       <HistoryTimeline />
       <HistoryWrapper>
         <ol>
-          <HistoryEventWrapper paddingBottom={54}>
+          <HistoryEventWrapper>
             <HistoryEvent>
               <div>2009</div>
               <div>THT의 시작</div>
             </HistoryEvent>
             <HistoryTimeFlag />
           </HistoryEventWrapper>
-          <HistoryEventWrapper paddingBottom={137}>
+          <HistoryEventWrapper marginTop={54}>
             <HistoryEvent>
               <div>2014</div>
               <div>로고 제작</div>
             </HistoryEvent>
             <HistoryTimeFlag />
           </HistoryEventWrapper>
-          <HistoryEventWrapper>
+          <HistoryEventWrapper marginTop={137}>
             <HistoryEvent>
               <div>2018</div>
               <div>홈페이지 제작</div>
