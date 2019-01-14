@@ -1,5 +1,10 @@
 import React, { Component } from 'react';
-import { historybanner, thtObjective } from '../../assets/images';
+import {
+  historybanner,
+  historyImage1,
+  historyImage2,
+  thtObjective,
+} from '../../assets/images';
 import { logoWithText } from '../../assets/logo';
 import {
   HistoryBanner,
@@ -7,6 +12,9 @@ import {
   HistoryContentWrapper,
   HistoryEntry,
   HistoryEvent,
+  HistoryEventWrapper,
+  HistoryImage,
+  HistoryImageWrapper,
   HistoryLogo,
   HistoryTimeFlag,
   HistoryTimeline,
@@ -46,30 +54,38 @@ const History = () => {
       <HistoryLogo>THT</HistoryLogo>
       <HistoryTimeline />
       <HistoryWrapper>
-        <div>
-          <div>
+        <ol>
+          <HistoryEventWrapper paddingBottom={54}>
             <HistoryEvent>
               <div>2009</div>
               <div>THT의 시작</div>
             </HistoryEvent>
             <HistoryTimeFlag />
-          </div>
-          <div>
+          </HistoryEventWrapper>
+          <HistoryEventWrapper paddingBottom={137}>
             <HistoryEvent>
-              <div>2009</div>
-              <div>THT의 시작</div>
+              <div>2014</div>
+              <div>로고 제작</div>
             </HistoryEvent>
             <HistoryTimeFlag />
-          </div>
-          <div>
+          </HistoryEventWrapper>
+          <HistoryEventWrapper>
             <HistoryEvent>
-              <div>2009</div>
-              <div>THT의 시작</div>
+              <div>2018</div>
+              <div>홈페이지 제작</div>
             </HistoryEvent>
             <HistoryTimeFlag />
-          </div>
-        </div>
-        <div>고맙다 까치야.</div>
+          </HistoryEventWrapper>
+        </ol>
+        <HistoryImageWrapper>
+          <HistoryImage imageSrc={historyImage1} width={200} height={180} />
+          <HistoryImage
+            marginTop={80}
+            imageSrc={historyImage2}
+            width={150}
+            height={250}
+          />
+        </HistoryImageWrapper>
       </HistoryWrapper>
     </HistoryContentWrapper>
   );

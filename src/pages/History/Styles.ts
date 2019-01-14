@@ -105,24 +105,81 @@ export const HistoryWrapper = styled.div`
   width: 100%;
   height: 600px;
   display: flex;
-  & > div {
+  & > ol {
     width: 50%;
   }
 `;
 
+interface IEventProps {
+  paddingBottom?: number;
+}
+
+export const HistoryEventWrapper = styled.li<IEventProps>`
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-bottom: ${({ paddingBottom = 0 }) => paddingBottom}px;
+`;
+
 export const HistoryEvent = styled.div`
   display: inline-block;
+  margin-right: 45px;
+  width: 180px;
+  & > :first-child {
+    color: ${colors.prime};
+    font-size: 30px;
+    font-weight: bold;
+    text-align: center;
+  }
+  & > :nth-child(2) {
+    font-size: 30px;
+    color: black;
+    text-align: center;
+  }
 `;
 
 export const HistoryTimeFlag = styled.div`
-  display: inline-block;
-  width: 214px;
-  height: 1px;
-  background-color: ${colors.prime};
+  display: inline-flex;
+  height: 40px;
+  align-items: center;
+  &::before {
+    content: '';
+    display: inline-block;
+    width: 214px;
+    height: 1px;
+    margin-right: -15px;
+    background-color: ${colors.prime};
+  }
   &::after {
     content: '';
+    display: inline-block;
     background-image: url(${dotCircle});
-    width: 20px;
-    height: 20px;
+    margin-right: -18px;
+    background-size: cover;
+    width: 40px;
+    height: 40px;
   }
+`;
+
+export const HistoryImageWrapper = styled.ol`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+interface IHistoryImageProps {
+  imageSrc: string;
+  width: number;
+  height: number;
+  marginTop?: number;
+}
+
+export const HistoryImage = styled.li<IHistoryImageProps>`
+  list-style-type: none;
+  background-image: url(${({ imageSrc }) => imageSrc});
+  background-size: cover;
+  background-repeat: no-repeat;
+  margin-top: ${({ marginTop = 0 }) => marginTop}px;
+  width: ${({ width }) => width}px;
+  height: ${({ height }) => height}px;
 `;
