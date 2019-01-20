@@ -53,7 +53,7 @@ const auth = (
           ...state.profile,
           status: 'FAILURE',
         },
-      }
+      };
     case PUT_PROFILE: {
       return {
         ...state,

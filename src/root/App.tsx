@@ -1,5 +1,5 @@
-import React from 'react';
-import Loadable from 'react-loadable';
+import React, { Suspense } from 'react';
+// import Loadable from 'react-loadable';
 import { connect } from 'react-redux';
 import { BrowserRouter, Route } from 'react-router-dom';
 import styled from 'styled-components';
@@ -21,23 +21,28 @@ const MainContainer = styled.div`
   padding-bottom: 120px;
 `;
 
-const LoadableLanding = Loadable({
-  loader: () => import('../pages/Landing'),
-  loading: () => <div>Loading...</div>,
-});
-const LoadableOauthSignup = Loadable({
-  loader: () => import('../pages/OauthSignup'),
-  loading: () => <div>Loading...</div>,
-});
-const LoadableIntroduction = Loadable({
-  loader: () => import('../pages/Introduction'),
-  loading: () => <div>Loading...</div>,
-});
+// const LoadableLanding = Loadable({
+//   loader: () => import('../pages/Landing'),
+//   loading: () => <div>Loading...</div>,
+// });
+// const LoadableOauthSignup = Loadable({
+//   loader: () => import('../pages/OauthSignup'),
+//   loading: () => <div>Loading...</div>,
+// });
+// const LoadableIntroduction = Loadable({
+//   loader: () => import('../pages/Introduction'),
+//   loading: () => <div>Loading...</div>,
+// });
 
-const LoadableHistory = Loadable({
-  loader: () => import('../pages/History'),
-  loading: () => <div>Loading...</div>,
-});
+// const LoadableHistory = Loadable({
+//   loader: () => import('../pages/History'),
+//   loading: () => <div>Loading...</div>,
+// });
+
+const Landing = React.lazy(() => import('../pages/Landing'));
+const OauthSignup = React.lazy(() => import('../pages/OauthSignup'));
+const Introduction = React.lazy(() => import('../pages/Introduction'));
+const History = React.lazy(() => import('../pages/History'));
 
 interface IAppProps {
   user: IUser;
@@ -55,10 +60,18 @@ class App extends React.Component<IAppProps> {
       return null;
     }
     if (status !== 'SUCCESS') {
-      return <LoadableLanding />;
+      return (
+        <Suspense fallback={<div>Loading..</div>}>
+          <Landing />
+        </Suspense>
+      );
     }
     if (!user.isVerified) {
-      return <LoadableOauthSignup userId={user._id} />;
+      return (
+        <Suspense fallback={<div>Loading..</div>}>
+          <OauthSignup userId={user._id} />;
+        </Suspense>
+      );
     }
     return (
       <BrowserRouter>
@@ -66,18 +79,16 @@ class App extends React.Component<IAppProps> {
           <GlobalStyle />
           <Header />
           <MainContainer>
-            <Route exact path="/" render={() => <div>HOME</div>} />
-            <Route
-              exact
-              path="/singup"
-              render={() => <LoadableOauthSignup userId={user._id} />}
-            />
-            <Route
-              exact
-              path="/info/introduction"
-              component={LoadableIntroduction}
-            />
-            <Route exact path="/info/history" component={LoadableHistory} />
+            <Suspense fallback={<div>Loading..</div>}>
+              <Route exact path="/" render={() => <div>HOME</div>} />
+              <Route
+                exact
+                path="/singup"
+                render={() => <OauthSignup userId={user._id} />}
+              />
+              <Route exact path="/info/introduction" component={Introduction} />
+              <Route exact path="/info/history" component={History} />
+            </Suspense>
           </MainContainer>
           <Footer />
         </AppBody>

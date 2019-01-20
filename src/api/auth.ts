@@ -1,5 +1,6 @@
-import axios, { AxiosPromise } from 'axios';
+import axios from 'axios';
 import { PartialUser } from '../models/user';
+
 const authApi = axios.create({
   // webpack dev server proxy 설정했기 때문에 이렇게 줘야함.
   // http://localhost:4000/api/auth 이런식으로 주면
@@ -7,9 +8,11 @@ const authApi = axios.create({
   baseURL: '/api/auth/',
 });
 
-export function getProfile(): AxiosPromise {
-  return authApi.get('profile');
-}
+export const getProfile = async () => {
+  const data = await authApi.get('profile');
+  console.log(data);
+  return data;
+};
 export function updateProfile(user: PartialUser) {
   return authApi.put('oauth/profile', user);
 }
