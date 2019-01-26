@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link, RouteComponentProps, withRouter } from 'react-router-dom';
-import styled, { ThemedBaseStyledInterface } from 'styled-components';
+import styled, { css } from 'styled-components';
 import { logout } from '../actions/auth';
 import * as logo from '../assets/logo';
 
@@ -16,18 +16,17 @@ const HeaderBar = styled.div`
   box-shadow: 0px 1.5px #cccccccc;
 `;
 
+const HeaderArea = styled.div`
+  width: 1366px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+`;
+
 const HeaderImage = styled.img`
   width: 50px;
   height: 50px;
   padding-right: 7px;
-`;
-
-const HeaderArea = styled.div`
-  max-width: 1366px;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  width: 100%;
 `;
 
 const HeaderContent = styled.div`
@@ -73,7 +72,7 @@ const Menu = styled.div`
   font-size: 20px;
   margin-bottom: 10px;
 `;
-const menuHover = () => `
+const menuHover = css`
   visibility: visible;
   top: 60px;
   opacity: 1;
@@ -93,10 +92,10 @@ const MenuDropDown = styled.div`
   box-shadow: 0 10px 8px 0 rgba(0, 0, 0, 0.2);
   opacity: 0;
   ${HeaderContent}:hover & {
-    ${menuHover()};
+    ${menuHover};
   }
   &:hover {
-    ${menuHover()};
+    ${menuHover};
   }
 `;
 
@@ -123,6 +122,12 @@ const MenuDropDownItemList = styled.div`
   }
 `;
 
+const LogoutButton = styled.button`
+  position: absolute;
+  top: 10px;
+  right: 10px;
+`;
+
 interface IHeaderProps extends RouteComponentProps<any> {
   // 헤더컴포넌트 로그인데이터 확정나면 넣음될듯
   // 프레젠테이션? 컨테이너?
@@ -146,6 +151,20 @@ class Header extends Component<IHeaderProps> {
             </LogoLink>
           </MainLogo>
           <HeaderContent>
+            <MenuContainer>
+              <Menu name="info" currentSection={currentSection}>
+                THT
+              </Menu>
+              <Menu name="board" currentSection={currentSection}>
+                트트 게시판
+              </Menu>
+              <Menu name="column" currentSection={currentSection}>
+                릴레이칼럼
+              </Menu>
+              <Menu name="mento" currentSection={currentSection}>
+                잇다
+              </Menu>
+            </MenuContainer>
             <MenuDropDown>
               <MenuDropDownContentWrapper>
                 {/* About THT */}
@@ -169,21 +188,7 @@ class Header extends Component<IHeaderProps> {
                 </MenuDropDownItemList>
               </MenuDropDownContentWrapper>
             </MenuDropDown>
-            <MenuContainer>
-              <Menu name="info" currentSection={currentSection}>
-                THT
-              </Menu>
-              <Menu name="board" currentSection={currentSection}>
-                트트 게시판
-              </Menu>
-              <Menu name="column" currentSection={currentSection}>
-                릴레이칼럼
-              </Menu>
-              <Menu name="mento" currentSection={currentSection}>
-                잇다
-              </Menu>
-            </MenuContainer>
-            <button onClick={handleLogout}>LOGOUT</button>
+            <LogoutButton onClick={handleLogout}>LOGOUT</LogoutButton>
           </HeaderContent>
         </HeaderArea>
       </HeaderBar>

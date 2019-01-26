@@ -1,10 +1,10 @@
 import React, { Suspense } from 'react';
-// import Loadable from 'react-loadable';
 import { connect } from 'react-redux';
 import { BrowserRouter, Route } from 'react-router-dom';
 import styled from 'styled-components';
 import { getProfile } from '../actions/auth';
-import { Footer, GlobalStyle, Header } from '../components';
+import { Footer, GlobalStyle } from '../components';
+import { Header } from '../containers';
 import { IUser } from '../models/user';
 import { IRootState } from '../reducers';
 
@@ -20,24 +20,6 @@ const MainContainer = styled.div`
   justify-content: center;
   padding-bottom: 120px;
 `;
-
-// const LoadableLanding = Loadable({
-//   loader: () => import('../pages/Landing'),
-//   loading: () => <div>Loading...</div>,
-// });
-// const LoadableOauthSignup = Loadable({
-//   loader: () => import('../pages/OauthSignup'),
-//   loading: () => <div>Loading...</div>,
-// });
-// const LoadableIntroduction = Loadable({
-//   loader: () => import('../pages/Introduction'),
-//   loading: () => <div>Loading...</div>,
-// });
-
-// const LoadableHistory = Loadable({
-//   loader: () => import('../pages/History'),
-//   loading: () => <div>Loading...</div>,
-// });
 
 const Landing = React.lazy(() => import('../pages/Landing'));
 const OauthSignup = React.lazy(() => import('../pages/OauthSignup'));

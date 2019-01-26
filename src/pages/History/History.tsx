@@ -25,7 +25,7 @@ import {
   THTIcon,
   THTObjective,
   THTQutation,
-} from './Styles';
+} from './HistoryStyles';
 
 const History = () => {
   return (

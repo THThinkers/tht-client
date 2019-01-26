@@ -36,10 +36,6 @@ const ImageHeader = styled.h1`
 `;
 
 class Landing extends Component {
-  componentDidMount = () => {
-    console.log('hi');
-  };
-
   render() {
     return (
       <FullPage
