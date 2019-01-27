@@ -8,10 +8,12 @@ import colors from '../constants/colors';
 
 const HeaderBar = styled.div`
   display: flex;
+  flex-direction: column;
   z-index: 10;
   position: relative;
   padding-bottom: 2px;
   justify-content: center;
+  align-items: center;
   width: 100%;
   height: 60px;
   box-shadow: 0px 1.5px #cccccccc;
@@ -19,7 +21,8 @@ const HeaderBar = styled.div`
 
 const HeaderArea = styled.div`
   width: 1366px;
-  height: 100%;
+  height: 60px;
+  position: relative;
   display: flex;
   align-items: center;
 `;
@@ -32,7 +35,6 @@ const HeaderImage = styled.img`
 
 const HeaderContent = styled.div`
   flex: 1 0;
-  width: 100%;
   height: 100%;
   display: flex;
   justify-content: center;
@@ -74,8 +76,7 @@ const Menu = styled.div<{ name: string; currentSection: string }>`
   font-size: 20px;
   padding-bottom: 11px;
   margin-bottom: -2px;
-  ${({ currentSection, name }) =>
-    currentSection === name && `border-bottom: solid 3px ${colors.prime}`}
+  ${({ currentSection, name }) => currentSection === name && `border-bottom: solid 3px ${colors.prime}`}
 `;
 
 const menuHover = css`
@@ -85,25 +86,31 @@ const menuHover = css`
   transition: opacity 0.1s ease-in-out;
 `;
 
-const MenuDropDown = styled.div`
+const DropDownArea = styled.div`
   position: absolute;
-  display: flex;
+  top: 60px;
   visibility: hidden;
   z-index: 9;
   height: 150px;
   width: 100%;
-  justify-content: center;
   background-color: #ffffff;
   margin-top: -1px;
   border-bottom: 1px solid #cccccc;
   box-shadow: 0 10px 8px 0 rgba(0, 0, 0, 0.2);
   opacity: 0;
-  ${HeaderContent}:hover & {
+  ${HeaderBar}:hover & {
     ${menuHover};
   }
   &:hover {
     ${menuHover};
   }
+`;
+
+const MenuDropDown = styled.div`
+  display: flex;
+  width: 800px;
+  justify-content: center;
+  margin: 0 auto;
 `;
 
 const MenuDropDownContentWrapper = styled.div`
@@ -130,7 +137,9 @@ const MenuDropDownItemList = styled.div`
 `;
 
 const LogoutButton = styled.button`
+  display: inline-block;
   position: absolute;
+  align-self: right;
   top: 10px;
   right: 10px;
 `;
@@ -172,32 +181,34 @@ class Header extends Component<IHeaderProps> {
                 잇다
               </Menu>
             </MenuContainer>
-            <MenuDropDown>
-              <MenuDropDownContentWrapper>
-                {/* About THT */}
-                <MenuDropDownItemList>
-                  <Link to="/info/introduction">THT</Link>
-                  <Link to="/info/history">THT History</Link>
-                  <Link to="/info/introduction">트트인</Link>
-                </MenuDropDownItemList>
-                {/* Events */}
-                <MenuDropDownItemList>
-                  <Link to="/info/introduction">일정공지</Link>
-                  <Link to="/info/introduction">일정공지</Link>
-                  <Link to="/info/introduction">일정공지</Link>
-                </MenuDropDownItemList>
-                {/* Column */}
-                <MenuDropDownItemList />
-                {/* Mentoring */}
-                <MenuDropDownItemList>
-                  <Link to="/info/introduction">일정공지</Link>
-                  <Link to="/info/introduction">일정공지</Link>
-                </MenuDropDownItemList>
-              </MenuDropDownContentWrapper>
-            </MenuDropDown>
-            <LogoutButton onClick={handleLogout}>LOGOUT</LogoutButton>
           </HeaderContent>
+          <LogoutButton onClick={handleLogout}>LOGOUT</LogoutButton>
         </HeaderArea>
+        <DropDownArea>
+          <MenuDropDown>
+            <MenuDropDownContentWrapper>
+              {/* About THT */}
+              <MenuDropDownItemList>
+                <Link to="/info/introduction">THT</Link>
+                <Link to="/info/history">THT History</Link>
+                <Link to="/info/introduction">트트인</Link>
+              </MenuDropDownItemList>
+              {/* Events */}
+              <MenuDropDownItemList>
+                <Link to="/info/introduction">일정공지</Link>
+                <Link to="/info/introduction">일정공지</Link>
+                <Link to="/info/introduction">일정공지</Link>
+              </MenuDropDownItemList>
+              {/* Column */}
+              <MenuDropDownItemList />
+              {/* Mentoring */}
+              <MenuDropDownItemList>
+                <Link to="/info/introduction">일정공지</Link>
+                <Link to="/info/introduction">일정공지</Link>
+              </MenuDropDownItemList>
+            </MenuDropDownContentWrapper>
+          </MenuDropDown>
+        </DropDownArea>
       </HeaderBar>
     );
   }
