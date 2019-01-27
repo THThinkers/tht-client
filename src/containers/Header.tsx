@@ -138,6 +138,8 @@ const MenuDropDownItemList = styled.div`
 
 const LogoutButton = styled.button`
   display: inline-block;
+  background-color: transparent;
+  border: none;
   position: absolute;
   align-self: right;
   top: 10px;
@@ -145,14 +147,19 @@ const LogoutButton = styled.button`
 `;
 
 interface IHeaderProps extends RouteComponentProps<any> {
-  // 헤더컴포넌트 로그인데이터 확정나면 넣음될듯
-  // 프레젠테이션? 컨테이너?
   user?: string;
   handleLogout: () => void;
 }
 
 class Header extends Component<IHeaderProps> {
+  onClickLogout = () => {
+    if (confirm('로그아웃 하시겠습니까?')) {
+      this.props.handleLogout();
+    }
+  };
+
   public render() {
+    const { onClickLogout } = this;
     const { location, handleLogout } = this.props;
     const paths = location.pathname.split('/');
     const currentSection: string = paths[1];
@@ -182,7 +189,7 @@ class Header extends Component<IHeaderProps> {
               </Menu>
             </MenuContainer>
           </HeaderContent>
-          <LogoutButton onClick={handleLogout}>LOGOUT</LogoutButton>
+          <LogoutButton onClick={onClickLogout}>LOGOUT</LogoutButton>
         </HeaderArea>
         <DropDownArea>
           <MenuDropDown>

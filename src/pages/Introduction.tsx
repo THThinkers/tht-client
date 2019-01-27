@@ -1,8 +1,21 @@
 import React, { Component } from 'react';
+import LocationBreadCrumb from '../components/LocationBreadCrumb';
 
-class Introduction extends Component {
+interface IIntroductionProps {
+  location: {
+    pathname: string;
+  };
+}
+
+class Introduction extends Component<IIntroductionProps> {
   public render() {
-    return <div>this is Introduction</div>;
+    const { pathname } = this.props.location;
+    return (
+      <>
+        <LocationBreadCrumb pathname={pathname} />
+        <div>this is Introduction</div>;
+      </>
+    );
   }
 }
 

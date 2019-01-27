@@ -18,6 +18,7 @@ interface IOauthSignupProps {
   userId: string;
   updateProfile: (user: PartialUser) => void;
 }
+
 class OauthSignup extends React.Component<IOauthSignupProps> {
   handleUpdate = (user: PartialUser) => {
     const updateUser = {

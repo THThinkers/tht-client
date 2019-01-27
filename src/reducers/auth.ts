@@ -25,10 +25,8 @@ const initialState: IAuthState = {
     },
   },
 };
-const auth = (
-  state: IAuthState = initialState,
-  action: AuthAction,
-): IAuthState => {
+
+const auth = (state: IAuthState = initialState, action: AuthAction): IAuthState => {
   switch (action.type) {
     case GET_PROFILE:
       return {
