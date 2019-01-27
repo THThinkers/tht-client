@@ -51,7 +51,7 @@ class Landing extends Component {
             </div>
             <div className="section">
               <ImageContainer backgroundImage="https://images.unsplash.com/photo-1547905433-832bc9e7f5f8?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1000&q=80">
-                <div>hi</div>
+                <Content>hi</Content>
               </ImageContainer>
             </div>
             <div className="section">

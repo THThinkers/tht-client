@@ -37,7 +37,7 @@ export const THTQutation = styled.div`
 export const THTDescription = styled.div`
   padding-top: 33px;
   width: 728px;
-  font-size: 28px;
+  font-size: 24px;
   text-align: center;
   & > strong {
     font-size: 30px;
@@ -62,11 +62,12 @@ export const THTIcon = styled.img`
 export const IconDescription = styled.div`
   width: 532px;
   display: inline-block;
-  font-size: 26px;
+  font-size: 24px;
   & > h3 {
     color: ${colors.prime};
     font-size: 30px;
-    margin-bottom: 15px;
+    font-weight: bold;
+    margin: 0px;
   }
 `;
 
@@ -132,7 +133,7 @@ export const HistoryEvent = styled.div`
     text-align: center;
   }
   & > :nth-child(2) {
-    font-size: 30px;
+    font-size: 24px;
     color: black;
     text-align: center;
   }
@@ -140,24 +141,24 @@ export const HistoryEvent = styled.div`
 
 export const HistoryTimeFlag = styled.div`
   display: inline-flex;
-  height: 40px;
+  height: 20px;
   align-items: center;
   &::before {
     content: '';
     display: inline-block;
     width: 214px;
     height: 1px;
-    margin-right: -15px;
+    margin-right: -10px;
     background-color: ${colors.prime};
   }
   &::after {
     content: '';
     display: inline-block;
     background-image: url(${dotCircle});
-    margin-right: -18px;
     background-size: cover;
-    width: 40px;
-    height: 40px;
+    margin-right: -10px;
+    width: 20px;
+    height: 20px;
   }
 `;
 

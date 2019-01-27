@@ -4,6 +4,7 @@ import { Link, RouteComponentProps, withRouter } from 'react-router-dom';
 import styled, { css } from 'styled-components';
 import { logout } from '../actions/auth';
 import * as logo from '../assets/logo';
+import colors from '../constants/colors';
 
 const HeaderBar = styled.div`
   display: flex;
@@ -53,6 +54,7 @@ const LogoLink = styled(Link)`
   font-weight: bolder;
   cursor: pointer;
 `;
+
 const MenuContainer = styled.div`
   width: 800px;
 `;
@@ -62,16 +64,20 @@ interface IMenuProps {
   currentSection: string;
 }
 
-const Menu = styled.div`
+const Menu = styled.div<{ name: string; currentSection: string }>`
   display: inline-block;
   width: 200px;
-  color: ${({ name, currentSection }: IMenuProps): string =>
-    name === currentSection ? '#1069ef' : '#000000'};
+  font-weight: bold;
+  color: black;
   text-align: center;
   font-weight: 500;
   font-size: 20px;
-  margin-bottom: 10px;
+  padding-bottom: 11px;
+  margin-bottom: -2px;
+  ${({ currentSection, name }) =>
+    currentSection === name && `border-bottom: solid 3px ${colors.prime}`}
 `;
+
 const menuHover = css`
   visibility: visible;
   top: 60px;
@@ -88,6 +94,7 @@ const MenuDropDown = styled.div`
   width: 100%;
   justify-content: center;
   background-color: #ffffff;
+  margin-top: -1px;
   border-bottom: 1px solid #cccccc;
   box-shadow: 0 10px 8px 0 rgba(0, 0, 0, 0.2);
   opacity: 0;
