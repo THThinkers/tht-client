@@ -196,22 +196,23 @@ class Header extends Component<IHeaderProps> {
             <MenuDropDownContentWrapper>
               {/* About THT */}
               <MenuDropDownItemList>
-                <Link to="/info/introduction">THT</Link>
-                <Link to="/info/history">THT History</Link>
-                <Link to="/info/introduction">트트인</Link>
+                <Link to="/info/introduction">History</Link>
+                <Link to="/info/members">트트인</Link>
               </MenuDropDownItemList>
               {/* Events */}
               <MenuDropDownItemList>
-                <Link to="/info/introduction">일정공지</Link>
-                <Link to="/info/introduction">일정공지</Link>
-                <Link to="/info/introduction">일정공지</Link>
+                <Link to="/board/schedule">일정공지</Link>
+                <Link to="/board/weekly">주별 발표</Link>
+                <Link to="/board/hybrid-day">하이브리드 데이</Link>
               </MenuDropDownItemList>
               {/* Column */}
-              <MenuDropDownItemList />
+              <MenuDropDownItemList>
+                <Link to="/column/introduction">일정공지</Link>
+              </MenuDropDownItemList>
               {/* Mentoring */}
               <MenuDropDownItemList>
-                <Link to="/info/introduction">일정공지</Link>
-                <Link to="/info/introduction">일정공지</Link>
+                <Link to="/itta/introduction">잇다 멘토단</Link>
+                <Link to="/itta/introduction">The Hottest Tips</Link>
               </MenuDropDownItemList>
             </MenuDropDownContentWrapper>
           </MenuDropDown>

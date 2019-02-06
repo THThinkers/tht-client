@@ -24,7 +24,7 @@ interface ISubNameMap {
 }
 
 const SubNameMap: ISubNameMap = {
-  history: 'Introduction',
+  introduction: 'Introduction',
 };
 
 export default function LocationBreadCrumb({ pathname }: ILocationBreadCrumbProps) {

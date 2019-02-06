@@ -23,8 +23,6 @@ const MainContainer = styled.div`
 
 const Landing = React.lazy(() => import('../pages/Landing'));
 const OauthSignup = React.lazy(() => import('../pages/OauthSignup'));
-const Introduction = React.lazy(() => import('../pages/Introduction'));
-const AuthCheck = React.lazy(() => import('../pages/AuthCheck'));
 const History = React.lazy(() => import('../pages/History/History'));
 
 interface IAppProps {
@@ -68,9 +66,7 @@ class App extends React.Component<IAppProps> {
             <Suspense fallback={<div>Loading..</div>}>
               <Route exact path="/" render={() => <div>HOME</div>} />
               <Route exact path="/singup" render={props => <OauthSignup userId={user._id} {...props} />} />
-              <Route exact path="/auth/check" render={() => <AuthCheck />} />
-              <Route exact path="/info/introduction" render={Introduction} />
-              <Route exact path="/info/history" component={History} />
+              <Route exact path="/info/introduction" render={props => <History {...props} />} />
             </Suspense>
           </MainContainer>
           <Footer />
