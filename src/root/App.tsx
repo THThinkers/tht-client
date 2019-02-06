@@ -54,7 +54,7 @@ class App extends React.Component<IAppProps> {
     if (!user.isVerified) {
       return (
         <Suspense fallback={<div>Loading..</div>}>
-          <OauthSignup userId={user._id} />;
+          <OauthSignup userId={user._id} />
         </Suspense>
       );
     }
@@ -67,9 +67,9 @@ class App extends React.Component<IAppProps> {
           <MainContainer>
             <Suspense fallback={<div>Loading..</div>}>
               <Route exact path="/" render={() => <div>HOME</div>} />
-              <Route exact path="/singup" render={(props) => <OauthSignup userId={user._id} {...props} />} />
-              <Route exact path="/auth/check" component={AuthCheck} />
-              <Route exact path="/info/introduction" component={Introduction} />
+              <Route exact path="/singup" render={props => <OauthSignup userId={user._id} {...props} />} />
+              <Route exact path="/auth/check" render={() => <AuthCheck />} />
+              <Route exact path="/info/introduction" render={Introduction} />
               <Route exact path="/info/history" component={History} />
             </Suspense>
           </MainContainer>

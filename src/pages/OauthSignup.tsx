@@ -1,8 +1,8 @@
 /* 임시 페이지 */
-import React from 'react';
+import React, { MouseEvent } from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
-import { putProfile } from '../actions/auth';
+import { putProfile, logout } from '../actions/auth';
 import { SignupDetail } from '../containers';
 import { PartialUser } from '../models/user';
 
@@ -17,9 +17,14 @@ const HeaderWrapper = styled.div`
 interface IOauthSignupProps {
   userId: string;
   updateProfile: (user: PartialUser) => void;
+  logout: () => void;
 }
 
 class OauthSignup extends React.Component<IOauthSignupProps> {
+  componentDidMount() {
+    window.history.pushState(null, 'singup', '/auth/signup');
+  }
+
   handleUpdate = (user: PartialUser) => {
     const updateUser = {
       _id: this.props.userId,
@@ -27,14 +32,21 @@ class OauthSignup extends React.Component<IOauthSignupProps> {
     };
     this.props.updateProfile(updateUser);
   };
+
+  handleLogout = (e: MouseEvent<HTMLButtonElement>) => {
+    const { logout } = this.props;
+    logout();
+  };
   render() {
+    const { handleLogout, handleUpdate } = this;
     return (
       <Container>
         <HeaderWrapper>
           <h1>THThinkers</h1>
           <h2>서비스를 이용하기 위해 다음 항목을 작성해주세요.</h2>
         </HeaderWrapper>
-        <SignupDetail handleUpdate={this.handleUpdate} />
+        <SignupDetail handleUpdate={handleUpdate} />
+        <button onClick={handleLogout}>취소하기</button>
       </Container>
     );
   }
@@ -44,5 +56,6 @@ export default connect(
   null,
   {
     updateProfile: putProfile,
+    logout,
   },
 )(OauthSignup);

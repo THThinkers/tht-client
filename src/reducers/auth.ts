@@ -8,9 +8,11 @@ import {
   PUT_PROFILE_SUCCESS,
 } from '../constants/actionTypes';
 import { IUser } from '../models/user';
+import { State } from '../constants/state';
+
 export interface IAuthState {
   readonly profile: {
-    readonly status: string;
+    readonly status: State;
     readonly user: IUser;
   };
 }

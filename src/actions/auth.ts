@@ -8,6 +8,7 @@ import {
   PUT_PROFILE_SUCCESS,
 } from '../constants/actionTypes';
 import { IUser, PartialUser } from '../models/user';
+
 export interface IGetProfile {
   type: typeof GET_PROFILE;
 }

@@ -13,8 +13,7 @@ import {
 
 function* getProfile(action: IGetProfile) {
   try {
-    const { data } = yield call(authApi.getProfile);
-    const { user } = data;
+    const { user } = yield call(authApi.getProfile);
     if (!user) {
       throw new Error();
     }

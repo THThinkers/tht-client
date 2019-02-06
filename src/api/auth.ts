@@ -9,8 +9,7 @@ const authApi = axios.create({
 });
 
 export const getProfile = async () => {
-  const data = await authApi.get('profile');
-  console.log(data);
+  const { data } = await authApi.get('profile');
   return data;
 };
 export function updateProfile(user: PartialUser) {
