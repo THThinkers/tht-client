@@ -131,7 +131,7 @@ const MenuDropDownItemList = styled.div`
     width: 190px;
     color: #000000;
     &:hover {
-      background-color: #9cbced;
+      color: #9cbced;
     }
   }
 `;
@@ -160,10 +160,9 @@ class Header extends Component<IHeaderProps> {
 
   public render() {
     const { onClickLogout } = this;
-    const { location, handleLogout } = this.props;
+    const { location } = this.props;
     const paths = location.pathname.split('/');
     const currentSection: string = paths[1];
-    const currentLocation: string = paths[2];
     return (
       <HeaderBar>
         <HeaderArea>

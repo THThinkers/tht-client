@@ -9,18 +9,16 @@ import {
   PUT_PROFILE,
   PUT_PROFILE_FAILURE,
   PUT_PROFILE_SUCCESS,
+  GET_PROFILE_NOT_LINKED,
 } from '../constants/actionTypes';
 
 function* getProfile(action: IGetProfile) {
   try {
     const { user } = yield call(authApi.getProfile);
     if (!user) {
-      throw new Error();
+      throw Error();
     }
-    yield put({
-      type: GET_PROFILE_SUCCESS,
-      user,
-    });
+    yield put({ type: GET_PROFILE_SUCCESS, user });
   } catch (err) {
     yield put({
       type: GET_PROFILE_FAILURE,

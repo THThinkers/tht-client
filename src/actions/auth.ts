@@ -6,6 +6,7 @@ import {
   PUT_PROFILE,
   PUT_PROFILE_FAILURE,
   PUT_PROFILE_SUCCESS,
+  GET_PROFILE_NOT_LINKED,
 } from '../constants/actionTypes';
 import { IUser, PartialUser } from '../models/user';
 
@@ -16,6 +17,11 @@ export interface IGetProfileSuccess {
   type: typeof GET_PROFILE_SUCCESS;
   user: IUser;
 }
+
+export interface IGetProfileNotLinked {
+  type: typeof GET_PROFILE_NOT_LINKED;
+}
+
 export interface IGetProfileFailure {
   type: typeof GET_PROFILE_FAILURE;
 }
@@ -37,6 +43,7 @@ export type AuthAction =
   | IGetProfile
   | IGetProfileSuccess
   | IGetProfileFailure
+  | IGetProfileNotLinked
   | IPutProfile
   | IPutProfileSuccess
   | IPutProfileFailure

@@ -11,6 +11,7 @@
   "dependencies": {
     "@fullpage/react-fullpage": "^0.1.10",
     "@types/fullpage.js": "^2.9.0",
+    "@types/qs": "^6.5.1",
     "@types/react": "^16.4.13",
     "@types/react-dom": "^16.0.7",
     "@types/react-loadable": "^5.4.3",
@@ -20,6 +21,7 @@
     "@types/redux-immutable-state-invariant": "^2.0.4",
     "@types/styled-components": "^3.0.2",
     "axios": "^0.18.0",
+    "qs": "^6.6.0",
     "react": "^16.8.0",
     "react-dom": "^16.8.0",
     "react-hot-loader": "^4.3.5",

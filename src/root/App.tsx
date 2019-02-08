@@ -1,4 +1,4 @@
-import React, { Suspense } from 'react';
+import React, { Suspense, useState } from 'react';
 import { connect } from 'react-redux';
 import { BrowserRouter, Route } from 'react-router-dom';
 import styled from 'styled-components';
@@ -21,6 +21,7 @@ const MainContainer = styled.div`
   padding-bottom: 120px;
 `;
 
+const AuthCheck = React.lazy(() => import('../pages/AuthCheck'));
 const Landing = React.lazy(() => import('../pages/Landing'));
 const OauthSignup = React.lazy(() => import('../pages/OauthSignup'));
 const History = React.lazy(() => import('../pages/History/History'));
@@ -42,6 +43,14 @@ class App extends React.Component<IAppProps> {
       return null;
     }
 
+    if (window.location.pathname === '/auth/check') {
+      return (
+        <Suspense fallback={<div>Loading...</div>}>
+          <AuthCheck />
+        </Suspense>
+      );
+    }
+
     if (status !== 'SUCCESS') {
       return (
         <Suspense fallback={<div>Loading..</div>}>
@@ -49,6 +58,7 @@ class App extends React.Component<IAppProps> {
         </Suspense>
       );
     }
+
     if (!user.isVerified) {
       return (
         <Suspense fallback={<div>Loading..</div>}>

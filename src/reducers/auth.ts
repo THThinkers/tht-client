@@ -6,13 +6,16 @@ import {
   LOGOUT,
   PUT_PROFILE,
   PUT_PROFILE_SUCCESS,
+  GET_PROFILE_NOT_LINKED,
 } from '../constants/actionTypes';
 import { IUser } from '../models/user';
 import { State } from '../constants/state';
 
+type UserState = 'NOT_LINKED' | State;
+
 export interface IAuthState {
   readonly profile: {
-    readonly status: State;
+    readonly status: UserState;
     readonly user: IUser;
   };
 }
@@ -44,6 +47,14 @@ const auth = (state: IAuthState = initialState, action: AuthAction): IAuthState 
         profile: {
           status: 'SUCCESS',
           user: action.user,
+        },
+      };
+    case GET_PROFILE_NOT_LINKED:
+      return {
+        ...state,
+        profile: {
+          ...state.profile,
+          status: 'NOT_LINKED',
         },
       };
     case GET_PROFILE_FAILURE:
