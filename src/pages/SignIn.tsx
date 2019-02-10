@@ -2,6 +2,7 @@ import React from 'react';
 import styled, { css } from 'styled-components';
 import SignInput from '../components/SignInput';
 import colors from '../constants/colors';
+import { GoogleIcon, KakaoIcon } from '../assets/images';
 
 const Wrapper = styled.div`
   margin: 0 auto;
@@ -38,6 +39,7 @@ const CheckboxLabel = styled.label`
 `;
 
 const Button = styled.button`
+  position: relative;
   display: inline-block;
   width: 482px;
   text-align: center;
@@ -87,6 +89,23 @@ const KakaoLoginButoon = styled(SocialLoginButoon)`
   background-color: #ffde00;
   color: #3c1e1e;
 `;
+
+const Googlelogo = styled.img`
+  width: 37px;
+  height: 31px;
+  top: 6px;
+  left: 9px;
+  position: absolute;
+`;
+
+const KakaoLogo = styled.img`
+  width: 24px;
+  height: 24px;
+  top: 10px;
+  left: 17px;
+  position: absolute;
+`;
+
 const SignIn = () => {
   return (
     <Wrapper>
@@ -103,8 +122,14 @@ const SignIn = () => {
         <UserActionButton hasLine>아이디 찾기</UserActionButton>
         <UserActionButton>비밀번호 찾기</UserActionButton>
       </UserActionSection>
-      <GoogleLoginButoon>Google 계정으로 로그인</GoogleLoginButoon>
-      <KakaoLoginButoon>카카오 계정으로 로그인</KakaoLoginButoon>
+      <GoogleLoginButoon>
+        <Googlelogo src={GoogleIcon} />
+        Google 계정으로 로그인
+      </GoogleLoginButoon>
+      <KakaoLoginButoon>
+        <KakaoLogo src={KakaoIcon} />
+        카카오 계정으로 로그인
+      </KakaoLoginButoon>
     </Wrapper>
   );
 };

@@ -7,6 +7,9 @@ const historybanner = require('./banner.jpg');
 const historyImage1 = require('./historyImage1.jpg');
 const historyImage2 = require('./historyImage2.jpg');
 
+const KakaoIcon = require('./KakaoIcon.png');
+const GoogleIcon = require('./GoogleIcon.png');
+
 export {
   googleSigninBtn,
   kakaoSigninBtn,
@@ -15,4 +18,6 @@ export {
   historybanner,
   historyImage1,
   historyImage2,
+  KakaoIcon,
+  GoogleIcon,
 };

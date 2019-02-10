@@ -45,14 +45,6 @@ class App extends React.Component<IAppProps> {
       return null;
     }
 
-    if (status !== 'SUCCESS') {
-      return (
-        <Suspense fallback={<div>Loading...</div>}>
-          <SignIn />
-        </Suspense>
-      );
-    }
-
     if (window.location.pathname === '/auth/check') {
       return (
         <Suspense fallback={<div>Loading...</div>}>
