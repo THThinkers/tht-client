@@ -14,7 +14,7 @@ const AuthCheck = () => {
     구글 아이디는 이메일이 확인 가능하기때문에 이메일을 디비와 확인해보고
     이메일이 중복된다면 해당 이메일로 로그인을 요청
   */
-  if (params.googleId && params.username && params.googleId === params.username) {
+  if (params.username) {
     return (
       <div>
         너는 아이디가 있으니 로그인을 해야겠구나

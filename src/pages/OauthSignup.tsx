@@ -10,10 +10,12 @@ const Container = styled.div`
   width: 100%;
   height: 100%;
 `;
+
 const HeaderWrapper = styled.div`
   text-align: center;
   margin: 1.5rem 0;
 `;
+
 interface IOauthSignupProps {
   userId: string;
   updateProfile: (user: PartialUser) => void;
@@ -37,6 +39,7 @@ class OauthSignup extends React.Component<IOauthSignupProps> {
     const { logout } = this.props;
     logout();
   };
+
   render() {
     const { handleLogout, handleUpdate } = this;
     return (

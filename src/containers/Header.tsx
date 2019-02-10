@@ -131,6 +131,7 @@ const MenuDropDownItemList = styled.div`
     width: 190px;
     color: #000000;
     &:hover {
+      font-weight: bold;
       color: #9cbced;
     }
   }

@@ -2,16 +2,14 @@ import { createGlobalStyle } from 'styled-components';
 /* tslint:disable */
 // Inject Normalize Css
 const GlobalStyle = createGlobalStyle`
-@font-face {
-  font-family: 'Nanum Gothic', sans-serif;
-  src: https://fonts.googleapis.com/css?family=Nanum+Gothic:400,700,800&subset=korean;
-}
+@import url('https://fonts.googleapis.com/css?family=Nanum+Gothic:400,700&subset=korean');
 html {
   line-height: 1.15; /* 1 */
   -webkit-text-size-adjust: 100%; /* 2 */
 }
 
 body {
+  font-family: 'Nanum Gothic', sans-serif;
   margin: 0;
 }
 
