@@ -83,7 +83,7 @@ const GoogleLoginButoon = styled(SocialLoginButoon)`
 `;
 
 const KakaoLoginButoon = styled(SocialLoginButoon)`
-  margin-top: 4px;
+  margin-top: 14px;
   background-color: #ffde00;
   color: #3c1e1e;
 `;
