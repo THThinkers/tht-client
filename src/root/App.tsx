@@ -1,4 +1,4 @@
-import React, { Suspense, useState } from 'react';
+import React, { Suspense } from 'react';
 import { connect } from 'react-redux';
 import { BrowserRouter, Route } from 'react-router-dom';
 import styled from 'styled-components';
@@ -7,6 +7,7 @@ import { Footer } from '../components';
 import { Header } from '../containers';
 import { IUser } from '../models/user';
 import { IRootState } from '../reducers';
+import SignUp from '../pages/SIgnUp/SignUp';
 
 const AppBody = styled.div`
   width: 100%;
@@ -25,7 +26,7 @@ const AuthCheck = React.lazy(() => import('../pages/AuthCheck'));
 const Landing = React.lazy(() => import('../pages/Landing'));
 const SignIn = React.lazy(() => import('../pages/SignIn'));
 const OauthSignup = React.lazy(() => import('../pages/OauthSignup'));
-const LocalSignup = React.lazy(() => import('../pages/LocalSignUp'));
+const Signup = React.lazy(() => import('../pages/SIgnUp'));
 const History = React.lazy(() => import('../pages/History/History'));
 
 interface IAppProps {
@@ -43,6 +44,13 @@ class App extends React.Component<IAppProps> {
     const { user, status } = this.props;
     if (status === 'WAITING') {
       return null;
+    }
+    if (status !== 'SUCCESS') {
+      return (
+        <Suspense fallback={<div>Loading..</div>}>
+          <SignUp />
+        </Suspense>
+      );
     }
 
     if (window.location.pathname === '/auth/check') {
@@ -76,8 +84,9 @@ class App extends React.Component<IAppProps> {
           <MainContainer>
             <Suspense fallback={<div>Loading..</div>}>
               <Route exact path="/" render={() => <div>HOME</div>} />
-              <Route exact path="/singup/Oauth" render={props => <OauthSignup userId={user._id} {...props} />} />
-              <Route exact path="/singup/Local" render={() => <LocalSignup />} />
+              <Route exact path="/signup/Oauth" render={props => <OauthSignup userId={user._id} {...props} />} />
+              <Route exact path="/signup" render={() => <Signup />} />
+              <Route exact path="/signin" render={() => <Signup />} />
               <Route exact path="/info/introduction" render={props => <History {...props} />} />
             </Suspense>
           </MainContainer>

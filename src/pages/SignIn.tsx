@@ -4,7 +4,7 @@ import SignInput from '../components/SignInput';
 import colors from '../constants/colors';
 import { GoogleIcon, KakaoIcon } from '../assets/images';
 
-const Wrapper = styled.div`
+const Wrapper = styled.form`
   margin: 0 auto;
   width: 482px;
 `;
@@ -66,7 +66,7 @@ const UserActionButton = styled.button<{ hasLine?: boolean }>`
   font-size: 14px;
   background: transparent;
   border: none;
-  ${({ hasLine }) =>
+  ${({ hasLine = false }) =>
     hasLine &&
     css`
       border-right: solid 0.5px black;
@@ -108,7 +108,7 @@ const KakaoLogo = styled.img`
 
 const SignIn = () => {
   return (
-    <Wrapper>
+    <Wrapper onSubmit={e => e.preventDefault()}>
       <SignInHeader>LOGIN</SignInHeader>
       <SignInInput placeholder="ID" />
       <SignInInput placeholder="PASSWORD" />
