@@ -9,21 +9,34 @@ import {
   PasswordHelpText,
   InputWrapper,
 } from './SingUpStyles';
+import { useInputValue } from '../../hooks';
 
 const SignUp = () => {
   const [step, setStep] = useState(1);
+  const [username, onChangeName] = useInputValue('');
+  const [password, onChangePassword] = useInputValue('');
+  const [passwordCheck, onChangePasswordCheck] = useInputValue('');
+
   const firstStep = (
     <>
       <CheckInput
         placeholder="아이디"
+        value={username}
+        onChange={onChangeName}
         isValid
         type="email"
         inValidInfo="이미 존재하는 계정입니다."
         validInfo="사용가능한 계정입니다"
-        rightComponent={<CheckUsernameButton>중복 확인</CheckUsernameButton>}
+        rightComponent={
+          <CheckUsernameButton type="button" disabled={!username}>
+            중복 확인
+          </CheckUsernameButton>
+        }
       />
       <CheckInput
         placeholder="비밀번호"
+        value={password}
+        onChange={onChangePassword}
         isValid
         type="password"
         inValidInfo="올바르지 않은 비밀번호입니다"
@@ -32,7 +45,9 @@ const SignUp = () => {
       />
       <CheckInput
         placeholder="비밀번호 확인"
-        isValid
+        value={passwordCheck}
+        onChange={onChangePasswordCheck}
+        isValid={password === passwordCheck}
         type="password"
         inValidInfo="비밀번호가 일치하지 않습니다"
         validInfo="비밀번호가 일치합니다"
@@ -49,11 +64,24 @@ const SignUp = () => {
         <SignUpStepIndicator isCurrentStep={step === 1}>1</SignUpStepIndicator>
         <SignUpStepIndicator isCurrentStep={step === 2}>2</SignUpStepIndicator>
       </StepIndicatorWrapper>
-      {step === 1 && firstStep}
-      {step === 2 && secondStep}
-      <InputWrapper />
-      {step === 2 && <button onClick={() => setStep(1)}>이전</button>}
-      <button onClick={() => setStep(2)}>다음</button>
+      <InputWrapper>
+        {step === 1 && firstStep}
+        {step === 2 && secondStep}
+      </InputWrapper>
+      {step === 1 ? (
+        <button type="button" onClick={() => setStep(2)}>
+          다음
+        </button>
+      ) : (
+        <>
+          <button type="button" onClick={() => setStep(1)}>
+            이전
+          </button>
+          <button type="button" onClick={() => setStep(2)}>
+            다음
+          </button>
+        </>
+      )}
     </Wrapper>
   );
 };

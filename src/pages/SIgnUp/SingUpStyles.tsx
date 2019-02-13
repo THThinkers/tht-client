@@ -50,6 +50,9 @@ export const CheckUsernameButton = styled.button`
   font-size: 20px;
   text-align: center;
   border: none;
+  &:disabled {
+    background-color: #9d9d9d;
+  }
 `;
 
 export const PasswordHelpText = styled.div`

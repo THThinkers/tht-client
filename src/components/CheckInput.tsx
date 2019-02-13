@@ -1,4 +1,4 @@
-import React, { InputHTMLAttributes, ReactChild } from 'react';
+import React, { InputHTMLAttributes, ReactChild, memo } from 'react';
 import styled from 'styled-components';
 import { passIcon, failIcon } from '../assets/icons';
 import SignInput from './SignInput';
@@ -9,7 +9,7 @@ const InfoContent = styled.div<{ condition: boolean }>`
   font-size: 16px;
   margin-top: 4px;
   margin-left: 6px;
-  line-height: 20px;
+  height: 20px;
 `;
 
 const InfoIcon = styled.img`
@@ -17,17 +17,22 @@ const InfoIcon = styled.img`
   width: 18px;
   height: 18px;
   padding: 2px;
+  margin-right: 3px;
 `;
 
 interface IInfoText {
   condition: boolean;
-  children: ReactChild;
+  children: string;
 }
 
 const InfoText = ({ condition, children }: IInfoText) => (
   <InfoContent condition={condition}>
-    <InfoIcon src={condition ? passIcon : failIcon} />
-    {children}
+    {!!children.length && (
+      <>
+        <InfoIcon src={condition ? passIcon : failIcon} />
+        {children}
+      </>
+    )}
   </InfoContent>
 );
 
@@ -47,6 +52,21 @@ interface ICheckInputProps extends InputHTMLAttributes<HTMLInputElement> {
   rightComponent?: ReactChild | null;
 }
 
+const setInfoText = (
+  value: string | string[] | number | undefined,
+  isValid: boolean,
+  validInfo: string,
+  inValidInfo: string,
+): string => {
+  if (!value || typeof value !== 'string') {
+    return '';
+  }
+  if (value.length === 0) {
+    return '';
+  }
+  return isValid ? validInfo : inValidInfo;
+};
+
 const CheckInput = ({
   value,
   onChange,
@@ -57,19 +77,16 @@ const CheckInput = ({
   inValidInfo,
   rightComponent = null,
 }: ICheckInputProps) => {
+  console.log(value);
   return (
     <CheckInputWrapper>
       <InputWrapper>
         <SignInput placeholder={placeholder} value={value} onChange={onChange} type={type} />
         {rightComponent}
       </InputWrapper>
-      {value && typeof value === 'string' && value.length && isValid ? (
-        <InfoText condition={isValid}>{validInfo}</InfoText>
-      ) : (
-        <InfoText condition={isValid}>{inValidInfo}</InfoText>
-      )}
+      <InfoText condition={isValid}>{setInfoText(value, isValid, validInfo, inValidInfo)}</InfoText>
     </CheckInputWrapper>
   );
 };
 
-export default CheckInput;
+export default memo(CheckInput);
