@@ -49,7 +49,7 @@ interface ICheckInputProps extends InputHTMLAttributes<HTMLInputElement> {
   isValid: boolean;
   validInfo: string;
   inValidInfo: string;
-  rightComponent?: ReactChild | null;
+  rightComponent?: ReactChild | null | false;
 }
 
 const setInfoText = (

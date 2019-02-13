@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo, useCallback } from 'react';
 import { CheckInput } from '../../components';
 import {
   Wrapper,
@@ -17,6 +17,20 @@ const SignUp = () => {
   const [password, onChangePassword] = useInputValue('');
   const [passwordCheck, onChangePasswordCheck] = useInputValue('');
 
+  const CheckUsername = useMemo(
+    () => (
+      <CheckUsernameButton type="button" disabled={!username}>
+        중복 확인
+      </CheckUsernameButton>
+    ),
+    [username],
+  );
+
+  const PasswordHelp = useMemo(
+    () => !password.length && <PasswordHelpText>영어, 숫자, 특수문자 포함 6자 이상</PasswordHelpText>,
+    [password.length],
+  );
+
   const firstStep = (
     <>
       <CheckInput
@@ -27,11 +41,7 @@ const SignUp = () => {
         type="email"
         inValidInfo="이미 존재하는 계정입니다."
         validInfo="사용가능한 계정입니다"
-        rightComponent={
-          <CheckUsernameButton type="button" disabled={!username}>
-            중복 확인
-          </CheckUsernameButton>
-        }
+        rightComponent={CheckUsername}
       />
       <CheckInput
         placeholder="비밀번호"
@@ -41,7 +51,7 @@ const SignUp = () => {
         type="password"
         inValidInfo="올바르지 않은 비밀번호입니다"
         validInfo="사용 가능한 비밀번호입니다"
-        rightComponent={<PasswordHelpText>영어, 숫자, 특수문자 포함 6자 이상</PasswordHelpText>}
+        rightComponent={PasswordHelp}
       />
       <CheckInput
         placeholder="비밀번호 확인"

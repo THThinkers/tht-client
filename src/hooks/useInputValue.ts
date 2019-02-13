@@ -1,14 +1,12 @@
-import { useState, ChangeEvent } from 'react';
+import { useCallback, useState, ChangeEvent } from 'react';
 
-type inputValue = number | string | string[] | undefined;
-
-const useInputValue = (initialValue: inputValue): [inputValue, typeof onChange] => {
+const useInputValue = (initialValue: string): [string, typeof onChange] => {
   const [inputValue, setInputValue] = useState(initialValue);
 
-  const onChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const onChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     const { value } = e.currentTarget;
     setInputValue(value);
-  };
+  }, []);
 
   return [inputValue, onChange];
 };
