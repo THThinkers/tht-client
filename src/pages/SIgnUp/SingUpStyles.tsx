@@ -22,8 +22,7 @@ export const StepIndicatorWrapper = styled.div`
 `;
 
 export const SignUpStepIndicator = styled.div<{ isCurrentStep?: boolean }>`
-  font-size: 50px;
-  text-align: center;
+  font-size: 50px; text-align: center;
   display: inline-block;
   line-height: 60px;
   width: 60px;
