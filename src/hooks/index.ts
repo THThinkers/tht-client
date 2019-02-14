@@ -1,3 +1,3 @@
-import useInputValue from './useInputValue';
+import useInputState from './useInputState';
 
-export { useInputValue };
+export { useInputState };

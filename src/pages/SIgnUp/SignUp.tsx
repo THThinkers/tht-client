@@ -8,14 +8,17 @@ import {
   CheckUsernameButton,
   PasswordHelpText,
   InputWrapper,
+  UserInfoInput,
 } from './SingUpStyles';
-import { useInputValue } from '../../hooks';
+import { useInputState } from '../../hooks';
+import useFormState from '../../hooks/useFormState';
+import { UserInfoFormMap } from './signupFormMap';
 
 const SignUp = () => {
   const [step, setStep] = useState(1);
-  const [username, onChangeName] = useInputValue('');
-  const [password, onChangePassword] = useInputValue('');
-  const [passwordCheck, onChangePasswordCheck] = useInputValue('');
+  const [username, onChangeName] = useInputState('');
+  const [password, onChangePassword] = useInputState('');
+  const [passwordCheck, onChangePasswordCheck] = useInputState('');
 
   const CheckUsername = useMemo(
     () => (
@@ -28,7 +31,7 @@ const SignUp = () => {
 
   const PasswordHelp = useMemo(
     () => !password.length && <PasswordHelpText>영어, 숫자, 특수문자 포함 6자 이상</PasswordHelpText>,
-    [password.length],
+    [!password.length],
   );
 
   const firstStep = (
@@ -65,7 +68,17 @@ const SignUp = () => {
     </>
   );
 
-  const secondStep = <div>응~ </div>;
+  const [userInfo, setUserInfo] = useFormState({ name: '', phoneNumber: '', major: '', studentNumber: '', period: '' });
+
+  const secondStep = Object.keys(userInfo).map(key => (
+    <UserInfoInput
+      key={key}
+      id={key}
+      placeholder={UserInfoFormMap[key].id}
+      value={userInfo[key]}
+      onChange={setUserInfo}
+    />
+  ));
 
   return (
     <Wrapper onSubmit={e => e.preventDefault()}>

@@ -1,6 +1,8 @@
 import styled from 'styled-components';
 import colors from '../../constants/colors';
+import { SignInput } from '../../components';
 
+// 상단 부분
 export const Wrapper = styled.form`
   width: 482px;
   margin: 0px auto;
@@ -21,6 +23,7 @@ export const StepIndicatorWrapper = styled.div`
   justify-content: space-between;
 `;
 
+//  로그인 단계 표시기
 export const SignUpStepIndicator = styled.div<{ isCurrentStep?: boolean }>`
   font-size: 50px;
   text-align: center;
@@ -34,12 +37,14 @@ export const SignUpStepIndicator = styled.div<{ isCurrentStep?: boolean }>`
   border-radius: 50%;
 `;
 
+// 로그인 인풋 래퍼
 export const InputWrapper = styled.div`
   & > div {
     margin-bottom: 16px;
   }
 `;
 
+// 사용자 중복체크 버튼
 export const CheckUsernameButton = styled.button`
   display: inline-block;
   flex-shrink: 0;
@@ -55,10 +60,16 @@ export const CheckUsernameButton = styled.button`
   }
 `;
 
+// 비밀번호 안내문구
 export const PasswordHelpText = styled.div`
   position: absolute;
   font-size: 14px;
   color: #737373;
   right: 10px;
   bottom: 10px;
+`;
+
+// 일반 항목 input
+export const UserInfoInput = styled(SignInput)`
+  margin-bottom: 19px;
 `;

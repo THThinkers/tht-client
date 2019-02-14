@@ -77,7 +77,6 @@ const CheckInput = ({
   inValidInfo,
   rightComponent = null,
 }: ICheckInputProps) => {
-  console.log(value);
   return (
     <CheckInputWrapper>
       <InputWrapper>
