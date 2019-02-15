@@ -12,7 +12,7 @@ import {
 } from './SingUpStyles';
 import { useInputState } from '../../hooks';
 import useFormState from '../../hooks/useFormState';
-import { UserInfoFormMap } from './signupFormMap';
+import { UserInfoFormMap } from './signUpFormMap';
 
 const SignUp = () => {
   const [step, setStep] = useState(1);
