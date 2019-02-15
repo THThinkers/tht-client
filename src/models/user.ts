@@ -1,8 +1,12 @@
 export interface IUser {
   _id: string;
+  username: string;
+  password: string;
   name: string;
-  isVerified: boolean;
-  password?: string;
+  major: string;
+  studentId: number;
+  tags: [{}];
+  isVerified?: boolean;
   isAdmin?: boolean;
   kakaoId?: string;
   googleId?: string;
@@ -10,10 +14,9 @@ export interface IUser {
   description?: string;
   joind?: Date;
   ended?: Date;
-  major?: string;
-  studentId?: number;
-  tags?: [{}];
   createdAt?: Date;
 }
+
+export type ISignupUser = Pick<IUser, 'username' | 'password' | 'major' | 'studentId' | 'tags'>;
 
 export type PartialUser = { [K in keyof IUser]?: IUser[K] };

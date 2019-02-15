@@ -1,18 +1,18 @@
-import React, { useState, useMemo, useCallback } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { CheckInput } from '../../components';
-import {
-  Wrapper,
-  StepIndicatorWrapper,
-  Header,
-  SignUpStepIndicator,
-  CheckUsernameButton,
-  PasswordHelpText,
-  InputWrapper,
-  UserInfoInput,
-} from './SingUpStyles';
 import { useInputState } from '../../hooks';
 import useFormState from '../../hooks/useFormState';
-import { UserInfoFormMap } from './signUpFormMap';
+import { UserInfoFormMap } from './SignUpFormMap';
+import {
+  CheckUsernameButton,
+  Header,
+  InputWrapper,
+  PasswordHelpText,
+  SignUpStepIndicator,
+  StepIndicatorWrapper,
+  UserInfoInput,
+  Wrapper,
+} from './SingUpStyles';
 import * as is from '../../utils/is';
 
 const SignUp = () => {
