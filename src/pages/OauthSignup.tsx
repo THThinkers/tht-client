@@ -2,7 +2,7 @@
 import React, { MouseEvent } from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
-import { putProfile, logout } from '../actions/auth';
+import { logout } from '../actions/auth';
 import { SignupDetail } from '../containers';
 import { PartialUser } from '../models/user';
 
@@ -18,7 +18,6 @@ const HeaderWrapper = styled.div`
 
 interface IOauthSignupProps {
   userId: string;
-  updateProfile: (user: PartialUser) => void;
   logout: () => void;
 }
 
@@ -32,7 +31,7 @@ class OauthSignup extends React.Component<IOauthSignupProps> {
       _id: this.props.userId,
       ...user,
     };
-    this.props.updateProfile(updateUser);
+    // this.props.updateProfile(updateUser);
   };
 
   handleLogout = (e: MouseEvent<HTMLButtonElement>) => {
@@ -58,7 +57,6 @@ class OauthSignup extends React.Component<IOauthSignupProps> {
 export default connect(
   null,
   {
-    updateProfile: putProfile,
     logout,
   },
 )(OauthSignup);

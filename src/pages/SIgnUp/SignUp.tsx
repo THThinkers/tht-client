@@ -1,18 +1,18 @@
-import React, { useState, useMemo, useCallback } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { CheckInput } from '../../components';
-import {
-  Wrapper,
-  StepIndicatorWrapper,
-  Header,
-  SignUpStepIndicator,
-  CheckUsernameButton,
-  PasswordHelpText,
-  InputWrapper,
-  UserInfoInput,
-} from './SingUpStyles';
 import { useInputState } from '../../hooks';
 import useFormState from '../../hooks/useFormState';
-import { UserInfoFormMap } from './signUpFormMap';
+import { UserInfoFormMap } from './SignUpFormMap';
+import {
+  CheckUsernameButton,
+  Header,
+  InputWrapper,
+  PasswordHelpText,
+  SignUpStepIndicator,
+  StepIndicatorWrapper,
+  UserInfoInput,
+  Wrapper,
+} from './SingUpStyles';
 
 const SignUp = () => {
   const [step, setStep] = useState(1);
@@ -70,7 +70,7 @@ const SignUp = () => {
 
   const [userInfo, setUserInfo] = useFormState({ name: '', phoneNumber: '', major: '', studentNumber: '', period: '' });
 
-  const secondStep = Object.keys(userInfo).map(key => (
+  const secondStep = Object.keys(userInfo).map((key) => (
     <UserInfoInput
       key={key}
       id={key}
@@ -81,7 +81,7 @@ const SignUp = () => {
   ));
 
   return (
-    <Wrapper onSubmit={e => e.preventDefault()}>
+    <Wrapper onSubmit={(e) => e.preventDefault()}>
       <Header>회원가입</Header>
       <StepIndicatorWrapper>
         <SignUpStepIndicator isCurrentStep={step === 1}>1</SignUpStepIndicator>

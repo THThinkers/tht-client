@@ -1,15 +1,15 @@
-import { all, call, fork, put, take } from 'redux-saga/effects';
-import { IGetProfile, IPutProfile } from '../actions/auth';
+import { all, call, fork, put, take, takeLatest } from 'redux-saga/effects';
+import { IGetProfile, ISignup } from '../actions/auth';
 import * as authApi from '../api/auth';
 import {
   GET_PROFILE,
   GET_PROFILE_FAILURE,
+  GET_PROFILE_NOT_LINKED,
   GET_PROFILE_SUCCESS,
   LOGOUT,
-  PUT_PROFILE,
-  PUT_PROFILE_FAILURE,
-  PUT_PROFILE_SUCCESS,
-  GET_PROFILE_NOT_LINKED,
+  SIGNUP,
+  SIGNUP_FAILURE,
+  SIGNUP_SUCCESS,
 } from '../constants/actionTypes';
 
 function* getProfile(action: IGetProfile) {
@@ -25,19 +25,15 @@ function* getProfile(action: IGetProfile) {
     });
   }
 }
-function* putProfile(action: IPutProfile) {
-  const { user } = action;
+function* signup(action: ISignup) {
   try {
-    const {
-      data: { user: updatedUser },
-    } = yield call(authApi.updateProfile, user);
+    const { user } = action;
+    yield call(authApi.signup, user);
+    yield put({ type: SIGNUP_SUCCESS });
+  } catch (err) {
     yield put({
-      type: PUT_PROFILE_SUCCESS,
-      user: updatedUser,
-    });
-  } catch (error) {
-    yield put({
-      type: PUT_PROFILE_FAILURE,
+      error: err.response ? err.response.error : '',
+      type: SIGNUP_FAILURE,
     });
   }
 }
@@ -47,11 +43,8 @@ function* watchGetProfile() {
     yield call(getProfile, actions);
   }
 }
-function* watchPutProfile() {
-  while (true) {
-    const action = yield take(PUT_PROFILE);
-    yield call(putProfile, action);
-  }
+function* watchSignup() {
+  yield takeLatest(SIGNUP, signup);
 }
 function* watchLogout() {
   while (true) {
@@ -60,5 +53,5 @@ function* watchLogout() {
   }
 }
 export default function* authSaga() {
-  yield all([fork(watchGetProfile), fork(watchPutProfile), fork(watchLogout)]);
+  yield all([fork(watchGetProfile), fork(watchSignup), fork(watchLogout)]);
 }

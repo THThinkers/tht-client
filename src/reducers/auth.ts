@@ -2,25 +2,30 @@ import { AuthAction } from '../actions/auth';
 import {
   GET_PROFILE,
   GET_PROFILE_FAILURE,
+  GET_PROFILE_NOT_LINKED,
   GET_PROFILE_SUCCESS,
   LOGOUT,
-  PUT_PROFILE,
-  PUT_PROFILE_SUCCESS,
-  GET_PROFILE_NOT_LINKED,
+  SIGNUP,
+  SIGNUP_FAILURE,
+  SIGNUP_SUCCESS,
 } from '../constants/actionTypes';
-import { IUser } from '../models/user';
 import { State } from '../constants/state';
+import { IUser } from '../models/user';
 
 type UserState = 'NOT_LINKED' | State;
 
 export interface IAuthState {
-  readonly profile: {
-    readonly status: UserState;
-    readonly user: IUser;
+  profile: {
+    status: UserState;
+    user: Partial<IUser>;
+  };
+  signup: {
+    status: State;
+    error: string;
   };
 }
 
-const initialState: IAuthState = {
+const initialState: Readonly<IAuthState> = {
   profile: {
     status: 'INIT',
     user: {
@@ -28,6 +33,10 @@ const initialState: IAuthState = {
       isVerified: false,
       name: '',
     },
+  },
+  signup: {
+    error: '',
+    status: 'INIT',
   },
 };
 
@@ -65,22 +74,29 @@ const auth = (state: IAuthState = initialState, action: AuthAction): IAuthState 
           status: 'FAILURE',
         },
       };
-    case PUT_PROFILE: {
+    case SIGNUP:
       return {
         ...state,
-        profile: {
-          ...state.profile,
+        signup: {
+          ...state.signup,
           status: 'WAITING',
         },
       };
-    }
-    case PUT_PROFILE_SUCCESS:
+    case SIGNUP_SUCCESS:
       return {
         ...state,
-        profile: {
-          ...state.profile,
+        signup: {
+          ...state.signup,
           status: 'SUCCESS',
-          user: action.user,
+        },
+      };
+    case SIGNUP_FAILURE:
+      return {
+        ...state,
+        signup: {
+          ...state.signup,
+          error: action.error,
+          status: 'FAILURE',
         },
       };
     case LOGOUT:
