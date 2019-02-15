@@ -1,10 +1,7 @@
-import { useState, useCallback, ChangeEvent, useReducer } from 'react';
+import { ChangeEvent, useCallback, useReducer, useState } from 'react';
 
-interface IFormState {
-  [key: string]: string;
-}
-
-const useFormState = (initialValue: IFormState): [IFormState, typeof onChangeFormValue, boolean] => {
+type FormValidator<T> = (value: T) => boolean;
+const useFormState = <T>(initialValue: T, formValidator: FormValidator<T>): [T, typeof onChangeFormValue, boolean] => {
   const [formValue, setFormValue] = useReducer((prevState, newState) => ({ ...prevState, ...newState }), initialValue);
 
   const onChangeFormValue = useCallback((e: ChangeEvent<HTMLInputElement>) => {
@@ -12,7 +9,7 @@ const useFormState = (initialValue: IFormState): [IFormState, typeof onChangeFor
     setFormValue({ [key]: value });
   }, []);
 
-  const isFormFilled = Object.keys(formValue).every(key => formValue[key].length !== 0);
+  const isFormFilled = formValidator(formValue);
 
   return [formValue, onChangeFormValue, isFormFilled];
 };

@@ -7,7 +7,6 @@ import { Footer } from '../components';
 import { Header } from '../containers';
 import { IUser } from '../models/user';
 import { IRootState } from '../reducers';
-import SignUp from '../pages/SIgnUp/SignUp';
 
 const AppBody = styled.div`
   width: 100%;
@@ -26,11 +25,11 @@ const AuthCheck = React.lazy(() => import('../pages/AuthCheck'));
 const Landing = React.lazy(() => import('../pages/Landing'));
 const SignIn = React.lazy(() => import('../pages/SignIn'));
 const OauthSignup = React.lazy(() => import('../pages/OauthSignup'));
-const Signup = React.lazy(() => import('../pages/SIgnUp'));
+const SignUp = React.lazy(() => import('../pages/SignUp'));
 const History = React.lazy(() => import('../pages/History/History'));
 
 interface IAppProps {
-  user: IUser;
+  user: Partial<IUser>;
   status: string;
   getProfile: () => void;
 }
@@ -69,13 +68,13 @@ class App extends React.Component<IAppProps> {
       );
     }
 
-    if (!user.isVerified) {
-      return (
-        <Suspense fallback={<div>Loading..</div>}>
-          <OauthSignup userId={user._id} />
-        </Suspense>
-      );
-    }
+    // if (!user.isVerified) {
+    //   return (
+    //     <Suspense fallback={<div>Loading..</div>}>
+    //       {/* <OauthSignup userId={user._id} /> */}
+    //     </Suspense>
+    //   );
+    // }
 
     return (
       <BrowserRouter>
@@ -84,10 +83,14 @@ class App extends React.Component<IAppProps> {
           <MainContainer>
             <Suspense fallback={<div>Loading..</div>}>
               <Route exact path="/" render={() => <div>HOME</div>} />
-              <Route exact path="/signup/Oauth" render={props => <OauthSignup userId={user._id} {...props} />} />
-              <Route exact path="/signup" render={() => <Signup />} />
-              <Route exact path="/signin" render={() => <Signup />} />
-              <Route exact path="/info/introduction" render={props => <History {...props} />} />
+              {/*
+                <Route
+                  exact path="/signup/Oauth" render={(props) => <OauthSignup userId={user._id} {...props} />}
+                />
+              */}
+              <Route exact path="/signup" render={() => <SignUp />} />
+              <Route exact path="/signin" render={() => <SignIn />} />
+              <Route exact path="/info/introduction" render={(props) => <History {...props} />} />
             </Suspense>
           </MainContainer>
           <Footer />

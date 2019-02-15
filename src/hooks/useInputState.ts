@@ -1,4 +1,4 @@
-import { useCallback, useState, ChangeEvent, useEffect, useMemo } from 'react';
+import { ChangeEvent, useCallback, useEffect, useMemo, useState } from 'react';
 
 const useInputState = (
   initialValue: string,
@@ -7,9 +7,11 @@ const useInputState = (
   const [inputValue, setInputValue] = useState(initialValue);
 
   const isValid = useMemo(() => {
-    if (!varifier) return true;
+    if (!varifier) {
+      return true;
+    }
     return varifier(inputValue);
-  }, [varifier && inputValue]);
+  }, [varifier, inputValue]);
 
   const onChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     const { value } = e.currentTarget;
