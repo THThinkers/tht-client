@@ -2,7 +2,7 @@ import React, { ChangeEvent, useCallback, useMemo, useState } from 'react';
 import { postCheckUserName } from '../../api/auth';
 import { CheckInput } from '../../components';
 import { useInputState } from '../../hooks';
-import { ISignupForm } from '../../pages/SignUp/SignUp';
+import { ISignupForm, UserNameValidation } from '../../pages/SignUp/SignUp';
 import {
   CheckUsernameButton,
   InputFooter,
@@ -13,26 +13,24 @@ import {
 } from '../../styles/SingUpStyles';
 import * as is from '../../utils/is';
 
-/** 사용자의 서버 중복 여부를 판단하는 타입 */
-type UserNameValidation = 'NOT_CHECKED' | 'EXIST' | 'NOT_EXIST' | 'ERROR';
 /** FirstStep에서 쓰는 Form Type */
 type FirstFormType = Pick<ISignupForm, 'username' | 'password' | 'pwCheck'>;
 
 interface IFirstStepProps {
   getForm: () => ISignupForm;
   setStep: ({ nextStep, nextForm }: { nextStep: number; nextForm: FirstFormType }) => void;
+  userNameValidation: UserNameValidation;
+  setUsernameValidation: (status: UserNameValidation) => void;
 }
 
 /**
- * FirstStep
  * @description 아이디, 비밀번호를 입력하는 컴포넌트
  * @param {Object} props
  * @param props.getForm 상위의 폼 데이터를 호출하는 함수
  * @param props.setStep 다음 단계로 변경을 호출하는 함수
  */
-const FirstStep: React.SFC<IFirstStepProps> = ({ getForm, setStep }) => {
+const FirstStep: React.SFC<IFirstStepProps> = ({ getForm, setStep, userNameValidation, setUsernameValidation }) => {
   const fp = getForm();
-  const [userNameValidation, setUsernameValidation] = useState<UserNameValidation>('NOT_CHECKED');
   const [username, onChangeName, isValidUsername] = useInputState(fp.username, is.email);
   const [password, onChangePassword, isValidPassword] = useInputState(fp.password, is.validPassword);
   const [pwCheck, onChangePwCheck, isValidPwCheck] = useInputState(fp.pwCheck, is.shallowEqual.bind(null, password));
@@ -134,7 +132,6 @@ const FirstStep: React.SFC<IFirstStepProps> = ({ getForm, setStep }) => {
         validInfo="비밀번호가 일치합니다"
       />
       <InputFooter>
-        <StepError>아직 완료되지 않은 문항이 있습니다</StepError>
         <StepButton
           type="button"
           disabled={youShallNotPass}

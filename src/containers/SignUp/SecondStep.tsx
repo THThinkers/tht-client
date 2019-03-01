@@ -2,7 +2,7 @@ import React from 'react';
 import useFormState from '../../hooks/useFormState';
 import { ISignupForm } from '../../pages/SignUp/SignUp';
 import { UserInfoFormMap } from '../../pages/SignUp/SignUpFormMap';
-import { InputWrapper, UserInfoInput } from '../../styles/SingUpStyles';
+import { InputFooter, InputWrapper, StepButton, UserInfoInput } from '../../styles/SingUpStyles';
 
 type SecondFormType = Pick<ISignupForm, 'name' | 'phoneNumber' | 'major' | 'studentId' | 'period'> & {
   [key: string]: string;
@@ -20,22 +20,16 @@ const SecondStep: React.SFC<ISecondStepProps> = ({ getForm, setStep }) => {
   return (
     <InputWrapper>
       {Object.keys(userInfo).map((key) => (
-        <UserInfoInput
-          key={key}
-          id={key}
-          placeholder={UserInfoFormMap[key].id}
-          value={userInfo[key]}
-          onChange={setUserInfo}
-        />
+        <UserInfoInput key={key} id={key} value={userInfo[key]} onChange={setUserInfo} {...UserInfoFormMap[key]} />
       ))}
-      <>
-        <button type="button" onClick={() => setStep({ nextStep: 1, nextForm: userInfo })}>
+      <InputFooter>
+        <StepButton type="button" onClick={() => setStep({ nextStep: 1, nextForm: userInfo })}>
           이전
-        </button>
-        <button type="button" disabled={!isFormValid} onClick={() => setStep({ nextStep: 3, nextForm: userInfo })}>
+        </StepButton>
+        <StepButton type="submit" disabled={!isFormValid}>
           완료
-        </button>
-      </>
+        </StepButton>
+      </InputFooter>
     </InputWrapper>
   );
 };

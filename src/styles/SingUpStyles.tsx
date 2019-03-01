@@ -19,21 +19,21 @@ export const Header = styled.h1`
 export const StepIndicatorWrapper = styled.div`
   margin: 80px auto 63px auto;
   display: flex;
-  width: 163px;
+  width: 92px;
   justify-content: space-between;
 `;
 
 /** 로그인 단계 표시기  */
 export const SignUpStepIndicator = styled.div<{ isCurrentStep?: boolean }>`
-  font-size: 50px;
+  font-size: 30px;
   text-align: center;
   display: inline-block;
-  line-height: 60px;
-  width: 60px;
-  height: 60px;
+  line-height: 34px;
+  width: 34px;
+  height: 34px;
   font-weight: bolder;
   color: ${({ isCurrentStep = false }) => (isCurrentStep ? colors.prime : '#a8a8a8')};
-  border: solid 5px ${({ isCurrentStep = false }) => (isCurrentStep ? colors.prime : '#a8a8a8')};
+  border: solid 3px ${({ isCurrentStep = false }) => (isCurrentStep ? colors.prime : '#a8a8a8')};
   border-radius: 50%;
 `;
 
@@ -76,18 +76,14 @@ export const UserInfoInput = styled(SignInput)`
 
 export const InputFooter = styled.div`
   margin-top: 54px;
-`;
-
-export const StepError = styled.div`
-  color: red;
-  font-size: 16px;
   text-align: center;
 `;
 
 export const StepButton = styled(CheckUsernameButton)`
-  display: block;
   font-size: 24px;
   width: 136px;
   height: 58px;
-  margin: 13px auto 0px auto;
+  &:nth-child(2) {
+    margin-left: 44px;
+  }
 `;
