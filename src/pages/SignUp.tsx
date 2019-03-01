@@ -1,6 +1,6 @@
 import React, { ChangeEvent, useReducer, useState } from 'react';
-import { FirstStep, SecondStep } from '../../containers/SignUp';
-import { Header, SignUpStepIndicator, StepIndicatorWrapper, Wrapper } from '../../styles/SingUpStyles';
+import { FirstStep, SecondStep } from '../containers/SignUp';
+import { Header, SignUpStepIndicator, StepIndicatorWrapper, Wrapper } from '../styles/SingUpStyles';
 
 /** 사용자의 서버 중복 여부를 판단하는 타입 */
 export type UserNameValidation = 'NOT_CHECKED' | 'EXIST' | 'NOT_EXIST' | 'ERROR';
@@ -22,14 +22,14 @@ const SignUp = () => {
   const [userNameValidation, setUsernameValidation] = useState<UserNameValidation>('NOT_CHECKED');
 
   const [form, setForm] = useReducer((state, newState) => ({ ...state, ...newState }), {
-    username: '',
-    password: '',
-    pwCheck: '',
-    name: '',
-    phoneNumber: '',
-    studentId: '',
-    major: '',
-    period: '',
+    username: '', // 아이디
+    password: '', // 비밀번호
+    pwCheck: '', // 비밀번호 확인
+    name: '', // 사용자 이름
+    phoneNumber: '', // 전화번호
+    studentId: '', // 학번
+    major: '', // 전공
+    period: '', // 기간
   });
 
   const [step, setStep] = useReducer<number, { nextStep: number; nextForm: Partial<ISignupForm> }>(

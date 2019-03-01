@@ -8,3 +8,5 @@ interface IButtonProps {
 const Button = styled.div<IButtonProps>`
   background-color: ${({ color }) => color};
 `;
+
+export default Button;

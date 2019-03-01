@@ -1,15 +1,14 @@
-import React, { ChangeEvent, useCallback, useMemo, useState } from 'react';
+import React, { ChangeEvent, useCallback, useMemo } from 'react';
 import { postCheckUserName } from '../../api/auth';
-import { CheckInput } from '../../components';
+import { CheckInput } from '../../components/shared';
 import { useInputState } from '../../hooks';
-import { ISignupForm, UserNameValidation } from '../../pages/SignUp/SignUp';
+import { ISignupForm, UserNameValidation } from '../../pages/SignUp';
 import {
   CheckUsernameButton,
   InputFooter,
   InputWrapper,
   PasswordHelpText,
   StepButton,
-  StepError,
 } from '../../styles/SingUpStyles';
 import * as is from '../../utils/is';
 

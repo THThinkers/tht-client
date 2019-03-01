@@ -1,8 +1,8 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
-import SignInput from '../components/SignInput';
-import colors from '../constants/colors';
 import { GoogleIcon, KakaoIcon } from '../assets/images';
+import { SignInput } from '../components/shared';
+import colors from '../constants/colors';
 
 const Wrapper = styled.form`
   margin: 0 auto;
@@ -108,7 +108,7 @@ const KakaoLogo = styled.img`
 
 const SignIn = () => {
   return (
-    <Wrapper onSubmit={e => e.preventDefault()}>
+    <Wrapper onSubmit={(e) => e.preventDefault()}>
       <SignInHeader>LOGIN</SignInHeader>
       <SignInInput placeholder="ID" />
       <SignInInput placeholder="PASSWORD" />

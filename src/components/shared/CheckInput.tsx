@@ -1,8 +1,12 @@
-import React, { InputHTMLAttributes, ReactChild, memo } from 'react';
+import React, { InputHTMLAttributes, memo, ReactChild } from 'react';
 import styled from 'styled-components';
-import { passIcon, failIcon } from '../assets/icons';
+import { failIcon, passIcon } from '../../assets/icons';
+import colors from '../../constants/colors';
 import SignInput from './SignInput';
-import colors from '../constants/colors';
+
+/**
+ * input 의 valiation 상태에 따라서 Text를 띄워주는 컴포넌트
+ */
 
 const InfoContent = styled.div<{ condition: boolean }>`
   color: ${({ condition }) => (condition ? colors.positive : colors.negative)};

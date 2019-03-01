@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import colors from '../constants/colors';
 
 const FooterWrappper = styled.div`
   width: 100%;

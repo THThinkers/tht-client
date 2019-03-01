@@ -1,12 +1,13 @@
 import React from 'react';
 import useFormState from '../../hooks/useFormState';
-import { ISignupForm } from '../../pages/SignUp/SignUp';
-import { UserInfoFormMap } from '../../pages/SignUp/SignUpFormMap';
+import { ISignupForm } from '../../pages/SignUp';
 import { InputFooter, InputWrapper, StepButton, UserInfoInput } from '../../styles/SingUpStyles';
+import { UserInfoFormMap } from './SignUpFormMap';
 
 type SecondFormType = Pick<ISignupForm, 'name' | 'phoneNumber' | 'major' | 'studentId' | 'period'> & {
   [key: string]: string;
 };
+
 interface ISecondStepProps {
   getForm: () => ISignupForm;
   setStep: ({ nextStep, nextForm }: { nextStep: number; nextForm: SecondFormType }) => void;
