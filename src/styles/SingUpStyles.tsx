@@ -1,6 +1,6 @@
 import styled from 'styled-components';
-import { SignInput } from '../../components';
-import colors from '../../constants/colors';
+import { SignInput } from '../components';
+import colors from '../constants/colors';
 
 // 상단 부분
 export const Wrapper = styled.form`

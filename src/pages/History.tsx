@@ -1,6 +1,7 @@
-import React, { Component } from 'react';
-import { historybanner, historyImage1, historyImage2, thtObjective } from '../../assets/images';
-import { logoWithText } from '../../assets/logo';
+import React from 'react';
+import { historybanner, historyImage1, historyImage2, thtObjective } from '../assets/images';
+import { logoWithText } from '../assets/logo';
+import LocationBreadCrumb from '../components/LocationBreadCrumb';
 import {
   HistoryBanner,
   HistoryBannerWrapper,
@@ -20,8 +21,7 @@ import {
   THTIcon,
   THTObjective,
   THTQutation,
-} from './HistoryStyles';
-import LocationBreadCrumb from '../../components/LocationBreadCrumb';
+} from '../styles/HistoryStyles';
 
 interface IHistoryProps {
   location: {

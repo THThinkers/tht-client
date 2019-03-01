@@ -1,6 +1,6 @@
 import React, { useReducer } from 'react';
-import { Header, SignUpStepIndicator, StepIndicatorWrapper, Wrapper } from './SingUpStyles';
-import { FirstStep, SecondStep } from './Steps';
+import { FirstStep, SecondStep } from '../../containers/SignUp';
+import { Header, SignUpStepIndicator, StepIndicatorWrapper, Wrapper } from '../../styles/SingUpStyles';
 
 export interface ISignupForm {
   username: string;
@@ -25,6 +25,7 @@ const SignUp = () => {
     major: '',
     period: '',
   });
+
   const [step, setStep] = useReducer<number, { nextStep: number; nextForm: Partial<ISignupForm> }>(
     (prevStep, { nextStep, nextForm }) => {
       if (nextStep === 3) {
@@ -40,7 +41,9 @@ const SignUp = () => {
     },
     1,
   );
+
   const getForm = () => form;
+
   return (
     <Wrapper onSubmit={(e) => e.preventDefault()}>
       <Header>회원가입</Header>

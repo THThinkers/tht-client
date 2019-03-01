@@ -1,6 +1,6 @@
 import styled from 'styled-components';
-import { dotCircle } from '../../assets/images';
-import colors from '../../constants/colors';
+import { dotCircle } from '../assets/images';
+import colors from '../constants/colors';
 
 export const HistoryTitle = styled.h1`
   margin-top: 41px;

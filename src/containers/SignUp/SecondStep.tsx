@@ -1,8 +1,8 @@
 import React from 'react';
-import useFormState from '../../../hooks/useFormState';
-import { ISignupForm } from '../SignUp';
-import { UserInfoFormMap } from '../SignUpFormMap';
-import { InputWrapper, UserInfoInput } from '../SingUpStyles';
+import useFormState from '../../hooks/useFormState';
+import { ISignupForm } from '../../pages/SignUp/SignUp';
+import { UserInfoFormMap } from '../../pages/SignUp/SignUpFormMap';
+import { InputWrapper, UserInfoInput } from '../../styles/SingUpStyles';
 
 type SecondFormType = Pick<ISignupForm, 'name' | 'phoneNumber' | 'major' | 'studentId' | 'period'> & {
   [key: string]: string;

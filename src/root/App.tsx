@@ -26,7 +26,7 @@ const Landing = React.lazy(() => import('../pages/Landing'));
 const SignIn = React.lazy(() => import('../pages/SignIn'));
 const OauthSignup = React.lazy(() => import('../pages/OauthSignup'));
 const SignUp = React.lazy(() => import('../pages/SignUp'));
-const History = React.lazy(() => import('../pages/History/History'));
+const History = React.lazy(() => import('../pages/History'));
 
 interface IAppProps {
   user: Partial<IUser>;

@@ -5,6 +5,8 @@
     "no-console": false,
     "no-submodule-imports": false,
     "member-access": false,
-    "semicolon": false
+    "semicolon": false,
+    "object-literal-sort-keys": false,
+    "no-this-assignment": [true, { "allow-destructuring": true }]
   }
 }

@@ -7,13 +7,27 @@ const authApi = axios.create({
   baseURL: '/api/auth/',
 });
 
+interface IPostCheckUserNameSuccess {
+  isExist: boolean;
+}
+
+export const postCheckUserName = async (username: string) => {
+  const {
+    data: { isExist },
+  } = await authApi.post<IPostCheckUserNameSuccess>('/validation/username', { username });
+
+  return { isExist };
+};
+
 export const getProfile = async () => {
   const { data } = await authApi.get('profile');
   return data;
 };
+
 export const signup = async (user: ISignupUser) => {
   return authApi.post('/signup', user);
 };
+
 export function logout() {
   return authApi.get('logout');
 }
