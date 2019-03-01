@@ -30,10 +30,7 @@ const SignUp = () => {
     (prevStep, { nextStep, nextForm }) => {
       if (nextStep === 3) {
         // submit
-        const submitForm = {
-          ...form,
-          ...nextForm,
-        };
+        const submitForm = { ...form, ...nextForm };
         return prevStep;
       }
       setForm(nextForm);

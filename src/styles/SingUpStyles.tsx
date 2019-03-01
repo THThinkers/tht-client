@@ -23,7 +23,7 @@ export const StepIndicatorWrapper = styled.div`
   justify-content: space-between;
 `;
 
-//  로그인 단계 표시기
+/** 로그인 단계 표시기  */
 export const SignUpStepIndicator = styled.div<{ isCurrentStep?: boolean }>`
   font-size: 50px;
   text-align: center;
@@ -72,4 +72,22 @@ export const PasswordHelpText = styled.div`
 // 일반 항목 input
 export const UserInfoInput = styled(SignInput)`
   margin-bottom: 19px;
+`;
+
+export const InputFooter = styled.div`
+  margin-top: 54px;
+`;
+
+export const StepError = styled.div`
+  color: red;
+  font-size: 16px;
+  text-align: center;
+`;
+
+export const StepButton = styled(CheckUsernameButton)`
+  display: block;
+  font-size: 24px;
+  width: 136px;
+  height: 58px;
+  margin: 13px auto 0px auto;
 `;

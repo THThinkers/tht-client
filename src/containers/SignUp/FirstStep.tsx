@@ -3,7 +3,14 @@ import { postCheckUserName } from '../../api/auth';
 import { CheckInput } from '../../components';
 import { useInputState } from '../../hooks';
 import { ISignupForm } from '../../pages/SignUp/SignUp';
-import { CheckUsernameButton, InputWrapper, PasswordHelpText } from '../../styles/SingUpStyles';
+import {
+  CheckUsernameButton,
+  InputFooter,
+  InputWrapper,
+  PasswordHelpText,
+  StepButton,
+  StepError,
+} from '../../styles/SingUpStyles';
 import * as is from '../../utils/is';
 
 /** 사용자의 서버 중복 여부를 판단하는 타입 */
@@ -126,13 +133,16 @@ const FirstStep: React.SFC<IFirstStepProps> = ({ getForm, setStep }) => {
         inValidInfo="비밀번호가 일치하지 않습니다"
         validInfo="비밀번호가 일치합니다"
       />
-      <button
-        type="button"
-        disabled={youShallNotPass}
-        onClick={() => setStep({ nextStep: 2, nextForm: { username, password, pwCheck } })}
-      >
-        다음
-      </button>
+      <InputFooter>
+        <StepError>아직 완료되지 않은 문항이 있습니다</StepError>
+        <StepButton
+          type="button"
+          disabled={youShallNotPass}
+          onClick={() => setStep({ nextStep: 2, nextForm: { username, password, pwCheck } })}
+        >
+          다음
+        </StepButton>
+      </InputFooter>
     </InputWrapper>
   );
 };

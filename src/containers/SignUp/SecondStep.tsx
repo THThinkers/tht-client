@@ -13,8 +13,10 @@ interface ISecondStepProps {
 }
 const SecondStep: React.SFC<ISecondStepProps> = ({ getForm, setStep }) => {
   const { username, password, pwCheck, ...rest } = getForm();
+
   const validator = (form: SecondFormType) => Object.keys(form).every((field) => form[field].length > 0);
   const [userInfo, setUserInfo, isFormValid] = useFormState<SecondFormType>(rest, validator);
+
   return (
     <InputWrapper>
       {Object.keys(userInfo).map((key) => (

@@ -4,7 +4,6 @@ import * as authApi from '../api/auth';
 import {
   GET_PROFILE,
   GET_PROFILE_FAILURE,
-  GET_PROFILE_NOT_LINKED,
   GET_PROFILE_SUCCESS,
   LOGOUT,
   SIGNUP,
