@@ -36,21 +36,25 @@ function* signup(action: ISignup) {
     });
   }
 }
+
 function* watchGetProfile() {
   while (true) {
     const actions = yield take(GET_PROFILE);
     yield call(getProfile, actions);
   }
 }
+
 function* watchSignup() {
   yield takeLatest(SIGNUP, signup);
 }
+
 function* watchLogout() {
   while (true) {
     yield take(LOGOUT);
     yield call(authApi.logout);
   }
 }
+
 export default function* authSaga() {
   yield all([fork(watchGetProfile), fork(watchSignup), fork(watchLogout)]);
 }

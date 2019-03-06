@@ -7,10 +7,37 @@ const authApi = axios.create({
   baseURL: '/api/auth/',
 });
 
+// * ----------------------------------------------------
+// *                  로그인
+// * ----------------------------------------------------
+
+/**
+ * 프로필 정보를 가져오는 api
+ */
+export const getProfile = async () => {
+  const { data } = await authApi.get('profile');
+  return data;
+};
+
+// * ----------------------------------------------------
+// *                  회원가입
+// * ----------------------------------------------------
+
+/**
+ * 회원가입하는 api
+ * @param user 회원가입할 유저 정보
+ */
+export const signup = async (user: ISignupUser) => {
+  return authApi.post('/signup', user);
+};
+
+/**
+ * username 중복을 체크하는 api
+ * @param username 체크할 id
+ */
 interface IPostCheckUserNameSuccess {
   isExist: boolean;
 }
-
 export const postCheckUserName = async (username: string) => {
   const {
     data: { isExist },
@@ -19,15 +46,13 @@ export const postCheckUserName = async (username: string) => {
   return { isExist };
 };
 
-export const getProfile = async () => {
-  const { data } = await authApi.get('profile');
-  return data;
-};
+// * ----------------------------------------------------
+// *                  로그아웃
+// * ----------------------------------------------------
 
-export const signup = async (user: ISignupUser) => {
-  return authApi.post('/signup', user);
-};
-
+/**
+ * 로그아웃하는 api
+ */
 export function logout() {
   return authApi.get('logout');
 }

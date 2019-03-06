@@ -24,6 +24,7 @@
     "axios": "^0.18.0",
     "qs": "^6.6.0",
     "react": "^16.8.0",
+    "react-calendar": "^2.18.1",
     "react-dom": "^16.8.0",
     "react-hot-loader": "^4.3.5",
     "react-redux": "^5.0.7",

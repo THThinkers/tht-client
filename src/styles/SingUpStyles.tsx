@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { SignInput } from '../components';
+import { SignInput } from '../components/shared';
 import colors from '../constants/colors';
 
 // 상단 부분
@@ -71,6 +71,23 @@ export const PasswordHelpText = styled.div`
 
 // 일반 항목 input
 export const UserInfoInput = styled(SignInput)`
+  margin-bottom: 19px;
+`;
+
+export const MontHInfoInputWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
+
+export const Interval = styled.div`
+  font-size: 24px;
+  line-height: 58px;
+`;
+
+// 달 항목 input
+export const MonthInfoInput = styled(UserInfoInput)`
+  display: inline-block;
+  width: 200px;
   margin-bottom: 19px;
 `;
 

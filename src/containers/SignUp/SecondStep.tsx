@@ -1,7 +1,17 @@
-import React, { InputHTMLAttributes } from 'react';
+import React, { InputHTMLAttributes, useRef } from 'react';
+import { useEvent } from '../../hooks';
 import useFormState from '../../hooks/useFormState';
+import { ISignupUser } from '../../models/user';
 import { ISignupForm } from '../../pages/SignUp';
-import { InputFooter, InputWrapper, StepButton, UserInfoInput } from '../../styles/SingUpStyles';
+import {
+  InputFooter,
+  InputWrapper,
+  Interval,
+  MonthInfoInput,
+  MontHInfoInputWrapper,
+  StepButton,
+  UserInfoInput,
+} from '../../styles/SingUpStyles';
 
 type SecondFormType = Pick<ISignupForm, 'name' | 'phoneNumber' | 'major' | 'studentId' | 'period'> & {
   [key: string]: string;
@@ -12,15 +22,15 @@ interface ISecondStepProps {
   setStep: ({ nextStep, nextForm }: { nextStep: number; nextForm: SecondFormType }) => void;
 }
 
-/**
- * UserInfo 에 대한 input 설정
- */
-const UserInfoFormMap: { [key: string]: InputHTMLAttributes<{}> } = {
+//  UserInfo 에 대한 기본 인풋일 경우 데이터 input 설정
+type FlatInputUserData = Exclude<keyof ISignupUser, 'username' | 'password' | 'tags'>;
+const UserInfoFormMap: { [key in FlatInputUserData]: InputHTMLAttributes<{}> } = {
   name: { placeholder: '이름', type: 'text' },
   phoneNumber: { placeholder: '전화번호', type: 'tel' },
   major: { placeholder: '전공', type: 'text' },
-  studentId: { placeholder: '학번', type: 'number', min: '00', max: '99' },
-  period: { placeholder: '활동시기', type: 'month', min: '2018-03' },
+  studentId: { placeholder: '학번', type: 'number', min: '2000', max: '2099' },
+  joined: { placeholder: '활동 시작', type: 'month', min: '2018-03' },
+  ended: { placeholder: '활동 종료', type: 'month', min: '2018-03' },
 };
 
 const SecondStep: React.SFC<ISecondStepProps> = ({ getForm, setStep }) => {
@@ -29,11 +39,49 @@ const SecondStep: React.SFC<ISecondStepProps> = ({ getForm, setStep }) => {
   const validator = (form: SecondFormType) => Object.keys(form).every((field) => form[field].length > 0);
   const [userInfo, setUserInfo, isFormValid] = useFormState<SecondFormType>(rest, validator);
 
+  const joinedRef = useRef(null);
+  const endedRef = useRef(null);
+
+  useEvent(joinedRef, 'focus', () => console.log(1));
+  useEvent(endedRef, 'focus', () => console.log(1));
+
   return (
     <InputWrapper>
-      {Object.keys(userInfo).map((key) => (
-        <UserInfoInput key={key} id={key} value={userInfo[key]} onChange={setUserInfo} {...UserInfoFormMap[key]} />
-      ))}
+      <UserInfoInput id={'name'} value={userInfo.name} onChange={setUserInfo} {...UserInfoFormMap.name} />
+      <UserInfoInput
+        id={'phoneNumber'}
+        value={userInfo.phoneNumber}
+        onChange={setUserInfo}
+        {...UserInfoFormMap.phoneNumber}
+      />
+      {/* TODO: 셀렉트박스 붙이기*/}
+      <UserInfoInput id={'major'} value={userInfo.major} onChange={setUserInfo} {...UserInfoFormMap.major} />
+      {/* TODO: 셀렉트박스 붙이기*/}
+      <UserInfoInput
+        id={'studentId'}
+        value={userInfo.studentId}
+        onChange={setUserInfo}
+        {...UserInfoFormMap.studentId}
+      />
+      <MontHInfoInputWrapper>
+        {/* TODO: 달력 붙이기*/}
+        <MonthInfoInput
+          ref={joinedRef}
+          id={'joined'}
+          value={userInfo.joined}
+          onChange={setUserInfo}
+          {...UserInfoFormMap.joined}
+        />
+        <Interval>~</Interval>
+        <MonthInfoInput
+          ref={endedRef}
+          id={'ended'}
+          value={userInfo.ended}
+          onChange={setUserInfo}
+          {...UserInfoFormMap.ended}
+        />
+      </MontHInfoInputWrapper>
+      {/* TODO: Select Options 붙이기*/}
       <InputFooter>
         <StepButton type="button" onClick={() => setStep({ nextStep: 1, nextForm: userInfo })}>
           이전
