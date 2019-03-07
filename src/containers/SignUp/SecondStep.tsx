@@ -1,5 +1,7 @@
 import React, { InputHTMLAttributes, useRef } from 'react';
+import { getTagList } from '../../api/tag';
 import { useEvent } from '../../hooks';
+import { useAsync } from '../../hooks/useAsync';
 import useFormState from '../../hooks/useFormState';
 import { ISignupUser } from '../../models/user';
 import { ISignupForm } from '../../pages/SignUp';
@@ -36,9 +38,18 @@ const UserInfoFormMap: { [key in FlatInputUserData]: InputHTMLAttributes<{}> } =
 const SecondStep: React.SFC<ISecondStepProps> = ({ getForm, setStep }) => {
   const { username, password, pwCheck, ...rest } = getForm();
 
+  /**
+   * 회원 인증 함수 / 상태 초기화
+   */
   const validator = (form: SecondFormType) => Object.keys(form).every((field) => form[field].length > 0);
   const [userInfo, setUserInfo, isFormValid] = useFormState<SecondFormType>(rest, validator);
 
+  const [majorState, major] = useAsync({ endpoint: getTagList }, []);
+  const [tagState, tag] = useAsync({ endpoint: getTagList }, []);
+
+  /**
+   *  활동 기간 초기화
+   */
   const joinedRef = useRef(null);
   const endedRef = useRef(null);
 

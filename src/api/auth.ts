@@ -38,10 +38,10 @@ export const signup = async (user: ISignupUser) => {
 interface IPostCheckUserNameSuccess {
   isExist: boolean;
 }
-export const postCheckUserName = async (username: string) => {
+export const postCheckUserName: ApiEndPoint<IPostCheckUserNameSuccess> = async (username: string) => {
   const {
     data: { isExist },
-  } = await authApi.post<IPostCheckUserNameSuccess>('/validation/username', { username });
+  } = await authApi.post('/validation/username', { username });
 
   return { isExist };
 };
