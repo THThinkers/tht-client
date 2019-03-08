@@ -1,8 +1,7 @@
 import React, { InputHTMLAttributes, useRef } from 'react';
+import { getMajorList } from '../../api/major';
 import { getTagList } from '../../api/tag';
-import { useEvent } from '../../hooks';
-import { useAsync } from '../../hooks/useAsync';
-import useFormState from '../../hooks/useFormState';
+import { useAsync, useEvent, useFormState } from '../../hooks';
 import { ISignupUser } from '../../models/user';
 import { ISignupForm } from '../../pages/SignUp';
 import {
@@ -43,10 +42,8 @@ const SecondStep: React.SFC<ISecondStepProps> = ({ getForm, setStep }) => {
    */
   const validator = (form: SecondFormType) => Object.keys(form).every((field) => form[field].length > 0);
   const [userInfo, setUserInfo, isFormValid] = useFormState<SecondFormType>(rest, validator);
-
-  const [majorState, major] = useAsync({ endpoint: getTagList }, []);
+  const [majorState, major] = useAsync({ endpoint: getMajorList }, []);
   const [tagState, tag] = useAsync({ endpoint: getTagList }, []);
-
   /**
    *  활동 기간 초기화
    */
@@ -55,6 +52,10 @@ const SecondStep: React.SFC<ISecondStepProps> = ({ getForm, setStep }) => {
 
   useEvent(joinedRef, 'focus', () => console.log(1));
   useEvent(endedRef, 'focus', () => console.log(1));
+
+  if (majorState !== 'FAILURE' || tagState !== 'FAILURE') {
+    return <div>에러입니다. 새로고침해주세요</div>;
+  }
 
   return (
     <InputWrapper>

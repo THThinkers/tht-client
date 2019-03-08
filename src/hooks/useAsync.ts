@@ -1,17 +1,14 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { State } from '../constants/state';
 
-interface IAsyncEntity {
-  endpoint: ApiEndPoint<any>;
+interface IAsyncEntity<T> {
+  endpoint: ApiEndPoint<T>;
   params?: any[];
 }
 
-export const useAsync = (
-  entity: IAsyncEntity,
-  defaultData: PromiseReturnType<typeof entity.endpoint>,
-): [State, PromiseReturnType<typeof entity.endpoint>] => {
+const useAsync = <T>(entity: IAsyncEntity<T>, defaultState: T): [State, T | undefined] => {
   const [status, setStatus] = useState<State>('INIT');
-  const [data, setData] = useState(defaultData);
+  const [data, setData] = useState<T>(defaultState);
 
   useEffect(() => {
     const { endpoint, params } = entity;
@@ -30,7 +27,4 @@ export const useAsync = (
   return [status, data];
 };
 
-const useAsyncCallback = (api: string | Promise<any>, defaultData: any) => {
-  const [status, setStatus] = useState<State>('INIT');
-  const [data, setData] = useState(defaultData);
-};
+export default useAsync;
