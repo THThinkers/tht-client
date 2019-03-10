@@ -1,3 +1,5 @@
+import { ITag } from './tag';
+
 /** *  @desc 사용자 데이터 */
 export interface IUser {
   _id: string;
@@ -7,9 +9,9 @@ export interface IUser {
   phoneNumber: string; // 전화번호
   major: string; // 전공
   studentId: number; // 학번
-  joined?: Date; // 가입 & 활동 종료 시기
-  ended?: Date;
-  tags: [{}]; //  태그
+  joined: string; // 가입 & 활동 종료 시기
+  ended: string;
+  tags: ITag[]; //  태그
   isActive?: boolean; // 현재 활동중인 회원인지?
   isVerified?: boolean; // 학회장 승인이 떨어진 계정인지?
   isLinked?: boolean; // 계정 외부와 연결되어있는지?

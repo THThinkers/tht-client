@@ -2,7 +2,7 @@ import React, { ChangeEvent, useCallback, useMemo } from 'react';
 import { postCheckUserName } from '../../api/auth';
 import { CheckInput } from '../../components/shared';
 import { useInputState } from '../../hooks';
-import { ISignupForm, UserNameValidation } from '../../pages/SignUp';
+import { SignupForm, UserNameValidation } from '../../pages/SignUp';
 import {
   CheckUsernameButton,
   InputFooter,
@@ -13,10 +13,10 @@ import {
 import * as is from '../../utils/is';
 
 /** FirstStep에서 쓰는 Form Type */
-type FirstFormType = Pick<ISignupForm, 'username' | 'password' | 'pwCheck'>;
+type FirstFormType = Pick<SignupForm, 'username' | 'password' | 'pwCheck'>;
 
 interface IFirstStepProps {
-  getForm: () => ISignupForm;
+  getForm: () => SignupForm;
   setStep: ({ nextStep, nextForm }: { nextStep: number; nextForm: FirstFormType }) => void;
   userNameValidation: UserNameValidation;
   setUsernameValidation: (status: UserNameValidation) => void;

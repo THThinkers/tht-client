@@ -1,6 +1,6 @@
-import { RefObject, useLayoutEffect } from 'react';
+import { ChangeEvent, RefObject, useLayoutEffect } from 'react';
 
-type EventFunction = (e: Event) => void;
+type EventFunction = (e: ChangeEvent<any> | Event) => void;
 
 const useEvent = (target: RefObject<HTMLElement>, eventType: string, eventFn: EventFunction) => {
   useLayoutEffect(() => {

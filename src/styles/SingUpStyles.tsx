@@ -74,21 +74,23 @@ export const UserInfoInput = styled(SignInput)`
   margin-bottom: 19px;
 `;
 
-export const MontHInfoInputWrapper = styled.div`
+export const MonthInfoInputWrapper = styled.div`
   display: flex;
   justify-content: space-between;
+  margin-bottom: 19px;
 `;
 
 export const Interval = styled.div`
   font-size: 24px;
   line-height: 58px;
+  height: 58px;
 `;
 
 // 달 항목 input
 export const MonthInfoInput = styled(UserInfoInput)`
   display: inline-block;
   width: 200px;
-  margin-bottom: 19px;
+  margin-bottom: 0px;
 `;
 
 export const InputFooter = styled.div`

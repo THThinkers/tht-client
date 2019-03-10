@@ -6,6 +6,8 @@ const tagApi = axios.create({
 });
 
 export const getMajorList: ApiEndPoint<MajorList> = async () => {
-  const { data } = await tagApi.get('list');
-  return data;
+  const {
+    data: { majors },
+  } = await tagApi.get('list');
+  return majors;
 };

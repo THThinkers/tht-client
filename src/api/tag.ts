@@ -6,6 +6,8 @@ const tagApi = axios.create({
 });
 
 export const getTagList: ApiEndPoint<TagList> = async () => {
-  const { data } = await tagApi.get('list');
-  return data;
+  const {
+    data: { tags },
+  } = await tagApi.get('list');
+  return tags;
 };

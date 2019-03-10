@@ -1,7 +1,10 @@
 import { ChangeEvent, useCallback, useReducer, useState } from 'react';
 
 type FormValidator<T> = (value: T) => boolean;
-const useFormState = <T>(initialValue: T, formValidator: FormValidator<T>): [T, typeof onChangeFormValue, boolean] => {
+const useFormState = <T>(
+  initialValue: T,
+  formValidator: FormValidator<T>,
+): [T, typeof onChangeFormValue, boolean, React.Dispatch<{}>] => {
   const [formValue, setFormValue] = useReducer((prevState, newState) => ({ ...prevState, ...newState }), initialValue);
 
   const onChangeFormValue = useCallback((e: ChangeEvent<HTMLInputElement>) => {
@@ -11,7 +14,7 @@ const useFormState = <T>(initialValue: T, formValidator: FormValidator<T>): [T, 
 
   const isFormFilled = formValidator(formValue);
 
-  return [formValue, onChangeFormValue, isFormFilled];
+  return [formValue, onChangeFormValue, isFormFilled, setFormValue];
 };
 
 export default useFormState;

@@ -6,7 +6,7 @@ interface IAsyncEntity<T> {
   params?: any[];
 }
 
-const useAsync = <T>(entity: IAsyncEntity<T>, defaultState: T): [State, T | undefined] => {
+const useAsync = <T>(entity: IAsyncEntity<T>, defaultState: T): [State, T] => {
   const [status, setStatus] = useState<State>('INIT');
   const [data, setData] = useState<T>(defaultState);
 

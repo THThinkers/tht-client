@@ -1,43 +1,45 @@
 import React, { ChangeEvent, useReducer, useState } from 'react';
 import { FirstStep, SecondStep } from '../containers/SignUp';
+import { ITag } from '../models/tag';
+import { ISignupUser } from '../models/user';
 import { Header, SignUpStepIndicator, StepIndicatorWrapper, Wrapper } from '../styles/SingUpStyles';
 
 /** 사용자의 서버 중복 여부를 판단하는 타입 */
 export type UserNameValidation = 'NOT_CHECKED' | 'EXIST' | 'NOT_EXIST' | 'ERROR';
 
-export interface ISignupForm {
-  username: string;
-  password: string;
+/** 입력 회원가입 시 필요한 정보 */
+export type SignupForm = {
   pwCheck: string;
-  name: string;
-  phoneNumber: string;
-  major: string;
-  studentId: string;
-  period: string;
-  [key: string]: string;
-}
+  tags: Array<PartialExclude<ITag, 'name'>>;
+  [key: string]: string | number | undefined | Array<PartialExclude<ITag, 'name'>>;
+} & ISignupUser;
 
 const SignUp = () => {
   /** usename 서버에서 중복 확인여부 */
   const [userNameValidation, setUsernameValidation] = useState<UserNameValidation>('NOT_CHECKED');
 
-  const [form, setForm] = useReducer((state, newState) => ({ ...state, ...newState }), {
-    username: '', // 아이디
-    password: '', // 비밀번호
-    pwCheck: '', // 비밀번호 확인
-    name: '', // 사용자 이름
-    phoneNumber: '', // 전화번호
-    studentId: '', // 학번
-    major: '', // 전공
-    period: '', // 기간
-  });
+  const [form, setForm] = useReducer<SignupForm, Partial<SignupForm>>(
+    (state, newState) => ({ ...state, ...newState }),
+    {
+      username: '', // 아이디
+      password: '', // 비밀번호
+      pwCheck: '', // 비밀번호 확인
+      name: '', // 사용자 이름
+      phoneNumber: '', // 전화번호
+      studentId: -1, // 학번
+      major: '', // 전공
+      joined: '', // 기간
+      ended: '',
+      tags: [],
+    },
+  );
 
-  const [step, setStep] = useReducer<number, { nextStep: number; nextForm: Partial<ISignupForm> }>(
+  const [step, setStep] = useReducer<number, { nextStep: number; nextForm: Partial<SignupForm> }>(
     (_, { nextStep, nextForm }) => {
       setForm(nextForm);
       return nextStep;
     },
-    1,
+    2,
   );
 
   const getForm = () => form;
