@@ -1,10 +1,11 @@
 import React, { Suspense } from 'react';
 import { connect } from 'react-redux';
-import { BrowserRouter, Route } from 'react-router-dom';
+import { Route, Router } from 'react-router-dom';
 import styled from 'styled-components';
 import { getProfile } from '../actions/auth';
 import { Footer } from '../components';
 import { Header } from '../containers';
+import history from '../history';
 import { IUser } from '../models/user';
 import { IRootState } from '../reducers';
 
@@ -77,7 +78,7 @@ class App extends React.Component<IAppProps> {
     // }
 
     return (
-      <BrowserRouter>
+      <Router history={history}>
         <AppBody>
           <Header />
           <MainContainer>
@@ -95,7 +96,7 @@ class App extends React.Component<IAppProps> {
           </MainContainer>
           <Footer />
         </AppBody>
-      </BrowserRouter>
+      </Router>
     );
   }
 }

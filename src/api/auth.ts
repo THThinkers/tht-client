@@ -28,7 +28,8 @@ export const getProfile = async () => {
  * @param user 회원가입할 유저 정보
  */
 export const signup = async (user: ISignupUser) => {
-  return authApi.post('/signup', user);
+  const { data } = await authApi.post('/signup', user);
+  return data;
 };
 
 /**

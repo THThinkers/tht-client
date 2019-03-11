@@ -4,5 +4,3 @@ export interface ITag {
   createAt: string;
   [key: string]: string;
 }
-
-export type TagList = ITag[];

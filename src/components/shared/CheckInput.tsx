@@ -29,6 +29,9 @@ interface IInfoText {
   children: string;
 }
 
+/**
+ * conditon에 따라서 children을 랜더.
+ */
 const InfoText = ({ condition, children }: IInfoText) => (
   <InfoContent condition={condition}>
     {!!children.length && (
@@ -71,6 +74,10 @@ const setInfoText = (
   return isValid ? validInfo : inValidInfo;
 };
 
+/**
+ * input에 오른쪽 컴포넌트와 상태에 관련된 메시지를 넣을 수 있는 컴포넌트.
+ * isValid의 참거짓 유무에 따라서 validInfo, inValidInfo를 랜더한다.
+ */
 const CheckInput = ({
   value,
   onChange,

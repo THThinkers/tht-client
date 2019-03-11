@@ -4,5 +4,3 @@ export interface IMajor {
   createAt: string;
   [key: string]: string;
 }
-
-export type MajorList = IMajor[];

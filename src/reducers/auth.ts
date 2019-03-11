@@ -10,23 +10,22 @@ import {
   SIGNUP_FAILURE,
   SIGNUP_SUCCESS,
 } from '../constants/actionTypes';
-import { State } from '../constants/state';
 import { IUser } from '../models/user';
 
 type UserState = 'NOT_LINKED' | State;
 
 export interface IAuthState {
-  profile: {
-    status: UserState;
-    user: Partial<IUser>;
+  readonly profile: {
+    readonly status: UserState;
+    readonly user: Partial<IUser>;
   };
-  signup: {
-    status: State;
-    error: string;
+  readonly signup: {
+    readonly status: State;
+    readonly error: string;
   };
 }
 
-const initialState: Readonly<IAuthState> = {
+const initialState: IAuthState = {
   profile: {
     status: 'INIT',
     user: {
@@ -41,7 +40,7 @@ const initialState: Readonly<IAuthState> = {
   },
 };
 
-const auth = produce((draft: IAuthState = initialState, action: AuthAction): IAuthState => {
+const auth = produce((draft = initialState, action: AuthAction): IAuthState => {
   switch (action.type) {
     case GET_PROFILE: {
       draft.profile.status = 'WAITING';
@@ -58,15 +57,19 @@ const auth = produce((draft: IAuthState = initialState, action: AuthAction): IAu
     }
     case GET_PROFILE_FAILURE: {
       draft.profile.status = 'FAILURE';
+      return draft;
     }
     case SIGNUP: {
       draft.profile.status = 'WAITING';
+      return draft;
     }
     case SIGNUP_SUCCESS: {
       draft.profile.status = 'SUCCESS';
+      return draft;
     }
     case SIGNUP_FAILURE: {
       draft.profile.status = 'FAILURE';
+      return draft;
     }
     case LOGOUT:
       return initialState;

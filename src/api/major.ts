@@ -1,11 +1,11 @@
 import axios from 'axios';
-import { MajorList } from '../models/major';
+import { IMajor } from '../models/major';
 
 const tagApi = axios.create({
   baseURL: '/api/major/',
 });
 
-export const getMajorList: ApiEndPoint<MajorList> = async () => {
+export const getMajorList: ApiEndPoint<IMajor[]> = async () => {
   const {
     data: { majors },
   } = await tagApi.get('list');
