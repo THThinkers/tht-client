@@ -4,7 +4,7 @@ import Select from 'react-select';
 import Creatable from 'react-select/lib/Creatable';
 import { getMajorList } from '../../api/major';
 import { getTagList } from '../../api/tag';
-import { mapValuesToOptions } from '../../helper';
+import { makeOptionValue, mapValuesToOptions } from '../../helper/reactSelectHelper';
 import { useAsync, useEvent, useFormState } from '../../hooks';
 import { ITag } from '../../models/tag';
 import { ISignupUser } from '../../models/user';
@@ -35,18 +35,30 @@ type FlatInputUserData = Exclude<keyof ISignupUser, 'username' | 'password' | 't
 const UserInfoFormMap: { [key in FlatInputUserData]: InputHTMLAttributes<{}> } = {
   name: { placeholder: '이름', type: 'text' },
   phoneNumber: { placeholder: `전화번호. '-' 없이 입력해주세요`, type: 'tel' },
-  major: { placeholder: '전공', type: 'text' },
-  studentId: { placeholder: '학번', type: 'number', min: '2000', max: '2099' },
+  major: { placeholder: '전공' },
+  studentId: { placeholder: '학번' },
   joined: { placeholder: '활동 시작', type: 'month', min: '2018-03' },
   ended: { placeholder: '활동 종료', type: 'month', min: '2018-03' },
 };
 
 /**
  * 학번 정보 생성기
+ * 2000년부터 현재까지 라벨을 생성한다.
  */
 const studentIdOptions = new Array(getYear(Date.now()) - 1999)
   .fill(0)
   .map((_, index) => ({ value: 2000 + index, label: 2000 + index }));
+
+/**
+ * 회원 인증 함수 / 상태 초기화
+ */
+const validator = (form: SecondFormType) =>
+  Object.keys(form).every((field) => {
+    if (form[field] === undefined) {
+      return false;
+    }
+    return form[field]!.toString().length > 0;
+  });
 
 /***************************************
  *
@@ -54,19 +66,9 @@ const studentIdOptions = new Array(getYear(Date.now()) - 1999)
  *
  ***************************************/
 const SecondStep: React.SFC<ISecondStepProps> = ({ getForm, setStep }) => {
-  const { username, password, pwCheck, tags, ...rest } = getForm();
+  const { username, password, pwCheck, tags, ...secondForm } = getForm();
 
-  /**
-   * 회원 인증 함수 / 상태 초기화
-   */
-  const validator = (form: SecondFormType) =>
-    Object.keys(form).every((field) => {
-      if (form[field] === undefined) {
-        return false;
-      }
-      return form[field]!.toString().length > 0;
-    });
-  const [userInfo, onChangeUserInfo, isFormValid, setUserInfo] = useFormState<SecondFormType>(rest, validator);
+  const [userInfo, onChangeUserInfo, isFormValid, setUserInfo] = useFormState<SecondFormType>(secondForm, validator);
 
   /**
    * form 작성에 필요한 데이터를 가져옴
@@ -80,24 +82,33 @@ const SecondStep: React.SFC<ISecondStepProps> = ({ getForm, setStep }) => {
   const majorOptions = useMemo(() => mapValuesToOptions(major, 'name'), [major]);
   const tagOptions = useMemo(() => mapValuesToOptions(tag, 'name'), [tag]);
 
+  /**
+   *  input EventListener
+   */
   const onChangeMajor = useCallback((ops: any) => {
     setUserInfo({ major: ops.value });
   }, []);
+
+  const onChangeStudendId = useCallback((ops: any) => {
+    setUserInfo({ studentId: ops.velue });
+  }, []);
+
   const onChangeTags = useCallback((ops: any) => {
     console.log(ops);
   }, []);
 
   /**
-   *  활동 기간 초기화
+   * 기타 listener와 Refs들
    */
   const joinedRef = useRef(null);
   const endedRef = useRef(null);
   const phoneRef = useRef(null);
 
+  // focus가 가면 달력을 출력해준다.
   useEvent(joinedRef, 'focus', () => console.log(1));
   useEvent(endedRef, 'focus', () => console.log(1));
 
-  // 전화번호에 - 가 포함되어있을 경우
+  // 전화번호에 - 가 포함되어있을 경우 삭제해줌
   useEvent(phoneRef, 'blur', (e) => {
     const { value } = e.currentTarget;
     setUserInfo({ phoneNumber: value.split('-').join('') });
@@ -123,14 +134,14 @@ const SecondStep: React.SFC<ISecondStepProps> = ({ getForm, setStep }) => {
       <Select
         placeholder={UserInfoFormMap.major.placeholder}
         options={majorOptions}
-        value={userInfo.major ? undefined : { value: userInfo.major, label: userInfo.major, index: -1 }}
+        value={makeOptionValue(userInfo.major, userInfo.major === '', -1)}
         onChange={onChangeMajor}
         styles={SelectStyles}
       />
-      {/* TODO: 셀렉트박스 붙이기*/}
       <Select
         placeholder={UserInfoFormMap.studentId.placeholder}
-        value={userInfo.studentId === -1 ? undefined : { value: userInfo.studentId, label: userInfo.studentId }}
+        value={makeOptionValue(userInfo.studentId, userInfo.studentId === -1, -1)}
+        onChange={onChangeStudendId}
         options={studentIdOptions}
         styles={SelectStyles}
       />

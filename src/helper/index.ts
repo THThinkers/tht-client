@@ -1,3 +1,3 @@
-import mapValuesToOptions from './mapValuesToOptions';
+import * as reactSelectHelper from './reactSelectHelper';
 
-export { mapValuesToOptions };
+export { reactSelectHelper };
