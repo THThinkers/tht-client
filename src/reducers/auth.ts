@@ -1,3 +1,4 @@
+import produce from 'immer';
 import { AuthAction } from '../actions/auth';
 import {
   GET_PROFILE,
@@ -40,70 +41,38 @@ const initialState: Readonly<IAuthState> = {
   },
 };
 
-const auth = (state: IAuthState = initialState, action: AuthAction): IAuthState => {
+const auth = produce((draft: IAuthState = initialState, action: AuthAction): IAuthState => {
   switch (action.type) {
-    case GET_PROFILE:
-      return {
-        ...state,
-        profile: {
-          ...state.profile,
-          status: 'WAITING',
-        },
-      };
-    case GET_PROFILE_SUCCESS:
-      return {
-        ...state,
-        profile: {
-          status: 'SUCCESS',
-          user: action.user,
-        },
-      };
-    case GET_PROFILE_NOT_LINKED:
-      return {
-        ...state,
-        profile: {
-          ...state.profile,
-          status: 'NOT_LINKED',
-        },
-      };
-    case GET_PROFILE_FAILURE:
-      return {
-        ...state,
-        profile: {
-          ...state.profile,
-          status: 'FAILURE',
-        },
-      };
-    case SIGNUP:
-      return {
-        ...state,
-        signup: {
-          ...state.signup,
-          status: 'WAITING',
-        },
-      };
-    case SIGNUP_SUCCESS:
-      return {
-        ...state,
-        signup: {
-          ...state.signup,
-          status: 'SUCCESS',
-        },
-      };
-    case SIGNUP_FAILURE:
-      return {
-        ...state,
-        signup: {
-          ...state.signup,
-          error: action.error,
-          status: 'FAILURE',
-        },
-      };
+    case GET_PROFILE: {
+      draft.profile.status = 'WAITING';
+      return draft;
+    }
+    case GET_PROFILE_SUCCESS: {
+      draft.profile.status = 'SUCCESS';
+      draft.profile.user = action.user;
+      return draft;
+    }
+    case GET_PROFILE_NOT_LINKED: {
+      draft.profile.status = 'NOT_LINKED';
+      return draft;
+    }
+    case GET_PROFILE_FAILURE: {
+      draft.profile.status = 'FAILURE';
+    }
+    case SIGNUP: {
+      draft.profile.status = 'WAITING';
+    }
+    case SIGNUP_SUCCESS: {
+      draft.profile.status = 'SUCCESS';
+    }
+    case SIGNUP_FAILURE: {
+      draft.profile.status = 'FAILURE';
+    }
     case LOGOUT:
       return initialState;
     default:
-      return state;
+      return draft;
   }
-};
+}, initialState);
 
 export default auth;

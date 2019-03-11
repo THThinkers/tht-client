@@ -11,6 +11,7 @@ import {
 import { ISignupUser, IUser } from '../models/user';
 
 // 세션에 들어있는 현재 프로필 정보 가져오기.
+
 export interface IGetProfile {
   type: typeof GET_PROFILE;
 }
