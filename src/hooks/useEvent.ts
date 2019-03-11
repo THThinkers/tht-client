@@ -12,7 +12,7 @@ const useEvent = (target: RefObject<HTMLElement>, eventType: string, eventFn: Ev
         target.current.removeEventListener(eventType, eventFn);
       }
     };
-  }, [target]);
+  }, []);
 };
 
 export default useEvent;

@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { SignInput } from '../components/shared';
 import colors from '../constants/colors';
 
@@ -75,6 +75,7 @@ export const UserInfoInput = styled(SignInput)`
 `;
 
 export const MonthInfoInputWrapper = styled.div`
+  position: relative;
   display: flex;
   justify-content: space-between;
   margin-bottom: 19px;
@@ -91,6 +92,26 @@ export const MonthInfoInput = styled(UserInfoInput)`
   display: inline-block;
   width: 200px;
   margin-bottom: 0px;
+  &::-webkit-calendar-picker-indicator {
+    display: none;
+  }
+  &::-webkit-inner-spin-button {
+    display: none;
+  }
+  &::-webkit-search-cancel-button {
+    display: none;
+  }
+  &[type='date']::-webkit-input-placeholder {
+    visibility: hidden !important;
+  }
+`;
+
+export const CalendarWrapper = styled.div<{ calendarState: string }>`
+  z-index: 100;
+  padding: 5px 0px 5px 0px;
+  position: absolute;
+  top: 58px;
+  ${({ calendarState }) => (calendarState === 'JOINED' ? 'left: 0;' : 'right: 0;')};
 `;
 
 export const InputFooter = styled.div`

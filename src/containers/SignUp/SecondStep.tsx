@@ -1,16 +1,19 @@
-import { getYear } from 'date-fns';
-import React, { InputHTMLAttributes, useCallback, useMemo, useRef } from 'react';
+import { format, getTime, getYear } from 'date-fns';
+import React, { InputHTMLAttributes, useCallback, useMemo, useRef, useState } from 'react';
+import Calendar from 'react-calendar';
 import Select from 'react-select';
 import Creatable from 'react-select/lib/Creatable';
 import { getMajorList } from '../../api/major';
 import { getTagList } from '../../api/tag';
 import { makeOptionValue, mapValuesToOptions } from '../../helper/reactSelectHelper';
 import { useAsync, useEvent, useFormState } from '../../hooks';
+import useWindowEvent from '../../hooks/useWIndowEvent';
 import { ITag } from '../../models/tag';
 import { ISignupUser } from '../../models/user';
 import { SignupForm } from '../../pages/SignUp';
 import SelectStyles from '../../styles/SelectStyles';
 import {
+  CalendarWrapper,
   InputFooter,
   InputWrapper,
   Interval,
@@ -23,6 +26,8 @@ import {
 type SecondFormType = Pick<SignupForm, 'name' | 'phoneNumber' | 'major' | 'studentId' | 'joined' | 'ended'> & {
   [key: string]: string | number | undefined | Array<PartialExclude<ITag, 'name'>>;
 };
+
+type CalendarStatus = 'NONE' | 'JOINED' | 'ENDED';
 
 interface ISecondStepProps {
   getForm: () => SignupForm;
@@ -37,8 +42,8 @@ const UserInfoFormMap: { [key in FlatInputUserData]: InputHTMLAttributes<{}> } =
   phoneNumber: { placeholder: `전화번호. '-' 없이 입력해주세요`, type: 'tel' },
   major: { placeholder: '전공' },
   studentId: { placeholder: '학번' },
-  joined: { placeholder: '활동 시작', type: 'month', min: '2018-03' },
-  ended: { placeholder: '활동 종료', type: 'month', min: '2018-03' },
+  joined: { placeholder: '활동 시작', type: 'month' },
+  ended: { placeholder: '활동 종료', type: 'month' },
 };
 
 /**
@@ -97,22 +102,54 @@ const SecondStep: React.SFC<ISecondStepProps> = ({ getForm, setStep }) => {
     console.log(ops);
   }, []);
 
-  /**
-   * 기타 listener와 Refs들
-   */
-  const joinedRef = useRef(null);
-  const endedRef = useRef(null);
-  const phoneRef = useRef(null);
-
-  // focus가 가면 달력을 출력해준다.
-  useEvent(joinedRef, 'focus', () => console.log(1));
-  useEvent(endedRef, 'focus', () => console.log(1));
-
   // 전화번호에 - 가 포함되어있을 경우 삭제해줌
+  const phoneRef = useRef(null);
   useEvent(phoneRef, 'blur', (e) => {
     const { value } = e.currentTarget;
     setUserInfo({ phoneNumber: value.split('-').join('') });
   });
+
+  /**
+   * 날짜 관련 로직들
+   * calendarState - 달력 출력여부
+   * JOINED / ENDED : 출력
+   * NONE : 미출력
+   */
+  const [calendarState, setCalendar] = useState<CalendarStatus>('NONE');
+
+  const joinedRef = useRef(null);
+  const endedRef = useRef(null);
+  const calendarWrapperRef = useRef<HTMLDivElement>(null);
+
+  // focus가 가면 달력을 출력해준다.
+  useEvent(joinedRef, 'focus', () => {
+    setCalendar('JOINED');
+  });
+  useEvent(endedRef, 'focus', () => {
+    setCalendar('ENDED');
+  });
+
+  // 달력 이외의 것을 누르면 달력 삭제
+  useWindowEvent('click', (e) => {
+    if (e.target === joinedRef.current || e.target === endedRef.current) {
+      return;
+    }
+    if (calendarWrapperRef.current && !calendarWrapperRef.current.contains(e.target as Node)) {
+      setCalendar('NONE');
+    }
+  });
+
+  const onChangeCalendar = useCallback(
+    (date: Date | Date[]) => {
+      if (Array.isArray(date)) {
+        return;
+      }
+      const month = format(date, 'YYYY-MM');
+      const updateTarget = calendarState === 'JOINED' ? 'joined' : 'ended';
+      setUserInfo({ [updateTarget]: month });
+    },
+    [calendarState],
+  );
 
   /**
    * api 에러일경우 에러 메시지 출력
@@ -120,6 +157,8 @@ const SecondStep: React.SFC<ISecondStepProps> = ({ getForm, setStep }) => {
   if (majorState === 'FAILURE' || tagState === 'FAILURE') {
     return <div>에러입니다. 새로고침해주세요</div>;
   }
+
+  console.log(getTime(userInfo.joined || Date.now()));
 
   return (
     <InputWrapper>
@@ -146,7 +185,6 @@ const SecondStep: React.SFC<ISecondStepProps> = ({ getForm, setStep }) => {
         styles={SelectStyles}
       />
       <MonthInfoInputWrapper>
-        {/* TODO: 달력 붙이기*/}
         <MonthInfoInput
           ref={joinedRef}
           id={'joined'}
@@ -162,13 +200,24 @@ const SecondStep: React.SFC<ISecondStepProps> = ({ getForm, setStep }) => {
           onChange={onChangeUserInfo}
           {...UserInfoFormMap.ended}
         />
+        {calendarState !== 'NONE' && (
+          <CalendarWrapper ref={calendarWrapperRef as any} calendarState={calendarState}>
+            <Calendar
+              minDate={calendarState === 'ENDED' ? new Date(getTime(userInfo.joined)) : undefined}
+              maxDate={calendarState === 'JOINED' ? new Date(getTime(userInfo.ended || Date.now())) : new Date()}
+              view="year"
+              maxDetail="year"
+              onChange={onChangeCalendar}
+            />
+          </CalendarWrapper>
+        )}
       </MonthInfoInputWrapper>
       <Creatable options={tagOptions} styles={SelectStyles} isMulti onChange={onChangeTags} />
       <InputFooter>
         <StepButton type="button" onClick={() => setStep({ nextStep: 1, nextForm: userInfo })}>
           이전
         </StepButton>
-        <StepButton type="submit" disabled={!isFormValid}>
+        <StepButton type="submit" onClick={() => setStep({ nextStep: 3, nextForm: userInfo })} disabled={!isFormValid}>
           완료
         </StepButton>
       </InputFooter>

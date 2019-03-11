@@ -4,7 +4,7 @@ const path = require('path');
 
 const devMode = process.env.NODE_ENV !== 'production';
 
-module.exports = (option) => ({
+module.exports = option => ({
   target: 'web',
   mode: option.mode,
   resolve: {
@@ -103,7 +103,7 @@ module.exports = (option) => ({
       },
       // 일단 sass 는 뺐음.
       {
-        test: /\.css$/, 
+        test: /\.css$/,
         use: [
           devMode ? 'style-loader' : MiniCssExtractPlugin.loader,
           {
@@ -115,16 +115,21 @@ module.exports = (option) => ({
               modules: true,
               localIdentName: '[name]__[local]__[hash:base64:5]',
             },
-          }, {
+          },
+          {
             loader: 'postcss-loader',
             options: {
-              plugins: () => [
-                require('autoprefixer'),
-              ],
+              plugins: () => [require('autoprefixer')],
               sourceMap: true,
             },
-          }
+          },
         ],
+        exclude: [/node_modules\/react-calendar/],
+      },
+      {
+        test: /\.css$/,
+        use: ['style-loader', 'css-loader'],
+        include: [/node_modules\/react-calendar/],
       },
     ],
   },
