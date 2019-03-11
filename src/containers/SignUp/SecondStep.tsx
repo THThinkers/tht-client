@@ -90,7 +90,7 @@ const SecondStep: React.SFC<ISecondStepProps> = ({ getForm, setStep }) => {
   }, []);
 
   const onChangeStudendId = useCallback((ops: any) => {
-    setUserInfo({ studentId: ops.velue });
+    setUserInfo({ studentId: ops.value });
   }, []);
 
   const onChangeTags = useCallback((ops: any) => {
