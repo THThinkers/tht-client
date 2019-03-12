@@ -3,9 +3,11 @@ import React, { InputHTMLAttributes, useCallback, useMemo, useRef, useState } fr
 import Calendar from 'react-calendar';
 import Select from 'react-select';
 import Creatable from 'react-select/lib/Creatable';
+import { ValueType } from 'react-select/lib/types';
+import { is } from 'redux-saga/utils';
 import { getMajorList } from '../../api/major';
 import { getTagList } from '../../api/tag';
-import { makeOptionValue, mapValuesToOptions } from '../../helper/reactSelectHelper';
+import { ISelectOption, makeOptionValue, mapValuesToOptions } from '../../helper/reactSelectHelper';
 import { useAsync, useEvent, useFormState } from '../../hooks';
 import useWindowEvent from '../../hooks/useWIndowEvent';
 import { ITag } from '../../models/tag';
@@ -21,9 +23,9 @@ import {
   MonthInfoInputWrapper,
   StepButton,
   UserInfoInput,
-} from '../../styles/SingUpStyles';
+} from '../../styles/SignUpStyles';
 
-type SecondFormType = Pick<SignupForm, 'name' | 'phoneNumber' | 'major' | 'studentId' | 'joined' | 'ended'> & {
+type SecondFormType = Pick<SignupForm, 'name' | 'phoneNumber' | 'major' | 'studentId' | 'joined' | 'ended' | 'tags'> & {
   [key: string]: string | number | undefined | Array<PartialExclude<ITag, 'name'>>;
 };
 
@@ -71,7 +73,9 @@ const validator = (form: SecondFormType) =>
  *
  ***************************************/
 const SecondStep: React.SFC<ISecondStepProps> = ({ getForm, setStep }) => {
-  const { username, password, pwCheck, tags, ...secondForm } = getForm();
+  const { username, password, pwCheck, ...rest } = getForm();
+
+  const secondForm = useMemo(() => rest, []);
 
   const [userInfo, onChangeUserInfo, isFormValid, setUserInfo] = useFormState<SecondFormType>(secondForm, validator);
 
@@ -90,7 +94,10 @@ const SecondStep: React.SFC<ISecondStepProps> = ({ getForm, setStep }) => {
   /**
    *  input EventListener
    */
-  const onChangeMajor = useCallback((ops: any) => {
+  const onChangeMajor = useCallback((ops: ValueType<ISelectOption>) => {
+    if (!ops || Array.isArray(ops)) {
+      return;
+    }
     setUserInfo({ major: ops.value });
   }, []);
 
@@ -98,12 +105,22 @@ const SecondStep: React.SFC<ISecondStepProps> = ({ getForm, setStep }) => {
     setUserInfo({ studentId: ops.value });
   }, []);
 
-  const onChangeTags = useCallback((ops: any) => {
-    console.log(ops);
-  }, []);
+  const onChangeTags = useCallback(
+    (ops: ValueType<ISelectOption>) => {
+      if (!ops || !Array.isArray(ops)) {
+        return;
+      }
+      const optionValue: Array<PartialExclude<ITag, 'name'>> = ops.map((op) => {
+        return op.index ? tag[op.index] : { name: op.value };
+      });
+      setUserInfo({ tags: optionValue });
+    },
+    [tag],
+  );
 
   // 전화번호에 - 가 포함되어있을 경우 삭제해줌
   const phoneRef = useRef(null);
+
   useEvent(phoneRef, 'blur', (e) => {
     const { value } = e.currentTarget;
     setUserInfo({ phoneNumber: value.split('-').join('') });
@@ -158,8 +175,6 @@ const SecondStep: React.SFC<ISecondStepProps> = ({ getForm, setStep }) => {
     return <div>에러입니다. 새로고침해주세요</div>;
   }
 
-  console.log(getTime(userInfo.joined || Date.now()));
-
   return (
     <InputWrapper>
       <UserInfoInput id={'name'} value={userInfo.name} onChange={onChangeUserInfo} {...UserInfoFormMap.name} />
@@ -173,13 +188,13 @@ const SecondStep: React.SFC<ISecondStepProps> = ({ getForm, setStep }) => {
       <Select
         placeholder={UserInfoFormMap.major.placeholder}
         options={majorOptions}
-        value={makeOptionValue(userInfo.major, userInfo.major === '', -1)}
+        value={makeOptionValue(userInfo.major, userInfo.major === '')}
         onChange={onChangeMajor}
         styles={SelectStyles}
       />
       <Select
         placeholder={UserInfoFormMap.studentId.placeholder}
-        value={makeOptionValue(userInfo.studentId, userInfo.studentId === -1, -1)}
+        value={makeOptionValue(userInfo.studentId, userInfo.studentId === -1)}
         onChange={onChangeStudendId}
         options={studentIdOptions}
         styles={SelectStyles}

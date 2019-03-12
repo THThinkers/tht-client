@@ -2,7 +2,7 @@ import React, { ChangeEvent, useReducer, useState } from 'react';
 import { FirstStep, SecondStep } from '../containers/SignUp';
 import { ITag } from '../models/tag';
 import { ISignupUser } from '../models/user';
-import { Header, SignUpStepIndicator, StepIndicatorWrapper, Wrapper } from '../styles/SingUpStyles';
+import { Header, SignUpStepIndicator, StepIndicatorWrapper, Wrapper } from '../styles/SignUpStyles';
 
 /** 사용자의 서버 중복 여부를 판단하는 타입 */
 export type UserNameValidation = 'NOT_CHECKED' | 'EXIST' | 'NOT_EXIST' | 'ERROR';
@@ -37,6 +37,7 @@ const SignUp = () => {
   const [step, setStep] = useReducer<number, { nextStep: number; nextForm: Partial<SignupForm> }>(
     (_, { nextStep, nextForm }) => {
       setForm(nextForm);
+      // 회워ㅕㄴ가입 요청
       return nextStep;
     },
     2,

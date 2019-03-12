@@ -1,6 +1,7 @@
 import { ChangeEvent, useCallback, useReducer, useState } from 'react';
 
 type FormValidator<T> = (value: T) => boolean;
+
 const useFormState = <T>(
   initialValue: T,
   formValidator: FormValidator<T>,
