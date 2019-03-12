@@ -19,10 +19,12 @@ import {
   InputFooter,
   InputWrapper,
   Interval,
+  LabelWrapper,
   MonthInfoInput,
   MonthInfoInputWrapper,
   StepButton,
   UserInfoInput,
+  UserInfoLabel,
 } from '../../styles/SignUpStyles';
 
 type SecondFormType = Pick<SignupForm, 'name' | 'phoneNumber' | 'major' | 'studentId' | 'joined' | 'ended' | 'tags'> & {
@@ -177,44 +179,60 @@ const SecondStep: React.SFC<ISecondStepProps> = ({ getForm, setStep }) => {
 
   return (
     <InputWrapper>
-      <UserInfoInput id={'name'} value={userInfo.name} onChange={onChangeUserInfo} {...UserInfoFormMap.name} />
-      <UserInfoInput
-        ref={phoneRef}
-        id={'phoneNumber'}
-        value={userInfo.phoneNumber}
-        onChange={onChangeUserInfo}
-        {...UserInfoFormMap.phoneNumber}
-      />
-      <Select
-        placeholder={UserInfoFormMap.major.placeholder}
-        options={majorOptions}
-        value={makeOptionValue(userInfo.major, userInfo.major === '')}
-        onChange={onChangeMajor}
-        styles={SelectStyles}
-      />
-      <Select
-        placeholder={UserInfoFormMap.studentId.placeholder}
-        value={makeOptionValue(userInfo.studentId, userInfo.studentId === -1)}
-        onChange={onChangeStudendId}
-        options={studentIdOptions}
-        styles={SelectStyles}
-      />
+      <LabelWrapper name={'이름'}>
+        <UserInfoInput id={'name'} value={userInfo.name} onChange={onChangeUserInfo} {...UserInfoFormMap.name} />
+      </LabelWrapper>
+      <LabelWrapper name={'전화번호'}>
+        <UserInfoInput
+          ref={phoneRef}
+          id={'phoneNumber'}
+          value={userInfo.phoneNumber}
+          onChange={onChangeUserInfo}
+          {...UserInfoFormMap.phoneNumber}
+        />
+      </LabelWrapper>
+      <LabelWrapper name="전공">
+        <Select
+          placeholder={UserInfoFormMap.major.placeholder}
+          options={majorOptions}
+          value={makeOptionValue(userInfo.major, userInfo.major === '')}
+          onChange={onChangeMajor}
+          styles={SelectStyles}
+        />
+      </LabelWrapper>
+      <LabelWrapper name="학번">
+        <Select
+          placeholder={UserInfoFormMap.studentId.placeholder}
+          value={makeOptionValue(userInfo.studentId, userInfo.studentId === -1)}
+          onChange={onChangeStudendId}
+          options={studentIdOptions}
+          styles={SelectStyles}
+        />
+      </LabelWrapper>
       <MonthInfoInputWrapper>
-        <MonthInfoInput
-          ref={joinedRef}
-          id={'joined'}
-          value={userInfo.joined}
-          onChange={onChangeUserInfo}
-          {...UserInfoFormMap.joined}
-        />
+        <div>
+          <LabelWrapper name="활동 시작">
+            <MonthInfoInput
+              ref={joinedRef}
+              id={'joined'}
+              value={userInfo.joined}
+              onChange={onChangeUserInfo}
+              {...UserInfoFormMap.joined}
+            />
+          </LabelWrapper>
+        </div>
         <Interval>~</Interval>
-        <MonthInfoInput
-          ref={endedRef}
-          id={'ended'}
-          value={userInfo.ended}
-          onChange={onChangeUserInfo}
-          {...UserInfoFormMap.ended}
-        />
+        <div>
+          <LabelWrapper name="활동 종료(선택)">
+            <MonthInfoInput
+              ref={endedRef}
+              id={'ended'}
+              value={userInfo.ended}
+              onChange={onChangeUserInfo}
+              {...UserInfoFormMap.ended}
+            />
+          </LabelWrapper>
+        </div>
         {calendarState !== 'NONE' && (
           <CalendarWrapper ref={calendarWrapperRef as any} calendarState={calendarState}>
             <Calendar
@@ -227,7 +245,9 @@ const SecondStep: React.SFC<ISecondStepProps> = ({ getForm, setStep }) => {
           </CalendarWrapper>
         )}
       </MonthInfoInputWrapper>
-      <Creatable options={tagOptions} styles={SelectStyles} isMulti onChange={onChangeTags} />
+      <LabelWrapper name="태그">
+        <Creatable options={tagOptions} styles={SelectStyles} isMulti onChange={onChangeTags} />
+      </LabelWrapper>
       <InputFooter>
         <StepButton type="button" onClick={() => setStep({ nextStep: 1, nextForm: userInfo })}>
           이전

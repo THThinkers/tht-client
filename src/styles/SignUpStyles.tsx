@@ -1,4 +1,5 @@
-import styled, { css } from 'styled-components';
+import React, { ReactChild, ReactChildren } from 'react';
+import styled from 'styled-components';
 import { SignInput } from '../components/shared';
 import colors from '../constants/colors';
 
@@ -71,8 +72,39 @@ export const PasswordHelpText = styled.div`
 
 // 일반 항목 input
 export const UserInfoInput = styled(SignInput)`
+  display: block;
   margin-bottom: 19px;
 `;
+
+// 일반 항목 label
+export const UserInfoLabel = styled.label`
+  display: block;
+  position: relative;
+  padding: 0px;
+  z-index: 1;
+  & > span {
+    position: absolute;
+    margin-top: -10px;
+    left: 6px;
+    height: 24px;
+    padding: 0px 8px 0px 8px;
+    background-color: white;
+    font-size: 18px;
+    &::before {
+      content: '* ';
+      color: ${colors.prime};
+    }
+  }
+`;
+
+export const LabelWrapper = ({ name, children }: { name: string; children: ReactChild }) => (
+  <>
+    <UserInfoLabel>
+      <span>{name}</span>
+    </UserInfoLabel>
+    {children}
+  </>
+);
 
 export const MonthInfoInputWrapper = styled.div`
   position: relative;
