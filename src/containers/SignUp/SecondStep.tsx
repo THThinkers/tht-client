@@ -9,7 +9,7 @@ import { getMajorList } from '../../api/major';
 import { getTagList } from '../../api/tag';
 import { ISelectOption, makeOptionValue, mapValuesToOptions } from '../../helper/reactSelectHelper';
 import { useAsync, useEvent, useFormState } from '../../hooks';
-import useWindowEvent from '../../hooks/useWIndowEvent';
+import useWindowEvent from '../../hooks/useWindowEvent';
 import { ITag } from '../../models/tag';
 import { ISignupUser } from '../../models/user';
 import { SignupForm } from '../../pages/SignUp';

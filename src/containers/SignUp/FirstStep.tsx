@@ -9,7 +9,7 @@ import {
   InputWrapper,
   PasswordHelpText,
   StepButton,
-} from '../../styles/SingUpStyles';
+} from '../../styles/SignUpStyles';
 import * as is from '../../utils/is';
 
 /** FirstStep에서 쓰는 Form Type */
