@@ -1,5 +1,5 @@
 import { all, call, fork, put, take, takeLatest } from 'redux-saga/effects';
-import { IGetProfile, ISignin, ISigninSuccess, ISignup, ISignupFailure } from '../actions/auth';
+import { IGetProfile, ISignin, ISigninFailure, ISigninSuccess, ISignup, ISignupFailure } from '../actions/auth';
 import * as authApi from '../api/auth';
 import {
   GET_PROFILE,
@@ -37,9 +37,9 @@ function* signin(action: ISignin) {
       throw new Error('로그인에 실패하였습니다.');
     }
   } catch (err) {
-    yield put<ISignupFailure>({
-      error: err.response ? err.response.error : '',
-      type: SIGNUP_FAILURE,
+    yield put<ISigninFailure>({
+      error: '로그인에 실패하였습니다. 다시 시도해주세요.',
+      type: SIGNIN_FAILURE,
     });
   }
 }

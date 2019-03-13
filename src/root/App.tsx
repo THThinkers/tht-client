@@ -42,13 +42,6 @@ class App extends React.Component<IAppProps> {
 
   render() {
     const { user, status } = this.props;
-    /* Test */
-    return (
-      <Suspense fallback={<div>loading</div>}>
-        <SignIn />
-      </Suspense>
-
-    )
     if (status === 'WAITING') {
       return null;
     }

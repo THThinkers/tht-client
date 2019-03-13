@@ -76,6 +76,8 @@ const auth = produce((draft = initialState, action: AuthAction): IAuthState => {
     }
     case SIGNIN_SUCCESS: {
       draft.signin.status = 'SUCCESS';
+      draft.profile.status = 'SUCCESS';
+      draft.profile.user = action.user;
       return draft;
     }
     case SIGNIN_FAILURE: {

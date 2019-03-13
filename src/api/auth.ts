@@ -15,7 +15,7 @@ interface IPostSigninSuccess {
   user: IUser;
 }
 export const signin: ApiEndPoint<IPostSigninSuccess> = async (user: ISigninUser) => {
-  const { data } = await authApi.post('/login', user);
+  const { data } = await authApi.post('login', user);
   return data;
 };
 /**

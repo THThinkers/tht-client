@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { Store } from 'redux';
-import { GlobalStyle } from './components';
+import { GlobalStyle, ModalProvider } from './components';
 import App from './root';
 import configureStore from './store/configureStore';
 
@@ -12,7 +12,9 @@ ReactDOM.render(
   <Provider store={store}>
     <>
       <GlobalStyle />
-      <App />
+      <ModalProvider>
+        <App />
+      </ModalProvider>
     </>
   </Provider>,
   document.getElementById('root'),

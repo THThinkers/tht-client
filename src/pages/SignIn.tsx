@@ -1,10 +1,15 @@
-import React, { useMemo, useReducer, useRef } from 'react';
+import React, { useEffect, useReducer, useRef } from 'react';
+import { connect } from 'react-redux';
 import styled, { css } from 'styled-components';
+import { signin } from '../actions/auth';
 import { GoogleIcon, KakaoIcon } from '../assets/images';
 import { SignInput } from '../components/shared';
 import colors from '../constants/colors';
+import { useModal, usePrevious } from '../hooks';
+import { ISigninUser } from '../models/user';
+import { IRootState } from '../reducers';
 
-const Wrapper = styled.form`
+const Wrapper = styled.div`
   margin: 0 auto;
   width: 482px;
 `;
@@ -22,6 +27,14 @@ const SignInInput = styled(SignInput)`
   margin-top: 15px;
 `;
 
+const ModalContents = styled.div`
+  font-size: 24px;
+  color: ${colors.negative};
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
 const LoginCheckBoxWrapper = styled.div`
   margin-top: 13px;
   font-size: 18px;
@@ -39,7 +52,7 @@ const CheckboxLabel = styled.label`
 `;
 
 const ErrorMessage = styled.div`
-  color: red;
+  color: ${colors.negative};
   margin-top: 10px;
 `;
 const Button = styled.button`
@@ -52,6 +65,7 @@ const Button = styled.button`
 `;
 
 const SignInButton = styled(Button)`
+  opacity: ${(props) => (props.disabled ? 0.3 : 1)};
   background-color: ${colors.prime};
   margin-top: 36px;
   padding: 15px 0px 16px 0px;
@@ -82,15 +96,19 @@ const UserActionButton = styled.button<{ hasLine?: boolean }>`
 const SocialLoginButoon = styled(Button)`
   padding: 11px 0px;
   font-size: 20px;
+  a {
+    text-decoration: none;
+    color: #ffffff;
+  }
 `;
 
-const GoogleLoginButoon = styled(SocialLoginButoon)`
+const GoogleLoginButton = styled(SocialLoginButoon)`
   margin-top: 40px;
   background-color: #da4835;
   color: #ffffff;
 `;
 
-const KakaoLoginButoon = styled(SocialLoginButoon)`
+const KakaoLoginButton = styled(SocialLoginButoon)`
   margin-top: 14px;
   background-color: #ffde00;
   color: #3c1e1e;
@@ -113,17 +131,18 @@ const KakaoLogo = styled.img`
 `;
 
 type Field = 'username' | 'password';
-const mapKor = {
-  username: '아이디',
-  password: '패스워드',
-};
 const initialErrorState = {
   username: '',
   password: '',
   submit: '',
 };
 type IInputRef = Record<Field, React.RefObject<HTMLInputElement>>;
-const SignIn = () => {
+interface ISigninProps {
+  signinAction: typeof signin;
+  signinStatus: State;
+  signinError: string;
+}
+const SignIn: React.SFC<ISigninProps> = ({ signinAction, signinStatus, signinError }) => {
   const [error, setError] = useReducer((prevState, newState) => ({ ...prevState, ...newState }), initialErrorState);
   const usernameInput = useRef(null);
   const passwordInput = useRef(null);
@@ -131,6 +150,9 @@ const SignIn = () => {
     username: usernameInput,
     password: passwordInput,
   };
+  const [openModal, closeModal] = useModal();
+  const clearError = () => setError(initialErrorState);
+  const clearValue = (ref: React.RefObject<HTMLInputElement>) => ref && ref.current && (ref.current.value = '');
   const checkEmpty = (field: Field, ref: React.RefObject<HTMLInputElement>) => {
     if (!ref || !ref.current) {
       return false;
@@ -139,7 +161,7 @@ const SignIn = () => {
       ref.current.focus();
       setError({
         ...initialErrorState,
-        [field]: `${mapKor[field]}를 입력해주세요.`,
+        [field]: `${ref.current.name}를 입력해주세요.`,
       });
       return false;
     }
@@ -147,37 +169,79 @@ const SignIn = () => {
   };
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    const signinUser: ISigninUser = {
+      username: '',
+      password: '',
+    };
     const passed = Object.keys(inputRefs).every((key) => {
       const field = key as Field;
+      const inputRef = inputRefs[field].current;
+      signinUser[field] = inputRef ? inputRef.value : '';
       return checkEmpty(field, inputRefs[field]);
     });
     if (passed) {
-      // start request
+      clearError();
+      signinAction(signinUser);
     }
   };
+  const previousStatus = usePrevious(signinStatus);
+  useEffect(() => {
+    if (previousStatus !== signinStatus && signinStatus === 'FAILURE') {
+      openModal({
+        title: '로그인 실패',
+        contents: (
+          <ModalContents>
+            <p>
+              존재하지 않는 아이디 또는 비밀번호입니다. <br />
+              다시 로그인해주세요.
+            </p>
+          </ModalContents>
+        ),
+      });
+      clearValue(inputRefs.password);
+    }
+    return () => closeModal();
+  }, [signinStatus]);
   return (
-    <Wrapper onSubmit={handleSubmit}>
-      <SignInHeader>LOGIN</SignInHeader>
-      <SignInInput ref={usernameInput} placeholder="ID" />
-      <ErrorMessage>{error.username}</ErrorMessage>
-      <SignInInput ref={passwordInput} placeholder="PASSWORD" />
-      <ErrorMessage>{error.password}</ErrorMessage>
-      <SignInButton>LOGIN</SignInButton>
-      <UserActionSection>
-        <UserActionButton hasLine>회원가입</UserActionButton>
-        <UserActionButton hasLine>아이디 찾기</UserActionButton>
-        <UserActionButton>비밀번호 찾기</UserActionButton>
-      </UserActionSection>
-      <GoogleLoginButoon>
-        <Googlelogo src={GoogleIcon} />
-        Google 계정으로 로그인
-      </GoogleLoginButoon>
-      <KakaoLoginButoon>
-        <KakaoLogo src={KakaoIcon} />
-        카카오 계정으로 로그인
-      </KakaoLoginButoon>
-    </Wrapper>
+    <>
+      <Wrapper>
+        <form onSubmit={handleSubmit}>
+          <SignInHeader>LOGIN</SignInHeader>
+          <SignInInput ref={usernameInput} placeholder="ID" name="아이디" />
+          <ErrorMessage>{error.username}</ErrorMessage>
+          <SignInInput ref={passwordInput} placeholder="PASSWORD" type="password" name="패스워드" />
+          <ErrorMessage>{error.password}</ErrorMessage>
+          <SignInButton disabled={signinStatus === 'WAITING'}>LOGIN</SignInButton>
+        </form>
+        <UserActionSection>
+          <UserActionButton hasLine>회원가입</UserActionButton>
+          <UserActionButton hasLine>아이디 찾기</UserActionButton>
+          <UserActionButton>비밀번호 찾기</UserActionButton>
+        </UserActionSection>
+        <GoogleLoginButton>
+          <a href="/api/auth/oauth/google">
+            <Googlelogo src={GoogleIcon} />
+            Google 계정으로 로그인
+          </a>
+        </GoogleLoginButton>
+        <KakaoLoginButton>
+          <a href="/api/auth/oauth/kakao">
+            <KakaoLogo src={KakaoIcon} />
+            카카오 계정으로 로그인
+          </a>
+        </KakaoLoginButton>
+      </Wrapper>
+    </>
   );
 };
 
-export default SignIn;
+const mapStateToProps = (state: IRootState) => ({
+  signinStatus: state.auth.signin.status,
+  signinError: state.auth.signin.error,
+});
+export default connect(
+  mapStateToProps,
+  {
+    signinAction: signin,
+  },
+)(SignIn);
