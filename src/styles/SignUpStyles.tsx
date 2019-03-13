@@ -1,5 +1,6 @@
 import React, { ReactChild, ReactChildren } from 'react';
 import styled from 'styled-components';
+import { Z_BINARY } from 'zlib';
 import { SignInput } from '../components/shared';
 import colors from '../constants/colors';
 
@@ -41,7 +42,7 @@ export const SignUpStepIndicator = styled.div<{ isCurrentStep?: boolean }>`
 // 로그인 인풋 래퍼
 export const InputWrapper = styled.div`
   & > div {
-    margin-bottom: 16px;
+    margin-bottom: 19px;
   }
 `;
 
@@ -73,15 +74,14 @@ export const PasswordHelpText = styled.div`
 // 일반 항목 input
 export const UserInfoInput = styled(SignInput)`
   display: block;
-  margin-bottom: 19px;
 `;
 
 // 일반 항목 label
-export const UserInfoLabel = styled.label`
+export const UserInfoLabel = styled.label<{ zIndex: number }>`
   display: block;
   position: relative;
   padding: 0px;
-  z-index: 1;
+  z-index: ${({ zIndex }) => zIndex + 1};
   & > span {
     position: absolute;
     margin-top: -10px;
@@ -97,13 +97,26 @@ export const UserInfoLabel = styled.label`
   }
 `;
 
-export const LabelWrapper = ({ name, children }: { name: string; children: ReactChild }) => (
-  <>
-    <UserInfoLabel>
+const LabelWrapperDiv = styled.div<{ zIndex: number }>`
+  position: relative;
+  z-index: ${({ zIndex }) => zIndex};
+`;
+
+export const LabelWrapper = ({
+  name,
+  children,
+  zIndex = 0,
+}: {
+  name: string;
+  children: ReactChild;
+  zIndex?: number;
+}) => (
+  <LabelWrapperDiv zIndex={zIndex}>
+    <UserInfoLabel zIndex={zIndex}>
       <span>{name}</span>
     </UserInfoLabel>
     {children}
-  </>
+  </LabelWrapperDiv>
 );
 
 export const MonthInfoInputWrapper = styled.div`

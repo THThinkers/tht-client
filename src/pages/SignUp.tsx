@@ -1,5 +1,6 @@
-import React, { ChangeEvent, useReducer, useState } from 'react';
+import React, { ChangeEvent, useCallback, useReducer, useState } from 'react';
 import { FirstStep, SecondStep } from '../containers/SignUp';
+import { useAsyncCallback } from '../hooks';
 import { ITag } from '../models/tag';
 import { ISignupUser } from '../models/user';
 import { Header, SignUpStepIndicator, StepIndicatorWrapper, Wrapper } from '../styles/SignUpStyles';
@@ -15,9 +16,7 @@ export type SignupForm = {
 } & ISignupUser;
 
 const SignUp = () => {
-  /** usename 서버에서 중복 확인여부 */
-  const [userNameValidation, setUsernameValidation] = useState<UserNameValidation>('NOT_CHECKED');
-
+  const [step, setStep] = useState<number>(1);
   const [form, setForm] = useReducer<SignupForm, Partial<SignupForm>>(
     (state, newState) => ({ ...state, ...newState }),
     {
@@ -33,21 +32,25 @@ const SignUp = () => {
       tags: [],
     },
   );
+  /** usename 서버에서 중복 확인여부 */
+  const [userNameValidation, setUsernameValidation] = useState<UserNameValidation>('NOT_CHECKED');
 
-  const [step, setStep] = useReducer<number, { nextStep: number; nextForm: Partial<SignupForm> }>(
-    (_, { nextStep, nextForm }) => {
+  const setStepper = useCallback(
+    ({ nextStep, nextForm }: { nextStep: number; nextForm: Partial<SignupForm> }) => {
       setForm(nextForm);
-      // 회워ㅕㄴ가입 요청
-      return nextStep;
+      if (nextStep < 3) {
+        setStep(nextStep);
+      } else {
+        console.log({ ...form, ...nextForm });
+      }
     },
-    2,
+    [form],
   );
 
   const getForm = () => form;
 
   const onSubmit = (e: ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(form, 'submitted');
   };
 
   return (
@@ -59,13 +62,13 @@ const SignUp = () => {
       </StepIndicatorWrapper>
       {step === 1 && (
         <FirstStep
-          setStep={setStep}
+          setStep={setStepper}
           getForm={getForm}
           userNameValidation={userNameValidation}
           setUsernameValidation={setUsernameValidation}
         />
       )}
-      {step === 2 && <SecondStep setStep={setStep} getForm={getForm} />}
+      {step === 2 && <SecondStep setStep={setStepper} getForm={getForm} />}
     </Wrapper>
   );
 };

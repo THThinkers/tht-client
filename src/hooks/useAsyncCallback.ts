@@ -1,16 +1,10 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useState } from 'react';
 
-interface IAsyncEntity<T> {
-  endpoint: ApiEndPoint<T>;
-  params?: any[];
-}
-
-const useAsync = <T>(entity: IAsyncEntity<T>, defaultState: T): [State, T] => {
+const useAsyncCallback = <T>(endpoint: ApiEndPoint<T>, defaultState: T) => {
   const [status, setStatus] = useState<State>('INIT');
   const [data, setData] = useState<T>(defaultState);
 
-  useEffect(() => {
-    const { endpoint, params } = entity;
+  const call = useCallback((...params) => {
     setStatus('WAITING');
     endpoint
       .apply(null, params || [])
@@ -23,7 +17,7 @@ const useAsync = <T>(entity: IAsyncEntity<T>, defaultState: T): [State, T] => {
       });
   }, []);
 
-  return [status, data];
+  return [status, data, call];
 };
 
-export default useAsync;
+export default useAsyncCallback;

@@ -1,5 +1,5 @@
 import { format, getTime, getYear } from 'date-fns';
-import React, { InputHTMLAttributes, useCallback, useMemo, useRef, useState } from 'react';
+import React, { InputHTMLAttributes, useCallback, useMemo, useRef, useState, ChangeEvent } from 'react';
 import Calendar from 'react-calendar';
 import Select from 'react-select';
 import Creatable from 'react-select/lib/Creatable';
@@ -170,6 +170,11 @@ const SecondStep: React.SFC<ISecondStepProps> = ({ getForm, setStep }) => {
     [calendarState],
   );
 
+  const toNextStep = useCallback((step: number) => () => {
+    console.log('click');
+    setStep({ nextStep: step, nextForm: userInfo });
+  }, [userInfo]);
+
   /**
    * api 에러일경우 에러 메시지 출력
    */
@@ -179,10 +184,10 @@ const SecondStep: React.SFC<ISecondStepProps> = ({ getForm, setStep }) => {
 
   return (
     <InputWrapper>
-      <LabelWrapper name={'이름'}>
+      <LabelWrapper name={'이름'} zIndex={6}>
         <UserInfoInput id={'name'} value={userInfo.name} onChange={onChangeUserInfo} {...UserInfoFormMap.name} />
       </LabelWrapper>
-      <LabelWrapper name={'전화번호'}>
+      <LabelWrapper name={'전화번호'} zIndex={5}>
         <UserInfoInput
           ref={phoneRef}
           id={'phoneNumber'}
@@ -191,7 +196,7 @@ const SecondStep: React.SFC<ISecondStepProps> = ({ getForm, setStep }) => {
           {...UserInfoFormMap.phoneNumber}
         />
       </LabelWrapper>
-      <LabelWrapper name="전공">
+      <LabelWrapper name="전공" zIndex={4}>
         <Select
           placeholder={UserInfoFormMap.major.placeholder}
           options={majorOptions}
@@ -200,7 +205,7 @@ const SecondStep: React.SFC<ISecondStepProps> = ({ getForm, setStep }) => {
           styles={SelectStyles}
         />
       </LabelWrapper>
-      <LabelWrapper name="학번">
+      <LabelWrapper name="학번" zIndex={3}>
         <Select
           placeholder={UserInfoFormMap.studentId.placeholder}
           value={makeOptionValue(userInfo.studentId, userInfo.studentId === -1)}
@@ -211,7 +216,7 @@ const SecondStep: React.SFC<ISecondStepProps> = ({ getForm, setStep }) => {
       </LabelWrapper>
       <MonthInfoInputWrapper>
         <div>
-          <LabelWrapper name="활동 시작">
+          <LabelWrapper name="활동 시작" zIndex={2}>
             <MonthInfoInput
               ref={joinedRef}
               id={'joined'}
@@ -223,7 +228,7 @@ const SecondStep: React.SFC<ISecondStepProps> = ({ getForm, setStep }) => {
         </div>
         <Interval>~</Interval>
         <div>
-          <LabelWrapper name="활동 종료(선택)">
+          <LabelWrapper name="활동 종료(선택)" zIndex={2}>
             <MonthInfoInput
               ref={endedRef}
               id={'ended'}
@@ -240,19 +245,20 @@ const SecondStep: React.SFC<ISecondStepProps> = ({ getForm, setStep }) => {
               maxDate={calendarState === 'JOINED' ? new Date(getTime(userInfo.ended || Date.now())) : new Date()}
               view="year"
               maxDetail="year"
+              minDetail="year"
               onChange={onChangeCalendar}
             />
           </CalendarWrapper>
         )}
       </MonthInfoInputWrapper>
-      <LabelWrapper name="태그">
+      <LabelWrapper name="태그" zIndex={1}>
         <Creatable options={tagOptions} styles={SelectStyles} isMulti onChange={onChangeTags} />
       </LabelWrapper>
       <InputFooter>
-        <StepButton type="button" onClick={() => setStep({ nextStep: 1, nextForm: userInfo })}>
+        <StepButton type="button" onClick={toNextStep(1)}>
           이전
         </StepButton>
-        <StepButton type="submit" onClick={() => setStep({ nextStep: 3, nextForm: userInfo })} disabled={!isFormValid}>
+        <StepButton type="button" onClick={toNextStep(3)} disabled={!isFormValid}>
           완료
         </StepButton>
       </InputFooter>
