@@ -1,10 +1,9 @@
 import { format, getTime, getYear } from 'date-fns';
-import React, { InputHTMLAttributes, useCallback, useMemo, useRef, useState, ChangeEvent } from 'react';
+import React, { InputHTMLAttributes, useCallback, useMemo, useRef, useState } from 'react';
 import Calendar from 'react-calendar';
 import Select from 'react-select';
 import Creatable from 'react-select/lib/Creatable';
 import { ValueType } from 'react-select/lib/types';
-import { is } from 'redux-saga/utils';
 import { getMajorList } from '../../api/major';
 import { getTagList } from '../../api/tag';
 import { ISelectOption, makeOptionValue, mapValuesToOptions } from '../../helper/reactSelectHelper';
@@ -24,7 +23,6 @@ import {
   MonthInfoInputWrapper,
   StepButton,
   UserInfoInput,
-  UserInfoLabel,
 } from '../../styles/SignUpStyles';
 
 type SecondFormType = Pick<SignupForm, 'name' | 'phoneNumber' | 'major' | 'studentId' | 'joined' | 'ended' | 'tags'> & {
@@ -170,10 +168,13 @@ const SecondStep: React.SFC<ISecondStepProps> = ({ getForm, setStep }) => {
     [calendarState],
   );
 
-  const toNextStep = useCallback((step: number) => () => {
-    console.log('click');
-    setStep({ nextStep: step, nextForm: userInfo });
-  }, [userInfo]);
+  const toNextStep = useCallback(
+    (step: number) => () => {
+      console.log('click');
+      setStep({ nextStep: step, nextForm: userInfo });
+    },
+    [userInfo],
+  );
 
   /**
    * api 에러일경우 에러 메시지 출력
