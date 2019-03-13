@@ -1,11 +1,14 @@
 import { all, call, fork, put, take, takeLatest } from 'redux-saga/effects';
-import { IGetProfile, ISignup } from '../actions/auth';
+import { IGetProfile, ISignin, ISigninSuccess, ISignup, ISignupFailure } from '../actions/auth';
 import * as authApi from '../api/auth';
 import {
   GET_PROFILE,
   GET_PROFILE_FAILURE,
   GET_PROFILE_SUCCESS,
   LOGOUT,
+  SIGNIN,
+  SIGNIN_FAILURE,
+  SIGNIN_SUCCESS,
   SIGNUP,
   SIGNUP_FAILURE,
   SIGNUP_SUCCESS,
@@ -21,6 +24,22 @@ function* getProfile(action: IGetProfile) {
   } catch (err) {
     yield put({
       type: GET_PROFILE_FAILURE,
+    });
+  }
+}
+function* signin(action: ISignin) {
+  try {
+    const { user } = action;
+    const { success, user: successUser } = yield call(authApi.signin, user);
+    if (success) {
+      yield put<ISigninSuccess>({ type: SIGNIN_SUCCESS, user: successUser });
+    } else {
+      throw new Error('로그인에 실패하였습니다.');
+    }
+  } catch (err) {
+    yield put<ISignupFailure>({
+      error: err.response ? err.response.error : '',
+      type: SIGNUP_FAILURE,
     });
   }
 }
@@ -44,6 +63,9 @@ function* watchGetProfile() {
   }
 }
 
+function* watchSignin() {
+  yield takeLatest(SIGNIN, signin);
+}
 function* watchSignup() {
   yield takeLatest(SIGNUP, signup);
 }
@@ -56,5 +78,5 @@ function* watchLogout() {
 }
 
 export default function* authSaga() {
-  yield all([fork(watchGetProfile), fork(watchSignup), fork(watchLogout)]);
+  yield all([fork(watchGetProfile), fork(watchSignin), fork(watchSignup), fork(watchLogout)]);
 }

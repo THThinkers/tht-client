@@ -6,6 +6,9 @@ import {
   GET_PROFILE_NOT_LINKED,
   GET_PROFILE_SUCCESS,
   LOGOUT,
+  SIGNIN,
+  SIGNIN_FAILURE,
+  SIGNIN_SUCCESS,
   SIGNUP,
   SIGNUP_FAILURE,
   SIGNUP_SUCCESS,
@@ -14,16 +17,20 @@ import { IUser } from '../models/user';
 
 type UserState = 'NOT_LINKED' | State;
 
-export interface IAuthState {
+export type IAuthState = Readonly<{
   readonly profile: {
     readonly status: UserState;
     readonly user: Partial<IUser>;
+  };
+  signin: {
+    status: State;
+    error: string;
   };
   readonly signup: {
     readonly status: State;
     readonly error: string;
   };
-}
+}>;
 
 const initialState: IAuthState = {
   profile: {
@@ -33,6 +40,10 @@ const initialState: IAuthState = {
       isVerified: false,
       name: '',
     },
+  },
+  signin: {
+    status: 'INIT',
+    error: '',
   },
   signup: {
     error: '',
@@ -57,6 +68,19 @@ const auth = produce((draft = initialState, action: AuthAction): IAuthState => {
     }
     case GET_PROFILE_FAILURE: {
       draft.profile.status = 'FAILURE';
+      return draft;
+    }
+    case SIGNIN: {
+      draft.signin.status = 'WAITING';
+      return draft;
+    }
+    case SIGNIN_SUCCESS: {
+      draft.signin.status = 'SUCCESS';
+      return draft;
+    }
+    case SIGNIN_FAILURE: {
+      draft.signin.status = 'FAILURE';
+      draft.signin.error = action.error;
       return draft;
     }
     case SIGNUP: {

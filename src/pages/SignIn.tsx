@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo, useReducer, useRef } from 'react';
 import styled, { css } from 'styled-components';
 import { GoogleIcon, KakaoIcon } from '../assets/images';
 import { SignInput } from '../components/shared';
@@ -38,12 +38,17 @@ const CheckboxLabel = styled.label`
   margin-left: 12px;
 `;
 
+const ErrorMessage = styled.div`
+  color: red;
+  margin-top: 10px;
+`;
 const Button = styled.button`
   position: relative;
   display: inline-block;
   width: 482px;
   text-align: center;
   border: none;
+  cursor: pointer;
 `;
 
 const SignInButton = styled(Button)`
@@ -66,11 +71,12 @@ const UserActionButton = styled.button<{ hasLine?: boolean }>`
   font-size: 14px;
   background: transparent;
   border: none;
+  cursor: pointer;
   ${({ hasLine = false }) =>
     hasLine &&
     css`
       border-right: solid 0.5px black;
-    `}
+    `};
 `;
 
 const SocialLoginButoon = styled(Button)`
@@ -106,16 +112,56 @@ const KakaoLogo = styled.img`
   position: absolute;
 `;
 
+type Field = 'username' | 'password';
+const mapKor = {
+  username: '아이디',
+  password: '패스워드',
+};
+const initialErrorState = {
+  username: '',
+  password: '',
+  submit: '',
+};
+type IInputRef = Record<Field, React.RefObject<HTMLInputElement>>;
 const SignIn = () => {
+  const [error, setError] = useReducer((prevState, newState) => ({ ...prevState, ...newState }), initialErrorState);
+  const usernameInput = useRef(null);
+  const passwordInput = useRef(null);
+  const inputRefs: IInputRef = {
+    username: usernameInput,
+    password: passwordInput,
+  };
+  const checkEmpty = (field: Field, ref: React.RefObject<HTMLInputElement>) => {
+    if (!ref || !ref.current) {
+      return false;
+    }
+    if (!ref.current.value) {
+      ref.current.focus();
+      setError({
+        ...initialErrorState,
+        [field]: `${mapKor[field]}를 입력해주세요.`,
+      });
+      return false;
+    }
+    return true;
+  };
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    const passed = Object.keys(inputRefs).every((key) => {
+      const field = key as Field;
+      return checkEmpty(field, inputRefs[field]);
+    });
+    if (passed) {
+      // start request
+    }
+  };
   return (
-    <Wrapper onSubmit={(e) => e.preventDefault()}>
+    <Wrapper onSubmit={handleSubmit}>
       <SignInHeader>LOGIN</SignInHeader>
-      <SignInInput placeholder="ID" />
-      <SignInInput placeholder="PASSWORD" />
-      <LoginCheckBoxWrapper>
-        <Checkbox type="checkbox" />
-        <CheckboxLabel>로그인 상태 유지</CheckboxLabel>
-      </LoginCheckBoxWrapper>
+      <SignInInput ref={usernameInput} placeholder="ID" />
+      <ErrorMessage>{error.username}</ErrorMessage>
+      <SignInInput ref={passwordInput} placeholder="PASSWORD" />
+      <ErrorMessage>{error.password}</ErrorMessage>
       <SignInButton>LOGIN</SignInButton>
       <UserActionSection>
         <UserActionButton hasLine>회원가입</UserActionButton>

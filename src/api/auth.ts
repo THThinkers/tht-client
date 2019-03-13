@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { ISignupUser } from '../models/user';
+import { ISigninUser, ISignupUser, IUser } from '../models/user';
 const authApi = axios.create({
   // webpack dev server proxy 설정했기 때문에 이렇게 줘야함.
   // http://localhost:4000/api/auth 이런식으로 주면
@@ -10,7 +10,14 @@ const authApi = axios.create({
 // * ----------------------------------------------------
 // *                  로그인
 // * ----------------------------------------------------
-
+interface IPostSigninSuccess {
+  success: boolean;
+  user: IUser;
+}
+export const signin: ApiEndPoint<IPostSigninSuccess> = async (user: ISigninUser) => {
+  const { data } = await authApi.post('/login', user);
+  return data;
+};
 /**
  * 프로필 정보를 가져오는 api
  */
