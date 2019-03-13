@@ -60,11 +60,11 @@ const studentIdOptions = new Array(getYear(Date.now()) - 1999)
  * 회원 인증 함수 / 상태 초기화
  */
 const validator = (form: SecondFormType) =>
-  Object.keys(form).every((field) => {
-    if (form[field] === undefined) {
+  Object.keys(form).every((field: keyof SecondFormType) => {
+    if (form.field === undefined) {
       return false;
     }
-    return form[field]!.toString().length > 0;
+    return form.field.toString().length > 0;
   });
 
 /***************************************
