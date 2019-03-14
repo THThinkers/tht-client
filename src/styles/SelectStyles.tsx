@@ -6,7 +6,7 @@ const SelectStyles = {
   control: (base: any) => ({ ...base, borderColor: '#8b8b8b', borderRadius: 'none', boxShadow: 'none', margin: 0 }),
   multiValue: (base: any) => ({
     ...base,
-    fontSize: 24,
+    fontSize: 20,
     fontFamily: 'Nanum Gothic',
     color: colors.prime,
     backgroundColor: 'transparent',

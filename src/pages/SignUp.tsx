@@ -16,7 +16,7 @@ export type SignupForm = {
 } & ISignupUser;
 
 const SignUp = () => {
-  const [step, setStep] = useState<number>(1);
+  const [step, setStep] = useState<number>(2);
   const [form, setForm] = useReducer<SignupForm, Partial<SignupForm>>(
     (state, newState) => ({ ...state, ...newState }),
     {

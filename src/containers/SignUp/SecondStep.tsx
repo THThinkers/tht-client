@@ -1,9 +1,9 @@
 import { format, getTime, getYear } from 'date-fns';
-import React, { InputHTMLAttributes, useCallback, useMemo, useRef, useState } from 'react';
+import React, { InputHTMLAttributes, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import Calendar from 'react-calendar';
 import Select from 'react-select';
 import Creatable from 'react-select/lib/Creatable';
-import { ValueType } from 'react-select/lib/types';
+import { InputActionMeta, ValueType } from 'react-select/lib/types';
 import { getMajorList } from '../../api/major';
 import { getTagList } from '../../api/tag';
 import { ISelectOption, makeOptionValue, mapValuesToOptions } from '../../helper/reactSelectHelper';
@@ -60,11 +60,11 @@ const studentIdOptions = new Array(getYear(Date.now()) - 1999)
  * 회원 인증 함수 / 상태 초기화
  */
 const validator = (form: SecondFormType) =>
-  Object.keys(form).every((field: keyof SecondFormType) => {
-    if (form.field === undefined) {
+  Object.values(form).every((value) => {
+    if (!value) {
       return false;
     }
-    return form.field.toString().length > 0;
+    return value.toString().length > 0;
   });
 
 /***************************************
@@ -78,6 +78,12 @@ const SecondStep: React.SFC<ISecondStepProps> = ({ getForm, setStep }) => {
   const secondForm = useMemo(() => rest, []);
 
   const [userInfo, onChangeUserInfo, isFormValid, setUserInfo] = useFormState<SecondFormType>(secondForm, validator);
+  const [tagValues, setTagValue] = useState<ISelectOption[]>([]);
+  const [tagInputValue, setTagInputValue] = useState<string>('');
+
+  useEffect(() => {
+    setTagInputValue('');
+  }, [tagValues]);
 
   /**
    * form 작성에 필요한 데이터를 가져옴
@@ -113,10 +119,20 @@ const SecondStep: React.SFC<ISecondStepProps> = ({ getForm, setStep }) => {
       const optionValue: Array<PartialExclude<ITag, 'name'>> = ops.map((op) => {
         return op.index ? tag[op.index] : { name: op.value };
       });
+      setTagValue(ops);
       setUserInfo({ tags: optionValue });
     },
     [tag],
   );
+
+  const onInputChangeTags = useCallback((input: string, meta: InputActionMeta) => {
+    if (input.endsWith(' ')) {
+      const newValue = input.trim();
+      setTagValue((prev) => [...prev.filter((v) => v.value !== newValue), { label: newValue, value: newValue }]);
+    } else if (meta.action === 'input-change') {
+      setTagInputValue(input.trim());
+    }
+  }, []);
 
   // 전화번호에 - 가 포함되어있을 경우 삭제해줌
   const phoneRef = useRef(null);
@@ -253,7 +269,15 @@ const SecondStep: React.SFC<ISecondStepProps> = ({ getForm, setStep }) => {
         )}
       </MonthInfoInputWrapper>
       <LabelWrapper name="태그" zIndex={1}>
-        <Creatable options={tagOptions} styles={SelectStyles} isMulti onChange={onChangeTags} />
+        <Creatable
+          value={tagValues}
+          inputValue={tagInputValue}
+          options={tagOptions}
+          styles={SelectStyles}
+          isMulti
+          onChange={onChangeTags}
+          onInputChange={onInputChangeTags}
+        />
       </LabelWrapper>
       <InputFooter>
         <StepButton type="button" onClick={toNextStep(1)}>
