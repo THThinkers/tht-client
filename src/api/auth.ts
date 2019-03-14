@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { ISigninUser, ISignupUser, IUser } from '../models/user';
+import { IOauthLinkUser, ISigninUser, ISignupUser, IUser } from '../models/user';
 const authApi = axios.create({
   // webpack dev server proxy 설정했기 때문에 이렇게 줘야함.
   // http://localhost:4000/api/auth 이런식으로 주면
@@ -25,7 +25,17 @@ export const getProfile = async () => {
   const { data } = await authApi.get('profile');
   return data;
 };
-
+// * ----------------------------------------------------
+// *                  로그인
+// * ----------------------------------------------------
+interface IPostOauthLinkSuccess {
+  success: boolean;
+  user: IUser;
+}
+export const oauthLink: ApiEndPoint<IPostOauthLinkSuccess> = async (user: IOauthLinkUser) => {
+  const { data } = await authApi.post('/oauth/link', user);
+  return data;
+};
 // * ----------------------------------------------------
 // *                  회원가입
 // * ----------------------------------------------------

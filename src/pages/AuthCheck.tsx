@@ -1,15 +1,29 @@
 import qs from 'qs';
 import React from 'react';
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-
+import { oauthLink } from '../actions/auth';
+import { SigninForm } from '../containers/Signin';
+import { IOauthLinkUser, ISigninUser } from '../models/user';
+import { IRootState } from '../reducers';
+import { Wrapper } from '../styles/SignInStyles';
 interface IParamSpec {
   username?: string;
   kakaoId?: string;
   googleId?: string;
 }
 
-const AuthCheck = () => {
+interface IAuthCheckProps {
+  oauthLinkAction: typeof oauthLink;
+  oauthLinkStatus: State;
+}
+const AuthCheck: React.SFC<IAuthCheckProps> = ({ oauthLinkAction, oauthLinkStatus }) => {
   const params: IParamSpec = qs.parse(window.location.search.substr(1));
+  // 계정 있는 경우 signin form을 통해 연동시
+  const handleSubmit = (user: ISigninUser) => {
+    const type = 'kakaoId' in params ? 'kakaoId' : 'googleId';
+    // Oauth link 로직
+  };
   /*
     구글 아이디는 이메일이 확인 가능하기때문에 이메일을 디비와 확인해보고
     이메일이 중복된다면 해당 이메일로 로그인을 요청
@@ -36,13 +50,14 @@ const AuthCheck = () => {
    */
   if (params.kakaoId || params.googleId) {
     return (
-      <div>
-        <div>혹시 아이디가 있니?</div>
-        <div>
-          <button>예</button> {/* 로그인하러 */}
-          <button>아니오</button> {/* 회원가입하러 */}
-        </div>
-      </div>
+      <Wrapper>
+        <SigninForm
+          header="회원가입을 하셨나요?"
+          subHeader="회원가입을 하셨다면 구글/카카오 계정과의 연동을 위해 회원가입한 계정으로 다시 한번 로그인 해주세요."
+          handleSubmit={handleSubmit}
+          signinStatus={oauthLinkStatus}
+        />
+      </Wrapper>
     );
   }
   /**
@@ -56,4 +71,12 @@ const AuthCheck = () => {
   );
 };
 
-export default AuthCheck;
+const mapStateToProps = (state: IRootState) => ({
+  linkStatus: state.auth.oauthLink.status,
+});
+export default connect(
+  mapStateToProps,
+  {
+    oauthLinkAction: oauthLink,
+  },
+)(AuthCheck);

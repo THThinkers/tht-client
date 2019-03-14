@@ -6,6 +6,9 @@ import {
   GET_PROFILE_NOT_LINKED,
   GET_PROFILE_SUCCESS,
   LOGOUT,
+  OAUTH_LINK,
+  OAUTH_LINK_FAILURE,
+  OAUTH_LINK_SUCCESS,
   SIGNIN,
   SIGNIN_FAILURE,
   SIGNIN_SUCCESS,
@@ -30,6 +33,10 @@ export type IAuthState = Readonly<{
     readonly status: State;
     readonly error: string;
   };
+  oauthLink: {
+    status: State;
+    error: string;
+  };
 }>;
 
 const initialState: IAuthState = {
@@ -46,6 +53,10 @@ const initialState: IAuthState = {
     error: '',
   },
   signup: {
+    error: '',
+    status: 'INIT',
+  },
+  oauthLink: {
     error: '',
     status: 'INIT',
   },
@@ -95,6 +106,19 @@ const auth = produce((draft = initialState, action: AuthAction): IAuthState => {
     }
     case SIGNUP_FAILURE: {
       draft.profile.status = 'FAILURE';
+      return draft;
+    }
+    case OAUTH_LINK: {
+      draft.oauthLink.status = 'WAITING';
+      return draft;
+    }
+    case OAUTH_LINK_SUCCESS: {
+      draft.oauthLink.status = 'SUCCESS';
+      return draft;
+    }
+    case OAUTH_LINK_FAILURE: {
+      draft.oauthLink.status = 'FAILURE';
+      draft.oauthLink.error = action.error;
       return draft;
     }
     case LOGOUT:

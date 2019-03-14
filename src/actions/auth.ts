@@ -4,6 +4,9 @@ import {
   GET_PROFILE_NOT_LINKED,
   GET_PROFILE_SUCCESS,
   LOGOUT,
+  OAUTH_LINK,
+  OAUTH_LINK_FAILURE,
+  OAUTH_LINK_SUCCESS,
   SIGNIN,
   SIGNIN_FAILURE,
   SIGNIN_SUCCESS,
@@ -11,10 +14,13 @@ import {
   SIGNUP_FAILURE,
   SIGNUP_SUCCESS,
 } from '../constants/actionTypes';
-import { ISigninUser, ISignupUser, IUser } from '../models/user';
+import { IOauthLinkUser, ISigninUser, ISignupUser, IUser } from '../models/user';
 
 // 세션에 들어있는 현재 프로필 정보 가져오기.
 
+interface IDefaultFailure {
+  error: string;
+}
 export interface IGetProfile {
   type: typeof GET_PROFILE;
 }
@@ -55,6 +61,17 @@ export interface ISignupFailure {
   error: string;
 }
 
+export interface IOauthLink {
+  type: typeof OAUTH_LINK;
+  user: IOauthLinkUser;
+}
+export interface IOauthLinkSuccess {
+  type: typeof OAUTH_LINK_SUCCESS;
+}
+export interface IOauthLinkFailure extends IDefaultFailure {
+  type: typeof OAUTH_LINK_FAILURE;
+}
+
 export interface ILogout {
   type: typeof LOGOUT;
 }
@@ -69,6 +86,9 @@ export type AuthAction =
   | ISignup
   | ISignupSuccess
   | ISignupFailure
+  | IOauthLink
+  | IOauthLinkSuccess
+  | IOauthLinkFailure
   | ILogout;
 
 export const getProfile = (): IGetProfile => ({
@@ -80,6 +100,10 @@ export const signin = (user: ISigninUser): ISignin => ({
 });
 export const signup = (user: ISignupUser): ISignup => ({
   type: SIGNUP,
+  user,
+});
+export const oauthLink = (user: IOauthLinkUser): IOauthLink => ({
+  type: OAUTH_LINK,
   user,
 });
 export const logout = (): ILogout => ({

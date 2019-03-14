@@ -28,5 +28,8 @@ export type ISignupUser = Pick<
   IUser,
   'username' | 'password' | 'name' | 'phoneNumber' | 'major' | 'studentId' | 'joined' | 'ended' | 'tags'
 >;
+export type IOauthKakaoUser = Partial<IUser> & Required<Pick<IUser, 'username' | 'password' | 'kakaoId'>>;
+export type IOauthGoogleUser = Partial<IUser> & Required<Pick<IUser, 'username' | 'password' | 'googleId'>>;
 
+export type IOauthLinkUser = IOauthGoogleUser | IOauthKakaoUser;
 export type PartialUser = { [K in keyof IUser]?: IUser[K] };
