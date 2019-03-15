@@ -27,7 +27,7 @@ export const getProfile = async () => {
  * 회원가입하는 api
  * @param user 회원가입할 유저 정보
  */
-export const signup = async (user: ISignupUser) => {
+export const postSignUp = async (user: ISignupUser): Promise<{ success: boolean }> => {
   const { data } = await authApi.post('/signup', user);
   return data;
 };
@@ -39,7 +39,8 @@ export const signup = async (user: ISignupUser) => {
 interface IPostCheckUserNameSuccess {
   isExist: boolean;
 }
-export const postCheckUserName: ApiEndPoint<IPostCheckUserNameSuccess> = async (username: string) => {
+
+export const postCheckUserName = async (username: string): Promise<IPostCheckUserNameSuccess> => {
   const {
     data: { isExist },
   } = await authApi.post('/validation/username', { username });

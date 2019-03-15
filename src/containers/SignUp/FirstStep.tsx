@@ -16,7 +16,7 @@ import * as is from '../../utils/is';
 type FirstFormType = Pick<SignupForm, 'username' | 'password' | 'pwCheck'>;
 
 interface IFirstStepProps {
-  getForm: () => SignupForm;
+  form: SignupForm;
   setStep: ({ nextStep, nextForm }: { nextStep: number; nextForm: FirstFormType }) => void;
   userNameValidation: UserNameValidation;
   setUsernameValidation: (status: UserNameValidation) => void;
@@ -28,11 +28,10 @@ interface IFirstStepProps {
  * @param props.getForm 상위의 폼 데이터를 호출하는 함수
  * @param props.setStep 다음 단계로 변경을 호출하는 함수
  */
-const FirstStep: React.SFC<IFirstStepProps> = ({ getForm, setStep, userNameValidation, setUsernameValidation }) => {
-  const fp = getForm();
-  const [username, onChangeName, isValidUsername] = useInputState(fp.username, is.email);
-  const [password, onChangePassword, isValidPassword] = useInputState(fp.password, is.validPassword);
-  const [pwCheck, onChangePwCheck, isValidPwCheck] = useInputState(fp.pwCheck, is.shallowEqual.bind(null, password));
+const FirstStep: React.SFC<IFirstStepProps> = ({ form, setStep, userNameValidation, setUsernameValidation }) => {
+  const [username, onChangeName, isValidUsername] = useInputState(form.username, is.email);
+  const [password, onChangePassword, isValidPassword] = useInputState(form.password, is.validPassword);
+  const [pwCheck, onChangePwCheck, isValidPwCheck] = useInputState(form.pwCheck, is.shallowEqual.bind(null, password));
 
   /**
    * userNmae의 값을 변경할때 실행되는 함수

@@ -1,6 +1,6 @@
 import { useCallback, useState } from 'react';
 
-const useAsyncCallback = <T>(endpoint: ApiEndPoint<T>, defaultState: T) => {
+const useAsyncCallback = <T>(endpoint: ApiEndPoint<T>, defaultState: T): [State, T, (...p: any[]) => void] => {
   const [status, setStatus] = useState<State>('INIT');
   const [data, setData] = useState<T>(defaultState);
 
