@@ -1,3 +1,5 @@
+export const APP_BOOTSTRAP = 'APP_BOOTSTRAP';
+
 export const SET_ROOT_VALUE = 'SET_ROOT_VALUE';
 
 export const GET_PROFILE = 'GET_PROFILE';

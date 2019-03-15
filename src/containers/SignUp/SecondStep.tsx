@@ -80,6 +80,7 @@ const SecondStep: React.SFC<ISecondStepProps> = ({ form, setStep }) => {
   const [userInfo, onChangeUserInfo, isFormValid, setUserInfo] = useFormState<SecondFormType>(secondForm, validator);
   const [tagValues, setTagValue] = useState<ISelectOption[]>([]);
   const [tagInputValue, setTagInputValue] = useState<string>('');
+  const [majorInputValue, setMajorInputValue] = useState<string>('');
 
   /**
    * 태그 값이 변경되면 input을 지워줌
@@ -95,6 +96,17 @@ const SecondStep: React.SFC<ISecondStepProps> = ({ form, setStep }) => {
   const [tagState, tag] = useAsync({ endpoint: getTagList }, []);
 
   /**
+   * major fetch 성공시에 선택된 전공 이름을 로컬 상태에 반영
+   */
+  useEffect(() => {
+    if (majorState === 'SUCCESS' && major) {
+      console.log(userInfo);
+      const find = major.find((v) => v._id === userInfo.major);
+      setMajorInputValue(userInfo.major.length === 0 ? userInfo.major : find!.name);
+    }
+  }, [majorState]);
+
+  /**
    * 옵션 데이터 변환
    */
   const majorOptions = useMemo(() => mapValuesToOptions(major, 'name'), [major]);
@@ -103,12 +115,16 @@ const SecondStep: React.SFC<ISecondStepProps> = ({ form, setStep }) => {
   /**
    *  input EventListener
    */
-  const onChangeMajor = useCallback((ops: ValueType<ISelectOption>) => {
-    if (!ops || Array.isArray(ops)) {
-      return;
-    }
-    setUserInfo({ major: ops.value });
-  }, []);
+  const onChangeMajor = useCallback(
+    (ops: ValueType<ISelectOption>) => {
+      if (!ops || Array.isArray(ops) || !ops.index) {
+        return;
+      }
+      setMajorInputValue(ops.value);
+      setUserInfo({ major: major[ops.index]._id });
+    },
+    [major],
+  );
 
   const onChangeStudendId = useCallback((ops: any) => {
     setUserInfo({ studentId: ops.value });
@@ -202,6 +218,7 @@ const SecondStep: React.SFC<ISecondStepProps> = ({ form, setStep }) => {
 
   const toNextStep = useCallback(
     (step: number) => () => {
+      console.log(userInfo);
       setStep({ nextStep: step, nextForm: userInfo });
     },
     [userInfo],
@@ -232,7 +249,7 @@ const SecondStep: React.SFC<ISecondStepProps> = ({ form, setStep }) => {
         <Select
           placeholder={UserInfoFormMap.major.placeholder}
           options={majorOptions}
-          value={makeOptionValue(userInfo.major, userInfo.major === '')}
+          value={makeOptionValue(majorInputValue, majorInputValue === '')}
           onChange={onChangeMajor}
           styles={SelectStyles}
         />
