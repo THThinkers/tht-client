@@ -59,7 +59,7 @@ function* signin(action: ISignin) {
 function* signup(action: ISignup) {
   try {
     const { user } = action;
-    yield call(authApi.signup, user);
+    yield call(authApi.postSignUp, user);
     yield put({ type: SIGNUP_SUCCESS });
   } catch (err) {
     yield put({
