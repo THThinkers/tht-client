@@ -4,9 +4,11 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { oauthLink } from '../actions/auth';
 import { SigninForm } from '../containers/Signin';
+import { useDidUpdate } from '../hooks';
 import { IOauthLinkUser, ISigninUser } from '../models/user';
 import { IRootState } from '../reducers';
 import { Wrapper } from '../styles/SignInStyles';
+
 interface IParamSpec {
   username?: string;
   kakaoId?: string;
@@ -20,27 +22,35 @@ interface IAuthCheckProps {
 const AuthCheck: React.SFC<IAuthCheckProps> = ({ oauthLinkAction, oauthLinkStatus }) => {
   const params: IParamSpec = qs.parse(window.location.search.substr(1));
   // 계정 있는 경우 signin form을 통해 연동시
-  const handleSubmit = (user: ISigninUser) => {
+  const handleLinkSubmit = (user: ISigninUser) => {
     const type = 'kakaoId' in params ? 'kakaoId' : 'googleId';
-    // Oauth link 로직
+    const newUser: IOauthLinkUser = {
+      ...user,
+      [type]: params[type],
+    };
+    oauthLinkAction(newUser);
   };
+  const handleLinked = (_: State, status: State) => {
+    if (status === 'SUCCESS') {
+      alert('연결 성공!');
+      window.location.replace('/');
+    }
+  };
+  useDidUpdate(oauthLinkStatus, handleLinked);
   /*
     구글 아이디는 이메일이 확인 가능하기때문에 이메일을 디비와 확인해보고
     이메일이 중복된다면 해당 이메일로 로그인을 요청
   */
   if (params.username) {
     return (
-      <div>
-        너는 아이디가 있으니 로그인을 해야겠구나
-        <div>
-          <label>아이디</label>
-          <input placeholder="이메일을 입력하세요" />
-        </div>
-        <div>
-          <label>비밀번호</label>
-          <input placeholder="비밀번호를 입력하세요" />
-        </div>
-      </div>
+      <Wrapper>
+        <SigninForm
+          header="이미 가입된 계정이 있습니다."
+          subHeader={`${params.username}으로 등록된 계정으로 로그인 해주세요.`}
+          handleSubmit={handleLinkSubmit}
+          signinStatus={oauthLinkStatus}
+        />
+      </Wrapper>
     );
   }
   /**
@@ -54,7 +64,7 @@ const AuthCheck: React.SFC<IAuthCheckProps> = ({ oauthLinkAction, oauthLinkStatu
         <SigninForm
           header="회원가입을 하셨나요?"
           subHeader="회원가입을 하셨다면 구글/카카오 계정과의 연동을 위해 회원가입한 계정으로 다시 한번 로그인 해주세요."
-          handleSubmit={handleSubmit}
+          handleSubmit={handleLinkSubmit}
           signinStatus={oauthLinkStatus}
         />
       </Wrapper>
@@ -72,7 +82,7 @@ const AuthCheck: React.SFC<IAuthCheckProps> = ({ oauthLinkAction, oauthLinkStatu
 };
 
 const mapStateToProps = (state: IRootState) => ({
-  linkStatus: state.auth.oauthLink.status,
+  oauthLinkStatus: state.auth.oauthLink.status,
 });
 export default connect(
   mapStateToProps,

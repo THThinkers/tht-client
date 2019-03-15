@@ -1,5 +1,6 @@
 import useAsync from './useAsync';
 import useAsyncCallback from './useAsyncCallback';
+import useDidUpdate from './useDidUpdate';
 import useEvent from './useEvent';
 import useFormState from './useFormState';
 import useInputState from './useInputState';
@@ -11,6 +12,7 @@ import useWindowEvent from './useWindowEvent';
 export {
   useAsync,
   useAsyncCallback,
+  useDidUpdate,
   useInputState,
   useFormState,
   useEvent,

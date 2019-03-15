@@ -1,8 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { RouteComponentProps } from 'react-router-dom';
 import { signin } from '../actions/auth';
 import { GoogleIcon, KakaoIcon } from '../assets/images';
 import { SigninForm } from '../containers/Signin';
+import { useDidUpdate } from '../hooks';
 import { IRootState } from '../reducers';
 import {
   GoogleLoginButton,
@@ -14,12 +16,17 @@ import {
   Wrapper,
 } from '../styles/SignInStyles';
 
-interface ISigninProps {
+interface ISigninProps extends RouteComponentProps {
   signinAction: typeof signin;
   signinStatus: State;
   signinError: string;
 }
-const SignIn: React.SFC<ISigninProps> = ({ signinAction, signinStatus, signinError }) => {
+const SignIn: React.SFC<ISigninProps> = ({ signinAction, signinStatus, signinError, history }) => {
+  useDidUpdate(signinStatus, (_, status) => {
+    if (status === 'SUCCESS') {
+      history.push('/');
+    }
+  });
   return (
     <>
       <Wrapper>

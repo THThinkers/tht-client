@@ -1,6 +1,7 @@
 import { RefObject, useRef, useState } from 'react';
 import { useWindowEvent } from '.';
 
+// 모달에서 바깥 클릭시 트리거
 const useOutsideClick = <T extends HTMLElement>(onUnvisible: () => void): RefObject<T> => {
   const ref = useRef<T>(null);
   const handleClick: EventListener = (e) => {

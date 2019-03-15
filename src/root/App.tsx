@@ -90,7 +90,7 @@ class App extends React.Component<IAppProps> {
                 />
               */}
               <Route exact path="/signup" render={() => <SignUp />} />
-              <Route exact path="/signin" render={() => <SignIn />} />
+              <Route exact path="/signin" render={(props) => <SignIn {...props} />} />
               <Route exact path="/info/introduction" render={(props) => <History {...props} />} />
             </Suspense>
           </MainContainer>
