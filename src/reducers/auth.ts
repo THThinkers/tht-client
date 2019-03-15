@@ -6,6 +6,12 @@ import {
   GET_PROFILE_NOT_LINKED,
   GET_PROFILE_SUCCESS,
   LOGOUT,
+  OAUTH_LINK,
+  OAUTH_LINK_FAILURE,
+  OAUTH_LINK_SUCCESS,
+  SIGNIN,
+  SIGNIN_FAILURE,
+  SIGNIN_SUCCESS,
   SIGNUP,
   SIGNUP_FAILURE,
   SIGNUP_SUCCESS,
@@ -14,16 +20,24 @@ import { IUser } from '../models/user';
 
 type UserState = 'NOT_LINKED' | State;
 
-export interface IAuthState {
+export type IAuthState = Readonly<{
   readonly profile: {
     readonly status: UserState;
     readonly user: Partial<IUser>;
+  };
+  signin: {
+    status: State;
+    error: string;
   };
   readonly signup: {
     readonly status: State;
     readonly error: string;
   };
-}
+  oauthLink: {
+    status: State;
+    error: string;
+  };
+}>;
 
 const initialState: IAuthState = {
   profile: {
@@ -34,7 +48,15 @@ const initialState: IAuthState = {
       name: '',
     },
   },
+  signin: {
+    status: 'INIT',
+    error: '',
+  },
   signup: {
+    error: '',
+    status: 'INIT',
+  },
+  oauthLink: {
     error: '',
     status: 'INIT',
   },
@@ -59,6 +81,21 @@ const auth = produce((draft = initialState, action: AuthAction): IAuthState => {
       draft.profile.status = 'FAILURE';
       return draft;
     }
+    case SIGNIN: {
+      draft.signin.status = 'WAITING';
+      return draft;
+    }
+    case SIGNIN_SUCCESS: {
+      draft.signin.status = 'SUCCESS';
+      draft.profile.status = 'SUCCESS';
+      draft.profile.user = action.user;
+      return draft;
+    }
+    case SIGNIN_FAILURE: {
+      draft.signin.status = 'FAILURE';
+      draft.signin.error = action.error;
+      return draft;
+    }
     case SIGNUP: {
       draft.profile.status = 'WAITING';
       return draft;
@@ -69,6 +106,19 @@ const auth = produce((draft = initialState, action: AuthAction): IAuthState => {
     }
     case SIGNUP_FAILURE: {
       draft.profile.status = 'FAILURE';
+      return draft;
+    }
+    case OAUTH_LINK: {
+      draft.oauthLink.status = 'WAITING';
+      return draft;
+    }
+    case OAUTH_LINK_SUCCESS: {
+      draft.oauthLink.status = 'SUCCESS';
+      return draft;
+    }
+    case OAUTH_LINK_FAILURE: {
+      draft.oauthLink.status = 'FAILURE';
+      draft.oauthLink.error = action.error;
       return draft;
     }
     case LOGOUT:
