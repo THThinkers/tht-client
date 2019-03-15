@@ -6,3 +6,8 @@ dist/
 yarn-error.log
 
 .DS_Store
+
+# Docker setting
+Dockerfile
+.dockerignore
+.kubernetes/

@@ -23,9 +23,11 @@ export interface IUser {
   createdAt?: Date;
 }
 
+export type ISigninUser = Pick<IUser, 'username' | 'password'>;
 export type ISignupUser = Pick<
   IUser,
   'username' | 'password' | 'name' | 'phoneNumber' | 'major' | 'studentId' | 'joined' | 'ended' | 'tags'
 >;
 
+export type IOauthLinkUser = Partial<IUser> & Required<Pick<IUser, 'username' | 'password'>>;
 export type PartialUser = { [K in keyof IUser]?: IUser[K] };

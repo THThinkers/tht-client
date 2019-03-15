@@ -42,16 +42,16 @@ class App extends React.Component<IAppProps> {
 
   render() {
     const { user, status } = this.props;
-    if (status === 'WAITING') {
-      return null;
-    }
-    if (status !== 'SUCCESS') {
-      return (
-        <Suspense fallback={<div>Loading..</div>}>
-          <SignUp />
-        </Suspense>
-      );
-    }
+    // if (status === 'WAITING') {
+    //   return null;
+    // }
+    // if (status !== 'SUCCESS') {
+    //   return (
+    //     <Suspense fallback={<div>Loading..</div>}>
+    //       <SignUp />
+    //     </Suspense>
+    //   );
+    // }
 
     if (window.location.pathname === '/auth/check') {
       return (
@@ -61,13 +61,13 @@ class App extends React.Component<IAppProps> {
       );
     }
 
-    if (status !== 'SUCCESS') {
-      return (
-        <Suspense fallback={<div>Loading..</div>}>
-          <Landing />
-        </Suspense>
-      );
-    }
+    // if (status !== 'SUCCESS') {
+    //   return (
+    //     <Suspense fallback={<div>Loading..</div>}>
+    //       <Landing />
+    //     </Suspense>
+    //   );
+    // }
 
     // if (!user.isVerified) {
     //   return (
@@ -90,7 +90,7 @@ class App extends React.Component<IAppProps> {
                 />
               */}
               <Route exact path="/signup" render={() => <SignUp />} />
-              <Route exact path="/signin" render={() => <SignIn />} />
+              <Route exact path="/signin" render={(props) => <SignIn {...props} />} />
               <Route exact path="/info/introduction" render={(props) => <History {...props} />} />
             </Suspense>
           </MainContainer>

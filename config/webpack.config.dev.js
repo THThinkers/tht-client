@@ -12,6 +12,7 @@ module.exports = common({
   // historyApiFallback: html5 history api 사용할 때, 해당하는 라우트 없으면 index.html 로드
   // app.get('/*', (req, res) => res.sendFile(index.html)); 대충 이런 역할
   devServer: {
+    host: '0.0.0.0',
     historyApiFallback: true,
     proxy: {
       '/api': 'http://localhost:4000/',
