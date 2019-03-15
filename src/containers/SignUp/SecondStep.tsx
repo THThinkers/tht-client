@@ -59,13 +59,21 @@ const studentIdOptions = new Array(getYear(Date.now()) - 1999)
 /**
  * 회원 인증 함수 / 상태 초기화
  */
-const validator = (form: SecondFormType) =>
-  Object.values(form).every((value) => {
-    if (!value) {
+const validator = (form: SecondFormType) => {
+  const a = Object.entries(form).every(([key, value]) => {
+    if (value === undefined) {
       return false;
+    }
+    if (key === 'ended') {
+      return true;
+    }
+    if (key === 'studentId') {
+      return value > 0;
     }
     return value.toString().length > 0;
   });
+  return a;
+};
 
 /***************************************
  *
@@ -81,6 +89,12 @@ const SecondStep: React.SFC<ISecondStepProps> = ({ form, setStep }) => {
   const [tagValues, setTagValue] = useState<ISelectOption[]>([]);
   const [tagInputValue, setTagInputValue] = useState<string>('');
   const [majorInputValue, setMajorInputValue] = useState<string>('');
+  const [calendarState, setCalendar] = useState<CalendarStatus>('NONE');
+
+  const joinedRef = useRef(null);
+  const endedRef = useRef(null);
+  const phoneRef = useRef(null);
+  const calendarWrapperRef = useRef<HTMLDivElement>(null);
 
   /**
    * 태그 값이 변경되면 input을 지워줌
@@ -100,7 +114,6 @@ const SecondStep: React.SFC<ISecondStepProps> = ({ form, setStep }) => {
    */
   useEffect(() => {
     if (majorState === 'SUCCESS' && major) {
-      console.log(userInfo);
       const find = major.find((v) => v._id === userInfo.major);
       setMajorInputValue(userInfo.major.length === 0 ? userInfo.major : find!.name);
     }
@@ -117,7 +130,7 @@ const SecondStep: React.SFC<ISecondStepProps> = ({ form, setStep }) => {
    */
   const onChangeMajor = useCallback(
     (ops: ValueType<ISelectOption>) => {
-      if (!ops || Array.isArray(ops) || !ops.index) {
+      if (!ops || Array.isArray(ops) || ops.index === undefined) {
         return;
       }
       setMajorInputValue(ops.value);
@@ -167,8 +180,6 @@ const SecondStep: React.SFC<ISecondStepProps> = ({ form, setStep }) => {
   }, []);
 
   // 전화번호에 - 가 포함되어있을 경우 삭제해줌
-  const phoneRef = useRef(null);
-
   useEvent(phoneRef, 'blur', (e) => {
     const { value } = e.currentTarget;
     setUserInfo({ phoneNumber: value.split('-').join('') });
@@ -180,11 +191,6 @@ const SecondStep: React.SFC<ISecondStepProps> = ({ form, setStep }) => {
    * JOINED / ENDED : 출력
    * NONE : 미출력
    */
-  const [calendarState, setCalendar] = useState<CalendarStatus>('NONE');
-
-  const joinedRef = useRef(null);
-  const endedRef = useRef(null);
-  const calendarWrapperRef = useRef<HTMLDivElement>(null);
 
   // focus가 가면 달력을 출력해준다.
   useEvent(joinedRef, 'focus', () => {
@@ -218,7 +224,6 @@ const SecondStep: React.SFC<ISecondStepProps> = ({ form, setStep }) => {
 
   const toNextStep = useCallback(
     (step: number) => () => {
-      console.log(userInfo);
       setStep({ nextStep: step, nextForm: userInfo });
     },
     [userInfo],

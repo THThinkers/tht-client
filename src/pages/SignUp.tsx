@@ -18,7 +18,7 @@ export type SignupForm = {
 } & ISignupUser;
 
 const SignUp = () => {
-  const [step, setStep] = useState<number>(2);
+  const [step, setStep] = useState<number>(1);
   const [form, setForm] = useReducer<SignupForm, Partial<SignupForm>>(
     (state, newState) => ({ ...state, ...newState }),
     {
@@ -40,10 +40,14 @@ const SignUp = () => {
   const [signUpStatus, signUpResult, callSignUp] = useAsyncCallback(postSignUp, { success: false });
 
   useEffect(() => {
-    if (signUpResult.success) {
-      history.push('/');
-    } else {
-      console.log('에러따리 에러따');
+    if (signUpStatus === 'SUCCESS') {
+      if (signUpResult.success) {
+        history.push('/');
+      } else {
+        console.log('에러따리 에러따');
+      }
+    } else if (signUpStatus === 'FAILURE') {
+      console.log('에러');
     }
   }, [signUpStatus]);
 
@@ -53,10 +57,9 @@ const SignUp = () => {
       if (nextStep < 3) {
         setStep(nextStep);
       } else {
-        const singUpInfo = { ...form, ...nextForm };
+        const singUpInfo = { ...form, ...nextForm, isNew: true };
         delete singUpInfo.pwCheck;
-        console.log(singUpInfo);
-        // callSignUp(singUpInfo);
+        callSignUp(singUpInfo);
       }
     },
     [form],

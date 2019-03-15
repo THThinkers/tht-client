@@ -1,7 +1,6 @@
 import isEmail from 'validator/lib/isEmail';
 
 export const email = (value: string): boolean => {
-  console.log(value);
   return isEmail(value);
 };
 

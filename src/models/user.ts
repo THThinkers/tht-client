@@ -24,6 +24,7 @@ export interface IUser {
 }
 
 export type ISigninUser = Pick<IUser, 'username' | 'password'>;
+
 export type ISignupUser = Pick<
   IUser,
   'username' | 'password' | 'name' | 'phoneNumber' | 'major' | 'studentId' | 'joined' | 'ended' | 'tags'

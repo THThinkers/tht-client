@@ -3,3 +3,5 @@ const createEntitiy = (actionType: string) => ({
   SUCCESS: `${actionType}_SUCCESS`,
   FAILURE: `${actionType}_FAILURE`,
 });
+
+export default createEntitiy;

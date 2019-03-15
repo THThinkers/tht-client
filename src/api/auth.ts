@@ -44,7 +44,7 @@ export const oauthLink: ApiEndPoint<IPostOauthLinkSuccess> = async (user: IOauth
  * 회원가입하는 api
  * @param user 회원가입할 유저 정보
  */
-export const postSignUp = async (user: ISignupUser): Promise<{ success: boolean }> => {
+export const postSignUp = async (user: ISignupUser & { isNew: boolean }): Promise<{ success: boolean }> => {
   const { data } = await authApi.post('/signup', user);
   return data;
 };

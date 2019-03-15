@@ -20,6 +20,6 @@ function* watchSetRootValue() {
 // 모든 generator의 root가 되는 generator.
 // fork는 인자로 받는 함수를 block 없이 실행.
 export default function* rootSaga() {
-  yield call(init);
   yield all([fork(watchSetRootValue), fork(authSaga)]);
+  yield call(init);
 }
