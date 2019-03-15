@@ -81,9 +81,12 @@ const SecondStep: React.SFC<ISecondStepProps> = ({ getForm, setStep }) => {
   const [tagValues, setTagValue] = useState<ISelectOption[]>([]);
   const [tagInputValue, setTagInputValue] = useState<string>('');
 
-  useEffect(() => {
-    setTagInputValue('');
-  }, [tagValues]);
+  /**
+   * 태그 값이 변경되면 input을 지워줌
+   */
+  // useEffect(() => {
+  //   setTagInputValue('');
+  // }, [tagValues]);
 
   /**
    * form 작성에 필요한 데이터를 가져옴
@@ -125,12 +128,22 @@ const SecondStep: React.SFC<ISecondStepProps> = ({ getForm, setStep }) => {
     [tag],
   );
 
+  /**
+   * 태그 인풋 이벤트 핸들러
+   * 1. 글자 변경시에는 반영
+   * 2. 스페이스 바 시에 태그 추가
+   * 3. 엔터 시에 태그 추가
+   */
   const onInputChangeTags = useCallback((input: string, meta: InputActionMeta) => {
     if (input.endsWith(' ')) {
       const newValue = input.trim();
       setTagValue((prev) => [...prev.filter((v) => v.value !== newValue), { label: newValue, value: newValue }]);
+      setTagInputValue((prev) => '');
     } else if (meta.action === 'input-change') {
       setTagInputValue(input.trim());
+    }
+    if (meta.action === 'set-value') {
+      setTagInputValue((prev) => '');
     }
   }, []);
 
