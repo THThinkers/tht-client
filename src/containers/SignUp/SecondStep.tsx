@@ -32,7 +32,7 @@ type SecondFormType = Pick<SignupForm, 'name' | 'phoneNumber' | 'major' | 'stude
 type CalendarStatus = 'NONE' | 'JOINED' | 'ENDED';
 
 interface ISecondStepProps {
-  getForm: () => SignupForm;
+  form: SignupForm;
   setStep: ({ nextStep, nextForm }: { nextStep: number; nextForm: SecondFormType }) => void;
 }
 
@@ -72,14 +72,15 @@ const validator = (form: SecondFormType) =>
  * 두 번째 회원가입 폼을 사용하는 컴포넌트
  *
  ***************************************/
-const SecondStep: React.SFC<ISecondStepProps> = ({ getForm, setStep }) => {
-  const { username, password, pwCheck, ...rest } = getForm();
+const SecondStep: React.SFC<ISecondStepProps> = ({ form, setStep }) => {
+  const { username, password, pwCheck, ...rest } = form;
 
   const secondForm = useMemo(() => rest, []);
 
   const [userInfo, onChangeUserInfo, isFormValid, setUserInfo] = useFormState<SecondFormType>(secondForm, validator);
   const [tagValues, setTagValue] = useState<ISelectOption[]>([]);
   const [tagInputValue, setTagInputValue] = useState<string>('');
+  const [majorInputValue, setMajorInputValue] = useState<string>('');
 
   /**
    * 태그 값이 변경되면 input을 지워줌
@@ -95,6 +96,17 @@ const SecondStep: React.SFC<ISecondStepProps> = ({ getForm, setStep }) => {
   const [tagState, tag] = useAsync({ endpoint: getTagList }, []);
 
   /**
+   * major fetch 성공시에 선택된 전공 이름을 로컬 상태에 반영
+   */
+  useEffect(() => {
+    if (majorState === 'SUCCESS' && major) {
+      console.log(userInfo);
+      const find = major.find((v) => v._id === userInfo.major);
+      setMajorInputValue(userInfo.major.length === 0 ? userInfo.major : find!.name);
+    }
+  }, [majorState]);
+
+  /**
    * 옵션 데이터 변환
    */
   const majorOptions = useMemo(() => mapValuesToOptions(major, 'name'), [major]);
@@ -103,24 +115,31 @@ const SecondStep: React.SFC<ISecondStepProps> = ({ getForm, setStep }) => {
   /**
    *  input EventListener
    */
-  const onChangeMajor = useCallback((ops: ValueType<ISelectOption>) => {
-    if (!ops || Array.isArray(ops)) {
-      return;
-    }
-    setUserInfo({ major: ops.value });
-  }, []);
+  const onChangeMajor = useCallback(
+    (ops: ValueType<ISelectOption>) => {
+      if (!ops || Array.isArray(ops) || !ops.index) {
+        return;
+      }
+      setMajorInputValue(ops.value);
+      setUserInfo({ major: major[ops.index]._id });
+    },
+    [major],
+  );
 
   const onChangeStudendId = useCallback((ops: any) => {
     setUserInfo({ studentId: ops.value });
   }, []);
 
+  /**
+   * 태그 변경시 userInfo에 태그를 넣어줌
+   */
   const onChangeTags = useCallback(
     (ops: ValueType<ISelectOption>) => {
       if (!ops || !Array.isArray(ops)) {
         return;
       }
       const optionValue: Array<PartialExclude<ITag, 'name'>> = ops.map((op) => {
-        return op.index ? tag[op.index] : { name: op.value };
+        return op.index !== undefined ? tag[op.index] : { name: op.value };
       });
       setTagValue(ops);
       setUserInfo({ tags: optionValue });
@@ -131,8 +150,8 @@ const SecondStep: React.SFC<ISecondStepProps> = ({ getForm, setStep }) => {
   /**
    * 태그 인풋 이벤트 핸들러
    * 1. 글자 변경시에는 반영
-   * 2. 스페이스 바 시에 태그 추가
-   * 3. 엔터 시에 태그 추가
+   * 2. 스페이스 바 시에 태그 추가 => input 공백
+   * 3. 엔터 시에 태그 추가 => input 공백
    */
   const onInputChangeTags = useCallback((input: string, meta: InputActionMeta) => {
     if (input.endsWith(' ')) {
@@ -199,7 +218,7 @@ const SecondStep: React.SFC<ISecondStepProps> = ({ getForm, setStep }) => {
 
   const toNextStep = useCallback(
     (step: number) => () => {
-      console.log('click');
+      console.log(userInfo);
       setStep({ nextStep: step, nextForm: userInfo });
     },
     [userInfo],
@@ -230,7 +249,7 @@ const SecondStep: React.SFC<ISecondStepProps> = ({ getForm, setStep }) => {
         <Select
           placeholder={UserInfoFormMap.major.placeholder}
           options={majorOptions}
-          value={makeOptionValue(userInfo.major, userInfo.major === '')}
+          value={makeOptionValue(majorInputValue, majorInputValue === '')}
           onChange={onChangeMajor}
           styles={SelectStyles}
         />

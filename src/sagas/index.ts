@@ -1,6 +1,7 @@
-import { all, fork, take } from 'redux-saga/effects';
+import { all, call, fork, take } from 'redux-saga/effects';
 import { SET_ROOT_VALUE } from '../constants/actionTypes';
 import authSaga from './auth';
+import { init } from './metaData';
 // redux-saga에 effects가 있고 effects를 이용해서 만든 helper가 있음.
 
 // SET_ROOT_VALUE를 dispatch 할 때마다 루프를 한 번 씩 돈다.
@@ -19,8 +20,6 @@ function* watchSetRootValue() {
 // 모든 generator의 root가 되는 generator.
 // fork는 인자로 받는 함수를 block 없이 실행.
 export default function* rootSaga() {
-  yield all([
-    fork(watchSetRootValue),
-    fork(authSaga),
-  ]);
+  yield call(init);
+  yield all([fork(watchSetRootValue), fork(authSaga)]);
 }

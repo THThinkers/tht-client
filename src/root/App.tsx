@@ -2,7 +2,6 @@ import React, { Suspense } from 'react';
 import { connect } from 'react-redux';
 import { Route, Router } from 'react-router-dom';
 import styled from 'styled-components';
-import { getProfile } from '../actions/auth';
 import { Footer } from '../components';
 import { Header } from '../containers';
 import history from '../history';
@@ -32,14 +31,9 @@ const History = React.lazy(() => import('../pages/History'));
 interface IAppProps {
   user: Partial<IUser>;
   status: string;
-  getProfile: () => void;
 }
 
 class App extends React.Component<IAppProps> {
-  componentDidMount() {
-    this.props.getProfile();
-  }
-
   render() {
     const { user, status } = this.props;
     // if (status === 'WAITING') {
@@ -133,7 +127,5 @@ const mapStateToProps = (state: IRootState) => ({
 
 export default connect(
   mapStateToProps,
-  {
-    getProfile,
-  },
+  null,
 )(App);

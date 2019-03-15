@@ -1,5 +1,7 @@
-import React, { ChangeEvent, useCallback, useReducer, useState } from 'react';
+import React, { ChangeEvent, useCallback, useEffect, useReducer, useState } from 'react';
+import { postSignUp } from '../api/auth';
 import { FirstStep, SecondStep } from '../containers/SignUp';
+import history from '../history';
 import { useAsyncCallback } from '../hooks';
 import { ITag } from '../models/tag';
 import { ISignupUser } from '../models/user';
@@ -35,19 +37,30 @@ const SignUp = () => {
   /** usename 서버에서 중복 확인여부 */
   const [userNameValidation, setUsernameValidation] = useState<UserNameValidation>('NOT_CHECKED');
 
+  const [signUpStatus, signUpResult, callSignUp] = useAsyncCallback(postSignUp, { success: false });
+
+  useEffect(() => {
+    if (signUpResult.success) {
+      history.push('/');
+    } else {
+      console.log('에러따리 에러따');
+    }
+  }, [signUpStatus]);
+
   const setStepper = useCallback(
     ({ nextStep, nextForm }: { nextStep: number; nextForm: Partial<SignupForm> }) => {
       setForm(nextForm);
       if (nextStep < 3) {
         setStep(nextStep);
       } else {
-        console.log({ ...form, ...nextForm });
+        const singUpInfo = { ...form, ...nextForm };
+        delete singUpInfo.pwCheck;
+        console.log(singUpInfo);
+        // callSignUp(singUpInfo);
       }
     },
     [form],
   );
-
-  const getForm = () => form;
 
   const onSubmit = (e: ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -63,12 +76,12 @@ const SignUp = () => {
       {step === 1 && (
         <FirstStep
           setStep={setStepper}
-          getForm={getForm}
+          form={form}
           userNameValidation={userNameValidation}
           setUsernameValidation={setUsernameValidation}
         />
       )}
-      {step === 2 && <SecondStep setStep={setStepper} getForm={getForm} />}
+      {step === 2 && <SecondStep setStep={setStepper} form={form} />}
     </Wrapper>
   );
 };
