@@ -5,6 +5,7 @@ import { Store } from 'redux';
 import { GlobalStyle, ModalProvider } from './components';
 import App from './root';
 import configureStore from './store/configureStore';
+import './styles/normalize.css';
 
 const store: Store = configureStore();
 

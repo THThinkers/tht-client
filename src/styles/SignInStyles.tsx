@@ -73,6 +73,7 @@ export const SignInButton = styled(Button)`
 export const UserActionSection = styled.div`
   margin-top: 27px;
   height: 30px;
+  outline: none;
 `;
 
 export const UserActionButton = styled.button<{ hasLine?: boolean }>`
@@ -81,7 +82,6 @@ export const UserActionButton = styled.button<{ hasLine?: boolean }>`
   font-size: 14px;
   background: transparent;
   border: none;
-  cursor: pointer;
   ${({ hasLine = false }) =>
     hasLine &&
     css`

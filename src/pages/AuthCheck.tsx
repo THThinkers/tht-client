@@ -2,12 +2,21 @@ import qs from 'qs';
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import styled from 'styled-components';
 import { oauthLink } from '../actions/auth';
 import { SigninForm } from '../containers/Signin';
 import { useDidUpdate } from '../hooks';
 import { IOauthLinkUser, ISigninUser } from '../models/user';
 import { IRootState } from '../reducers';
-import { Wrapper } from '../styles/SignInStyles';
+import { UserActionSection, Wrapper } from '../styles/SignInStyles';
+
+const NotSignedUpSection = styled(UserActionSection)`
+  text-align: center;
+`;
+const NotSignedUpLink = styled(Link)`
+  color: black;
+  font-size: 24px;
+`;
 
 interface IParamSpec {
   username?: string;
@@ -67,6 +76,9 @@ const AuthCheck: React.SFC<IAuthCheckProps> = ({ oauthLinkAction, oauthLinkStatu
           handleSubmit={handleLinkSubmit}
           signinStatus={oauthLinkStatus}
         />
+        <NotSignedUpSection>
+          <NotSignedUpLink to="/signup">아직 회원가입을 하지 않았다면 (클릭)</NotSignedUpLink>
+        </NotSignedUpSection>
       </Wrapper>
     );
   }

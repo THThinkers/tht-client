@@ -1,7 +1,7 @@
 import FullPage from '@fullpage/react-fullpage';
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import { googleSigninBtn, kakaoSigninBtn } from '../assets/images';
 import * as logo from '../assets/logo';
 
 const Container = styled.div`
@@ -36,9 +36,9 @@ const ImageHeader = styled.h1`
 `;
 
 class Landing extends Component {
-  componentDidMount() {
-    window.history.pushState(null, 'landing', '/landing');
-  }
+  // componentDidMount() {
+  //   window.history.pushState(null, 'landing', '/landing');
+  // }
 
   render() {
     return (
@@ -64,14 +64,10 @@ class Landing extends Component {
                   <Header>THThinkers</Header>
                   <p>THE HYBRID THINKERS</p>
                   <div>
-                    <a href="/api/auth/oauth/google">
-                      <img src={googleSigninBtn} width="180px" />
-                    </a>
+                    <Link to="/signin">로그인</Link>
                   </div>
                   <div>
-                    <a href="/api/auth/oauth/kakao">
-                      <img src={kakaoSigninBtn} width="180px" />
-                    </a>
+                    <Link to="/signup">회원가입</Link>
                   </div>
                 </Content>
                 <Content>

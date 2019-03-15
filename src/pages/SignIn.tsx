@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { RouteComponentProps } from 'react-router-dom';
+import { Link, RouteComponentProps } from 'react-router-dom';
+import styled from 'styled-components';
 import { signin } from '../actions/auth';
 import { GoogleIcon, KakaoIcon } from '../assets/images';
 import { SigninForm } from '../containers/Signin';
@@ -16,6 +17,9 @@ import {
   Wrapper,
 } from '../styles/SignInStyles';
 
+const ActionLink = styled(Link)`
+  text-decoration: none;
+`;
 interface ISigninProps extends RouteComponentProps {
   signinAction: typeof signin;
   signinStatus: State;
@@ -24,17 +28,23 @@ interface ISigninProps extends RouteComponentProps {
 const SignIn: React.SFC<ISigninProps> = ({ signinAction, signinStatus, signinError, history }) => {
   useDidUpdate(signinStatus, (_, status) => {
     if (status === 'SUCCESS') {
-      history.push('/');
+      window.location.replace('/');
     }
   });
   return (
     <>
       <Wrapper>
-        <SigninForm handleSubmit={signinAction} signinStatus={signinStatus} />
+        <SigninForm handleSubmit={signinAction} signinStatus={signinStatus} signinError={signinError} />
         <UserActionSection>
-          <UserActionButton hasLine>회원가입</UserActionButton>
-          <UserActionButton hasLine>아이디 찾기</UserActionButton>
-          <UserActionButton>비밀번호 찾기</UserActionButton>
+          <UserActionButton hasLine>
+            <ActionLink to="/signup">회원가입</ActionLink>
+          </UserActionButton>
+          <UserActionButton hasLine>
+            <ActionLink to="/">아이디 찾기</ActionLink>
+          </UserActionButton>
+          <UserActionButton>
+            <ActionLink to="/">비밀번호 찾기</ActionLink>
+          </UserActionButton>
         </UserActionSection>
         <GoogleLoginButton>
           <a href="/api/auth/oauth/google">

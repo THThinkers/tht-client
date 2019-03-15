@@ -23,9 +23,16 @@ interface ISigninProps {
   subHeader?: string;
   handleSubmit: (user: ISigninUser) => void;
   signinStatus: State;
+  signinError?: string;
 }
 
-const SigninForm: React.SFC<ISigninProps> = ({ header = '로그인', subHeader, handleSubmit, signinStatus }) => {
+const SigninForm: React.SFC<ISigninProps> = ({
+  header = '로그인',
+  subHeader,
+  handleSubmit,
+  signinStatus,
+  signinError,
+}) => {
   const [error, setError] = useReducer((prevState, newState) => ({ ...prevState, ...newState }), initialErrorState);
   const usernameInput = useRef(null);
   const passwordInput = useRef(null);
@@ -74,10 +81,7 @@ const SigninForm: React.SFC<ISigninProps> = ({ header = '로그인', subHeader, 
         title: '로그인 실패',
         contents: (
           <ModalContents>
-            <p>
-              존재하지 않는 아이디 또는 비밀번호입니다. <br />
-              다시 로그인해주세요.
-            </p>
+            <p>잘못된 아이디 혹은 패스워드입니다.</p>
           </ModalContents>
         ),
       });

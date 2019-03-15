@@ -47,11 +47,12 @@ function* signin(action: ISignin) {
     if (success) {
       yield put<ISigninSuccess>({ type: SIGNIN_SUCCESS, user: successUser });
     } else {
-      throw new Error('로그인에 실패하였습니다.');
+      throw new Error('로그인에 실패하였습니다. 다시 시도해주세요.');
     }
   } catch (err) {
+    const message = err.response.data ? err.response.data.error : err.message;
     yield put<ISigninFailure>({
-      error: '로그인에 실패하였습니다. 다시 시도해주세요.',
+      error: message,
       type: SIGNIN_FAILURE,
     });
   }
@@ -104,6 +105,7 @@ function* watchLogout() {
   while (true) {
     yield take(LOGOUT);
     yield call(authApi.logout);
+    window.location.replace('/');
   }
 }
 

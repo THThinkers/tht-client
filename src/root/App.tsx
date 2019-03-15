@@ -53,13 +53,34 @@ class App extends React.Component<IAppProps> {
     //   );
     // }
 
-    if (window.location.pathname === '/auth/check') {
+    /* 임시 auth 플로우 */
+    if (status === 'INIT' || status === 'WAITING') {
+      return null;
+    }
+    if (status === 'FAILURE') {
       return (
-        <Suspense fallback={<div>Loading...</div>}>
-          <AuthCheck />
-        </Suspense>
+        <Router history={history}>
+          <AppBody>
+            <MainContainer>
+              <Suspense fallback={<div>Loading..</div>}>
+                <Route exact path="/" render={() => <Landing />} />
+                <Route exact path="/signup" render={() => <SignUp />} />
+                <Route exact path="/signin" render={(props) => <SignIn {...props} />} />
+                <Route path="/auth/check" render={(props) => <AuthCheck {...props} />} />
+              </Suspense>
+            </MainContainer>
+            <Footer />
+          </AppBody>
+        </Router>
       );
     }
+    // if (window.location.pathname === '/auth/check') {
+    //   return (
+    //     <Suspense fallback={<div>Loading...</div>}>
+    //       <AuthCheck />
+    //     </Suspense>
+    //   );
+    // }
 
     // if (status !== 'SUCCESS') {
     //   return (
