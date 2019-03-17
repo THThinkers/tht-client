@@ -14,7 +14,6 @@ const AppBody = styled.div`
 `;
 
 const MainContainer = styled.div`
-  width: 1366px;
   margin-right: auto;
   margin-left: auto;
   justify-content: center;
