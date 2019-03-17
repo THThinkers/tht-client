@@ -30,11 +30,7 @@ const configureStoreProd = (initialState?: object): Store => {
   ];
   // !는 typescript보다 내가 type을 더 잘할 때,
   // 있다고 확신할 때 쓰면 됨.
-  const store: Store = createStore(
-    rootReducer,
-    initialState!,
-    // applyMiddleware(...middlewares)
-  );
+  const store: Store = createStore(rootReducer, initialState!, applyMiddleware(...middlewares));
   // 반드시 store을 먼저 생성하고 run을 한다.
   sagaMiddleware.run(rootSaga);
   return store;
