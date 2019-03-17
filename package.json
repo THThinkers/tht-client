@@ -9,7 +9,7 @@
     "start": "NODE_ENV=development webpack-dev-server --config ./config/webpack.config.dev.js --hot",
     "tsc": "tsc",
     "build": "NODE_ENV=production webpack --config ./config/webpack.config.prod.js",
-    "start:prod": "serve -s dist -l 8080",
+    "start:prod": "node server",
     "production": "npm run build && npm run start:prod"
   },
   "dependencies": {
@@ -30,6 +30,7 @@
     "@types/validator": "^10.9.0",
     "axios": "^0.18.0",
     "date-fns": "^1.30.1",
+    "express": "^4.16.4",
     "history": "^4.7.2",
     "immer": "^2.1.1",
     "lodash-es": "^4.17.11",

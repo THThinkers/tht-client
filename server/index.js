@@ -4,10 +4,10 @@ const config = require('../config/webpack.config.prod');
 
 const app = express();
 
-app.use(express.static(path.join(__dirname, config.output.publicPath)));
+app.use('/', express.static(config.output.path));
 
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname + config.output.path, 'index.html'));
+  res.sendFile(path.join(config.output.path, 'index.html'));
 });
 
 const port = process.env.PORT || 8080;

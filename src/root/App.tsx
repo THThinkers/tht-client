@@ -1,6 +1,6 @@
 import React, { Suspense } from 'react';
 import { connect } from 'react-redux';
-import { Route, Router } from 'react-router-dom';
+import { Route, Router, Switch } from 'react-router-dom';
 import styled from 'styled-components';
 import { Footer } from '../components';
 import { Header } from '../containers';
