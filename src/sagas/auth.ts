@@ -7,8 +7,6 @@ import {
   ISignin,
   ISigninFailure,
   ISigninSuccess,
-  ISignup,
-  ISignupFailure,
 } from '../actions/auth';
 import * as authApi from '../api/auth';
 import {
@@ -22,9 +20,6 @@ import {
   SIGNIN,
   SIGNIN_FAILURE,
   SIGNIN_SUCCESS,
-  SIGNUP,
-  SIGNUP_FAILURE,
-  SIGNUP_SUCCESS,
 } from '../constants/actionTypes';
 
 function* getProfile(action: IGetProfile) {
@@ -40,6 +35,7 @@ function* getProfile(action: IGetProfile) {
     });
   }
 }
+
 function* signin(action: ISignin) {
   try {
     const { user } = action;
@@ -51,24 +47,10 @@ function* signin(action: ISignin) {
     }
   } catch (err) {
     const message = err.response.data ? err.response.data.error : err.message;
-    yield put<ISigninFailure>({
-      error: message,
-      type: SIGNIN_FAILURE,
-    });
+    yield put<ISigninFailure>({ error: message, type: SIGNIN_FAILURE });
   }
 }
-function* signup(action: ISignup) {
-  try {
-    const { user } = action;
-    yield call(authApi.postSignUp, user);
-    yield put({ type: SIGNUP_SUCCESS });
-  } catch (err) {
-    yield put({
-      error: err.response ? err.response.error : '',
-      type: SIGNUP_FAILURE,
-    });
-  }
-}
+
 function* oauthLink(action: IOauthLink) {
   try {
     const { user } = action;
@@ -85,6 +67,7 @@ function* oauthLink(action: IOauthLink) {
     });
   }
 }
+
 function* watchGetProfile() {
   while (true) {
     const actions = yield take(GET_PROFILE);
@@ -95,12 +78,11 @@ function* watchGetProfile() {
 function* watchSignin() {
   yield takeLatest(SIGNIN, signin);
 }
-function* watchSignup() {
-  yield takeLatest(SIGNUP, signup);
-}
+
 function* watchOauthLink() {
   yield takeLatest(OAUTH_LINK, oauthLink);
 }
+
 function* watchLogout() {
   while (true) {
     yield take(LOGOUT);
@@ -110,5 +92,5 @@ function* watchLogout() {
 }
 
 export default function* authSaga() {
-  yield all([fork(watchGetProfile), fork(watchSignin), fork(watchSignup), fork(watchOauthLink), fork(watchLogout)]);
+  yield all([fork(watchGetProfile), fork(watchSignin), fork(watchOauthLink), fork(watchLogout)]);
 }

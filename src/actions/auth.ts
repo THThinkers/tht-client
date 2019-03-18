@@ -10,9 +10,6 @@ import {
   SIGNIN,
   SIGNIN_FAILURE,
   SIGNIN_SUCCESS,
-  SIGNUP,
-  SIGNUP_FAILURE,
-  SIGNUP_SUCCESS,
 } from '../constants/actionTypes';
 import { IOauthLinkUser, ISigninUser, ISignupUser, IUser } from '../models/user';
 
@@ -33,6 +30,7 @@ export interface IGetProfileNotLinked {
 }
 export interface IGetProfileFailure {
   type: typeof GET_PROFILE_FAILURE;
+  error: string;
 }
 
 // 로그인
@@ -46,18 +44,6 @@ export interface ISigninSuccess {
 }
 export interface ISigninFailure {
   type: typeof SIGNIN_FAILURE;
-  error: string;
-}
-// 회원가입
-export interface ISignup {
-  type: typeof SIGNUP;
-  user: ISignupUser;
-}
-export interface ISignupSuccess {
-  type: typeof SIGNUP_SUCCESS;
-}
-export interface ISignupFailure {
-  type: typeof SIGNUP_FAILURE;
   error: string;
 }
 

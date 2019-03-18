@@ -12,9 +12,6 @@ import {
   SIGNIN,
   SIGNIN_FAILURE,
   SIGNIN_SUCCESS,
-  SIGNUP,
-  SIGNUP_FAILURE,
-  SIGNUP_SUCCESS,
 } from '../constants/actionTypes';
 import { IUser } from '../models/user';
 
@@ -87,25 +84,11 @@ const auth = produce((draft = initialState, action: AuthAction): IAuthState => {
     }
     case SIGNIN_SUCCESS: {
       draft.signin.status = 'SUCCESS';
-      // draft.profile.status = 'SUCCESS';
-      // draft.profile.user = action.user;
       return draft;
     }
     case SIGNIN_FAILURE: {
       draft.signin.status = 'FAILURE';
       draft.signin.error = action.error;
-      return draft;
-    }
-    case SIGNUP: {
-      draft.profile.status = 'WAITING';
-      return draft;
-    }
-    case SIGNUP_SUCCESS: {
-      draft.profile.status = 'SUCCESS';
-      return draft;
-    }
-    case SIGNUP_FAILURE: {
-      draft.profile.status = 'FAILURE';
       return draft;
     }
     case OAUTH_LINK: {
