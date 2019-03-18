@@ -46,25 +46,28 @@ const FirstStep: React.SFC<IFirstStepProps> = ({ form, setStep, userNameValidati
   /**
    * username이 서버에 존재하는지 확인해주고, 그 상태를 변경해준다.
    */
-  const onClickCheckUsername = useCallback(async () => {
-    const { isExist } = await postCheckUserName(username);
-    if (isExist) {
-      setUsernameValidation('EXIST');
-    } else {
-      setUsernameValidation('NOT_EXIST');
-    }
-  }, []);
+  const onClickCheckUsername = useCallback(
+    (id) => async () => {
+      const { isExist } = await postCheckUserName(id);
+      if (isExist) {
+        setUsernameValidation('EXIST');
+      } else {
+        setUsernameValidation('NOT_EXIST');
+      }
+    },
+    [],
+  );
 
   /**
    * username의 밸리데이션을 하는 버튼 컴포넌트
    */
   const CheckUsername = useMemo(
     () => (
-      <CheckUsernameButton type="button" disabled={!isValidUsername} onClick={onClickCheckUsername}>
+      <CheckUsernameButton type="button" disabled={!isValidUsername} onClick={onClickCheckUsername(username)}>
         중복 확인
       </CheckUsernameButton>
     ),
-    [isValidUsername],
+    [isValidUsername, username],
   );
 
   /**
