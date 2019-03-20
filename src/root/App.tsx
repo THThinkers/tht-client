@@ -4,9 +4,9 @@ import { Route, Router, Switch } from 'react-router-dom';
 import styled from 'styled-components';
 import { Footer } from '../components';
 import { Header } from '../containers';
-import { NotVerified } from '../pages';
 import history from '../history';
 import { IUser } from '../models/user';
+import { Members, NotVerified } from '../pages';
 import { IRootState } from '../reducers';
 
 const AppBody = styled.div`
@@ -59,8 +59,8 @@ class App extends React.Component<IAppProps> {
               <Suspense fallback={<div>Loading..</div>}>
                 <Route exact path="/" render={() => <Landing />} />
                 <Route exact path="/signup" render={() => <SignUp />} />
-                <Route exact path="/signin" render={props => <SignIn {...props} />} />
-                <Route path="/auth/check" render={props => <AuthCheck {...props} />} />
+                <Route exact path="/signin" render={(props) => <SignIn {...props} />} />
+                <Route path="/auth/check" render={(props) => <AuthCheck {...props} />} />
               </Suspense>
             </MainContainer>
             <Footer />
@@ -107,8 +107,9 @@ class App extends React.Component<IAppProps> {
                 />
               */}
               <Route exact path="/signup" render={() => <SignUp />} />
-              <Route exact path="/signin" render={props => <SignIn {...props} />} />
-              <Route exact path="/info/introduction" render={props => <History {...props} />} />
+              <Route exact path="/signin" render={(props) => <SignIn {...props} />} />
+              <Route exact path="/info/members" render={(props) => <Members {...props} />} />
+              <Route exact path="/info/introduction" render={(props) => <History {...props} />} />
             </Suspense>
           </MainContainer>
           <Footer />
