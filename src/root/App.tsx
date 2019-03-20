@@ -21,10 +21,16 @@ const MainContainer = styled.div`
   padding-bottom: 120px;
 `;
 
-const AuthCheck = React.lazy(() => import('../pages/AuthCheck'));
+// landing
 const Landing = React.lazy(() => import('../pages/Landing'));
+
+// auth
+const AuthCheck = React.lazy(() => import('../pages/AuthCheck'));
 const SignIn = React.lazy(() => import('../pages/SignIn'));
 const OauthSignup = React.lazy(() => import('../pages/OauthSignup'));
+const FindUserAuth = React.lazy(() => import('../pages/FindUserAuth'));
+
+// contents
 const SignUp = React.lazy(() => import('../pages/SignUp'));
 const History = React.lazy(() => import('../pages/History'));
 
@@ -51,6 +57,7 @@ class App extends React.Component<IAppProps> {
     if (status === 'INIT' || status === 'WAITING') {
       return null;
     }
+
     if (status === 'FAILURE') {
       return (
         <Router history={history}>
@@ -60,6 +67,7 @@ class App extends React.Component<IAppProps> {
                 <Route exact path="/" render={() => <Landing />} />
                 <Route exact path="/signup" render={() => <SignUp />} />
                 <Route exact path="/signin" render={(props) => <SignIn {...props} />} />
+                <Route path="/find-user-auth" render={(props) => <FindUserAuth {...props} />} />
                 <Route path="/auth/check" render={(props) => <AuthCheck {...props} />} />
               </Suspense>
             </MainContainer>
