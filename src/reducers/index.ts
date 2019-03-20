@@ -1,5 +1,6 @@
 import { combineReducers } from 'redux';
 import auth, { IAuthState } from './auth';
+import member, { IMemberState } from './member';
 // import { RootAction } from '../actions/root';
 // import { SET_ROOT_VALUE } from '../constants/actionTypes';
 
@@ -27,10 +28,12 @@ import auth, { IAuthState } from './auth';
 // };
 export interface IRootState {
   auth: IAuthState;
+  member: IMemberState;
   // ..추가될 리듀서 타입
 }
 const appReducer = combineReducers<IRootState>({
   auth,
+  member,
   // ..추가될 리듀서
 });
 

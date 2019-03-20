@@ -31,4 +31,5 @@ export type ISignupUser = Pick<
 >;
 
 export type IOauthLinkUser = Partial<IUser> & Required<Pick<IUser, 'username' | 'password'>>;
+export type IMemberUser = Pick<IUser, '_id' | 'name' | 'major' | 'isActive' | 'studentId' | 'profilePicture'>;
 export type PartialUser = { [K in keyof IUser]?: IUser[K] };
