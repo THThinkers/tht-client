@@ -18,17 +18,13 @@ import { IUser } from '../models/user';
 type UserState = 'NOT_LINKED' | State;
 
 export type IAuthState = Readonly<{
-  readonly profile: {
-    readonly status: UserState;
-    readonly user: Partial<IUser>;
+  profile: {
+    status: UserState;
+    user: Partial<IUser>;
   };
   signin: {
     status: State;
     error: string;
-  };
-  readonly signup: {
-    readonly status: State;
-    readonly error: string;
   };
   oauthLink: {
     status: State;
@@ -48,10 +44,6 @@ const initialState: IAuthState = {
   signin: {
     status: 'INIT',
     error: '',
-  },
-  signup: {
-    error: '',
-    status: 'INIT',
   },
   oauthLink: {
     error: '',

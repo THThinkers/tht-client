@@ -30,9 +30,7 @@ function* getProfile(action: IGetProfile) {
     }
     yield put({ type: GET_PROFILE_SUCCESS, user });
   } catch (err) {
-    yield put({
-      type: GET_PROFILE_FAILURE,
-    });
+    yield put({ type: GET_PROFILE_FAILURE });
   }
 }
 
