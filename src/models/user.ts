@@ -1,3 +1,4 @@
+import { IMajor } from './major';
 import { ITag } from './tag';
 
 /** *  @desc 사용자 데이터 */
@@ -7,7 +8,7 @@ export interface IUser {
   password: string; // 비밀번호
   name: string; // 이름
   phoneNumber: string; // 전화번호
-  major: string; // 전공
+  major: IMajor; // 전공
   studentId: number; // 학번
   joined: string; // 가입 & 활동 종료 시기
   ended: string;
