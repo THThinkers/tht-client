@@ -1,5 +1,9 @@
 import isEmail from 'validator/lib/isEmail';
 
+export const notEmptyString = (value: string) => {
+  return value.length !== 0;
+};
+
 export const email = (value: string): boolean => {
   return isEmail(value);
 };

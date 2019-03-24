@@ -1,9 +1,9 @@
-import { ChangeEvent, useCallback, useEffect, useMemo, useState } from 'react';
+import { ChangeEvent, Dispatch, useCallback, useEffect, useMemo, useState } from 'react';
 
 const useInputState = (
   initialValue: string,
   varifier?: (value: string) => boolean,
-): [string, typeof onChange, boolean] => {
+): [string, typeof onChange, boolean, Dispatch<string>] => {
   const [inputValue, setInputValue] = useState(initialValue);
 
   const isValid = useMemo(() => {
@@ -18,7 +18,7 @@ const useInputState = (
     setInputValue(value);
   }, []);
 
-  return [inputValue, onChange, isValid];
+  return [inputValue, onChange, isValid, setInputValue];
 };
 
 export default useInputState;

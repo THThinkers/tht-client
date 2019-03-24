@@ -24,6 +24,7 @@ import {
   StepButton,
   UserInfoInput,
 } from '../../styles/SignUpStyles';
+import { joinPhoneNumber } from '../../utils';
 
 type SecondFormType = Pick<SignupForm, 'name' | 'phoneNumber' | 'major' | 'studentId' | 'joined' | 'ended' | 'tags'> & {
   [key: string]: string | number | undefined | Array<PartialExclude<ITag, 'name'>>;
@@ -95,13 +96,6 @@ const SecondStep: React.SFC<ISecondStepProps> = ({ form, setStep }) => {
   const endedRef = useRef(null);
   const phoneRef = useRef(null);
   const calendarWrapperRef = useRef<HTMLDivElement>(null);
-
-  /**
-   * 태그 값이 변경되면 input을 지워줌
-   */
-  // useEffect(() => {
-  //   setTagInputValue('');
-  // }, [tagValues]);
 
   /**
    * form 작성에 필요한 데이터를 가져옴
@@ -182,7 +176,7 @@ const SecondStep: React.SFC<ISecondStepProps> = ({ form, setStep }) => {
   // 전화번호에 - 가 포함되어있을 경우 삭제해줌
   useEvent(phoneRef, 'blur', (e) => {
     const { value } = e.currentTarget;
-    setUserInfo({ phoneNumber: value.split('-').join('') });
+    setUserInfo({ phoneNumber: joinPhoneNumber(value) });
   });
 
   /**

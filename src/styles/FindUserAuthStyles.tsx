@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { SignInput } from '../components/shared';
 import colors from '../constants/colors';
 
 export const FindAuthWrapper = styled.div`
@@ -18,4 +19,8 @@ export const FindAuthDescription = styled.div`
 
 export const InputWrapper = styled.form`
   margin-top: 79px;
+`;
+
+export const FindUserInput = styled(SignInput)`
+  margin-bottom: 15px;
 `;
