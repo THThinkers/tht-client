@@ -25,6 +25,7 @@ interface ISubNameMap {
 
 const SubNameMap: ISubNameMap = {
   introduction: 'Introduction',
+  members: '트트인',
 };
 
 /**

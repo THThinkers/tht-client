@@ -6,7 +6,6 @@ import { Footer } from '../components';
 import { Header } from '../containers';
 import history from '../history';
 import { IUser } from '../models/user';
-import { Members, NotVerified } from '../pages';
 import { IRootState } from '../reducers';
 
 const AppBody = styled.div`
@@ -33,6 +32,8 @@ const FindUserAuth = React.lazy(() => import('../pages/FindUserAuth'));
 // contents
 const SignUp = React.lazy(() => import('../pages/SignUp'));
 const History = React.lazy(() => import('../pages/History'));
+const Members = React.lazy(() => import('../pages/Members'));
+const NotVerified = React.lazy(() => import('../pages/NotVerified'));
 
 interface IAppProps {
   user: Partial<IUser>;
