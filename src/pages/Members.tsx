@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
 import styled from 'styled-components';
+import { getImageUrl } from '../api/imagebucket';
 import { PageLayout } from '../components/shared';
 import colors from '../constants/colors';
 import { MemberList } from '../containers/Members';
@@ -17,7 +18,8 @@ const SubHeader = styled.h2`
   margin: 2rem 0;
 `;
 const MembersTableWrapper = styled.div`
-  width: 900px;
+  width: 800px;
+  max-height: 543px;
   margin: auto;
 `;
 const MembersTable = styled.img`
@@ -25,18 +27,19 @@ const MembersTable = styled.img`
 `;
 export interface IMembersProps extends RouteComponentProps {}
 const Members: React.SFC<IMembersProps> = ({ location }) => {
+  const [membersImg, setMembersImg] = useState('');
+  useEffect(() => {
+    getImageUrl('members').then((imageUrl) => {
+      setMembersImg(imageUrl);
+    });
+  }, []);
   const { pathname } = location;
   return (
     <>
       <PageLayout pathname={pathname}>
         <Header>트트인</Header>
         <SubHeader>THT 조직도</SubHeader>
-        <MembersTableWrapper>
-          <MembersTable
-            src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80"
-            alt="조직도"
-          />
-        </MembersTableWrapper>
+        <MembersTableWrapper>{membersImg && <MembersTable src={membersImg} alt="조직도" />}</MembersTableWrapper>
         <SubHeader>트트인</SubHeader>
         <MemberList />
       </PageLayout>
