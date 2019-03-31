@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import colorMap from '../../constants/colors';
-// TODO: 공통 컴포넌트 분리되면 버튼 작성 예정
+
 interface IButtonProps {
   color?: string;
   width?: number;

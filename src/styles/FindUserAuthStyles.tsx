@@ -1,5 +1,6 @@
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import { SignInput } from '../components/shared';
+import { Button, SignInput } from '../components/shared';
 import colors from '../constants/colors';
 
 export const FindAuthWrapper = styled.div`
@@ -18,9 +19,29 @@ export const FindAuthDescription = styled.div`
 `;
 
 export const InputWrapper = styled.form`
-  margin-top: 79px;
+  width: 482px;
+  margin: 79px auto 0px auto;
 `;
 
 export const FindUserInput = styled(SignInput)`
-  margin-bottom: 15px;
+  display: block;
+  margin-bottom: 25px;
+`;
+
+export const FindButton = styled(Button)`
+  margin-top: 77px;
+  display: block;
+  width: 100%;
+  height: 58px;
+  font-weight: bold;
+  font-size: 24px;
+`;
+
+export const FindUserStyledLink = styled(Link)`
+  display: block;
+  font-size: 18px;
+  text-align: center;
+  margin: 34px 0px 100px 0px;
+  color: #808080;
+  text-decoration: underline;
 `;

@@ -2,7 +2,6 @@ import FullPage from '@fullpage/react-fullpage';
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import styled, { keyframes } from 'styled-components';
-import * as logo from '../assets/logo';
 
 const arrow = keyframes`
   0% {
