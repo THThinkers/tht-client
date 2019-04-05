@@ -1,5 +1,6 @@
 const webpack = require('webpack');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const path = require('path');
 
 const devMode = process.env.NODE_ENV !== 'production';
@@ -31,10 +32,22 @@ module.exports = option => ({
       filename: devMode ? '[name].css' : '[name].[hash].css',
       chunkFilename: devMode ? '[id].css' : '[id].[hash].css',
     }),
+    new ForkTsCheckerWebpackPlugin({ tslint: true, async: false, checkSyntacticErrors: true }),
     ...option.plugins,
   ],
   module: {
     rules: [
+      // {
+      //   test: /\.(ts|tsx)$/, // => 타입스크립트 확장자 적용
+      //   enforce: 'pre', // babel로 compile 하기 전에 lint해야하기 때문에 pre 설정 추가
+      //   use: [
+      //     {
+      //       loader: 'tslint-loader', // => tsLint로 변경됨!!!
+      //     },
+      //   ],
+      //   include: path.join(__dirname, 'src'),
+      //   exclude: /node_modules/,
+      // },
       {
         test: /\.tsx?$/,
         exclude: /node_modules/,

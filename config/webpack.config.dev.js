@@ -14,6 +14,7 @@ module.exports = common({
   devServer: {
     host: '0.0.0.0',
     historyApiFallback: true,
+    overlay: true,
     proxy: {
       '/api': 'http://localhost:4000/',
     },

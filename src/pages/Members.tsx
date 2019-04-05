@@ -25,8 +25,8 @@ const MembersTableWrapper = styled.div`
 const MembersTable = styled.img`
   width: 100%;
 `;
-export interface IMembersProps extends RouteComponentProps {}
-const Members: React.SFC<IMembersProps> = ({ location }) => {
+// export interface IMembersProps extends RouteComponentProps {}  => 린터때문에...
+const Members: React.SFC<RouteComponentProps> = ({ location }) => {
   const [membersImg, setMembersImg] = useState('');
   useEffect(() => {
     getImageUrl('members').then((imageUrl) => {

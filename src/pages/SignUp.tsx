@@ -3,6 +3,7 @@ import { postSignUp } from '../api/auth';
 import { FirstStep, SecondStep } from '../containers/SignUp';
 import history from '../history';
 import { useAsyncCallback } from '../hooks';
+import { IMajor } from '../models/major';
 import { ITag } from '../models/tag';
 import { ISignupUser } from '../models/user';
 import { Header, SignUpStepIndicator, StepIndicatorWrapper, Wrapper } from '../styles/SignUpStyles';
@@ -14,7 +15,7 @@ export type UserNameValidation = 'NOT_CHECKED' | 'EXIST' | 'NOT_EXIST' | 'ERROR'
 export type SignupForm = {
   pwCheck: string;
   tags: Array<PartialExclude<ITag, 'name'>>;
-  [key: string]: string | number | undefined | Array<PartialExclude<ITag, 'name'>>;
+  [key: string]: string | number | undefined | Array<PartialExclude<ITag, 'name'>> | IMajor;
 } & ISignupUser;
 
 const SignUp = () => {
@@ -28,7 +29,7 @@ const SignUp = () => {
       name: '', // 사용자 이름
       phoneNumber: '', // 전화번호
       studentId: -1, // 학번
-      major: '', // 전공
+      major: { createAt: '', name: '', _id: '' }, // 전공
       joined: '', // 기간
       ended: '',
       tags: [],

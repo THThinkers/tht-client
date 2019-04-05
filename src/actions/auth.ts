@@ -11,7 +11,7 @@ import {
   SIGNIN_FAILURE,
   SIGNIN_SUCCESS,
 } from '../constants/actionTypes';
-import { IOauthLinkUser, ISigninUser, ISignupUser, IUser } from '../models/user';
+import { IOauthLinkUser, ISigninUser, IUser } from '../models/user';
 
 // 세션에 들어있는 현재 프로필 정보 가져오기.
 
@@ -69,9 +69,6 @@ export type AuthAction =
   | ISignin
   | ISigninSuccess
   | ISigninFailure
-  | ISignup
-  | ISignupSuccess
-  | ISignupFailure
   | IOauthLink
   | IOauthLinkSuccess
   | IOauthLinkFailure
@@ -82,10 +79,6 @@ export const getProfile = (): IGetProfile => ({
 });
 export const signin = (user: ISigninUser): ISignin => ({
   type: SIGNIN,
-  user,
-});
-export const signup = (user: ISignupUser): ISignup => ({
-  type: SIGNUP,
   user,
 });
 export const oauthLink = (user: IOauthLinkUser): IOauthLink => ({

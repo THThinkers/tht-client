@@ -1,3 +1,4 @@
+/* tslint:disable */
 const passIcon = require('./pass.png');
 const failIcon = require('./fail.png');
 

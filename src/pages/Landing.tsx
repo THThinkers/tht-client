@@ -1,3 +1,4 @@
+/* tslint:disable */
 import FullPage from '@fullpage/react-fullpage';
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
@@ -32,7 +33,7 @@ const Content = styled('div')<{ position?: 'bottom-center' | 'middle-left' | 'mi
 
   padding-bottom: 200px;
 
-  ${(props) => {
+  ${props => {
     switch (props.position) {
       case 'middle-left': {
         return `

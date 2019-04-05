@@ -9,6 +9,7 @@ import { getTagList } from '../../api/tag';
 import { ISelectOption, makeOptionValue, mapValuesToOptions } from '../../helper/reactSelectHelper';
 import { useAsync, useEvent, useFormState } from '../../hooks';
 import useWindowEvent from '../../hooks/useWindowEvent';
+import { IMajor } from '../../models/major';
 import { ITag } from '../../models/tag';
 import { ISignupUser } from '../../models/user';
 import { SignupForm } from '../../pages/SignUp';
@@ -27,7 +28,7 @@ import {
 import { joinPhoneNumber } from '../../utils';
 
 type SecondFormType = Pick<SignupForm, 'name' | 'phoneNumber' | 'major' | 'studentId' | 'joined' | 'ended' | 'tags'> & {
-  [key: string]: string | number | undefined | Array<PartialExclude<ITag, 'name'>>;
+  [key: string]: string | number | undefined | Array<PartialExclude<ITag, 'name'>> | IMajor;
 };
 
 type CalendarStatus = 'NONE' | 'JOINED' | 'ENDED';
@@ -108,8 +109,8 @@ const SecondStep: React.SFC<ISecondStepProps> = ({ form, setStep }) => {
    */
   useEffect(() => {
     if (majorState === 'SUCCESS' && major) {
-      const find = major.find((v) => v._id === userInfo.major);
-      setMajorInputValue(userInfo.major.length === 0 ? userInfo.major : find!.name);
+      const find = major.find((v) => v._id === userInfo.major._id);
+      setMajorInputValue(userInfo.major.name.length === 0 ? userInfo.major.name : find!.name);
     }
   }, [majorState]);
 
