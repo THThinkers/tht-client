@@ -3,6 +3,10 @@ import styled from 'styled-components';
 import { Button, SignInput } from '../components/shared';
 import colors from '../constants/colors';
 
+// ---------------------------------
+// 아이디 / 비밀번호 찾기 공용
+// ---------------------------------
+
 export const FindAuthWrapper = styled.div`
   margin: 158px auto 0px auto;
   width: 750px;
@@ -44,4 +48,20 @@ export const FindUserStyledLink = styled(Link)`
   margin: 34px 0px 100px 0px;
   color: #808080;
   text-decoration: underline;
+`;
+
+// ---------------------------------
+// 아이디 / 비밀번호 찾기 공용
+// ---------------------------------
+
+export const UsernameBox = styled.div`
+  width: 482px;
+  height: 58px;
+  border: 1px solid black;
+  line-height: normal;
+  font-size: 24px;
+`;
+
+export const GoToLoginButton = styled(FindButton)`
+  margin-top: 121px;
 `;

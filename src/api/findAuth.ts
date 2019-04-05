@@ -16,7 +16,7 @@ interface IFindAuthResult {
  * @param {string} name 이름
  * @param {string} phoneNumber 전화번호
  */
-export const findUsername: ApiEndPoint<{ usename: string } | IFindAuthResult> = async (
+export const getFindUsername: ApiEndPoint<{ username: string } | IFindAuthResult> = async (
   name: string,
   phoneNumber: string,
 ) => {
@@ -30,7 +30,7 @@ export const findUsername: ApiEndPoint<{ usename: string } | IFindAuthResult> = 
  * @param {string} name 이름
  * @param {string} phoneNumber 전화번호
  */
-export const findPassword: ApiEndPoint<IFindAuthResult> = async (
+export const getFindPassword: ApiEndPoint<IFindAuthResult> = async (
   usename: string,
   name: string,
   phoneNumber: string,
