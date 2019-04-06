@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useCallback, useEffect, useReducer, useState } from 'react';
+import React, { ChangeEvent, Reducer, useCallback, useEffect, useReducer, useState } from 'react';
 import { postSignUp } from '../api/auth';
 import { FirstStep, SecondStep } from '../containers/SignUp';
 import history from '../history';
@@ -20,7 +20,7 @@ export type SignupForm = {
 
 const SignUp = () => {
   const [step, setStep] = useState<number>(1);
-  const [form, setForm] = useReducer<SignupForm, Partial<SignupForm>>(
+  const [form, setForm] = useReducer<Reducer<SignupForm, Partial<SignupForm>>>(
     (state, newState) => ({ ...state, ...newState }),
     {
       username: '', // 아이디
@@ -35,6 +35,7 @@ const SignUp = () => {
       tags: [],
     },
   );
+
   /** usename 서버에서 중복 확인여부 */
   const [userNameValidation, setUsernameValidation] = useState<UserNameValidation>('NOT_CHECKED');
 
