@@ -26,6 +26,7 @@ const Member: React.SFC<IMemberProps> = ({ name, major, studentId, profilePictur
     <MemberWrapper>
       <Avatar
         size="large"
+        // tslint:disable-next-line: max-line-length
         src="https://images.unsplash.com/photo-1490718720478-364a07a997cd?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=633&q=80"
         alt="프로필"
       />

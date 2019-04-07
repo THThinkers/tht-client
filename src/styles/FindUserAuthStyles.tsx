@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { Button, SignInput } from '../components/shared';
+import { LinkButton } from '../components/shared/Button';
 import colors from '../constants/colors';
 
 // ---------------------------------
@@ -32,13 +33,21 @@ export const FindUserInput = styled(SignInput)`
   margin-bottom: 25px;
 `;
 
-export const FindButton = styled(Button)`
+const ButtonStyle = css`
   margin-top: 77px;
   display: block;
   width: 100%;
   height: 58px;
   font-weight: bold;
   font-size: 24px;
+`;
+
+export const FindButton = styled(Button)`
+  ${ButtonStyle}
+`;
+
+export const FindLinkButton = styled(LinkButton)`
+  ${ButtonStyle}
 `;
 
 export const FindUserStyledLink = styled(Link)`
@@ -51,17 +60,23 @@ export const FindUserStyledLink = styled(Link)`
 `;
 
 // ---------------------------------
-// 아이디 / 비밀번호 찾기 공용
+// 아이디 찾기
 // ---------------------------------
 
-export const UsernameBox = styled.div`
+export const ResultWrapper = styled.div`
   width: 482px;
+  margin: 98px auto 0px auto;
+`;
+
+export const UsernameBox = styled.div`
   height: 58px;
   border: 1px solid black;
   line-height: normal;
   font-size: 24px;
+  text-align: center;
+  line-height: 58px;
 `;
 
-export const GoToLoginButton = styled(FindButton)`
+export const GoToLoginButton = styled(FindLinkButton)`
   margin-top: 121px;
 `;

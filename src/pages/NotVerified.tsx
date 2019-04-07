@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import { logout } from '../actions/auth';
 import { Button } from '../components/shared';
 import color from '../constants/colors';
+
 const Container = styled.div`
   display: flex;
   align-items: center;
@@ -29,6 +30,7 @@ const CustomButton = styled(Button)`
 interface INotVerifiedProps {
   logoutAction: typeof logout;
 }
+
 const NotVerified: React.SFC<INotVerifiedProps> = ({ logoutAction }) => {
   return (
     <Container>

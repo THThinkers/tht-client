@@ -26,7 +26,6 @@ const Landing = React.lazy(() => import('../pages/Landing'));
 // auth
 const AuthCheck = React.lazy(() => import('../pages/AuthCheck'));
 const SignIn = React.lazy(() => import('../pages/SignIn'));
-const OauthSignup = React.lazy(() => import('../pages/OauthSignup'));
 const FindUserAuth = React.lazy(() => import('../pages/FindUserAuth'));
 
 // contents
@@ -43,22 +42,20 @@ interface IAppProps {
 class App extends React.Component<IAppProps> {
   render() {
     const { user, status } = this.props;
-    // if (status === 'WAITING') {
-    //   return null;
-    // }
-    // if (status !== 'SUCCESS') {
-    //   return (
-    //     <Suspense fallback={<div>Loading..</div>}>
-    //       <SignUp />
-    //     </Suspense>
-    //   );
-    // }
 
-    /* 임시 auth 플로우 */
+    /**
+     * 임시 auth 플로우
+     * 1. APP 작동하자마자 profile 정보 호출
+     * 2. INIT / WAITING 시에 null
+     * 3. 실패 시(로그인 안되어있음) => 로그인 안된 화면
+     * 4. 성공 시(로그인 되어있음) => 로그인 된 화면
+     */
+
     if (status === 'INIT' || status === 'WAITING') {
       return null;
     }
 
+    // 로그인 안된화면
     if (status === 'FAILURE') {
       return (
         <Router history={history}>
@@ -77,32 +74,13 @@ class App extends React.Component<IAppProps> {
         </Router>
       );
     }
-    // if (window.location.pathname === '/auth/check') {
-    //   return (
-    //     <Suspense fallback={<div>Loading...</div>}>
-    //       <AuthCheck />
-    //     </Suspense>
-    //   );
-    // }
 
-    // if (status !== 'SUCCESS') {
-    //   return (
-    //     <Suspense fallback={<div>Loading..</div>}>
-    //       <Landing />
-    //     </Suspense>
-    //   );
-    // }
-
-    // if (!user.isVerified) {
-    //   return (
-    //     <Suspense fallback={<div>Loading..</div>}>
-    //       {/* <OauthSignup userId={user._id} /> */}
-    //     </Suspense>
-    //   );
-    // }
+    // 인증 안됨
     if (!user.isVerified) {
       return <NotVerified />;
     }
+
+    // 로그인 된 화면
     return (
       <Router history={history}>
         <AppBody>

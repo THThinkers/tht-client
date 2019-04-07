@@ -3,6 +3,7 @@ enum colors {
   prime = '#1069EF',
   positive = '#1069ef',
   negative = '#ff0000',
+  gray = '#9D9D9D',
 }
 
 export default colors;

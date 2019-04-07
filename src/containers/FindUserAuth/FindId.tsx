@@ -1,5 +1,5 @@
 import React, { ChangeEvent, useCallback } from 'react';
-import { getFindUsername } from '../../api/findAuth';
+import { postFindUsername } from '../../api/findAuth';
 import { ToHome } from '../../components/shared';
 import { useAsyncCallback, useInputState } from '../../hooks';
 import {
@@ -10,6 +10,7 @@ import {
   FindUserStyledLink,
   GoToLoginButton,
   InputWrapper,
+  ResultWrapper,
   UsernameBox,
 } from '../../styles/FindUserAuthStyles';
 import { is, joinPhoneNumber } from '../../utils';
@@ -18,9 +19,17 @@ import { is, joinPhoneNumber } from '../../utils';
  * 아이디 찾는 컴포넌트
  */
 function FindId() {
-  const [status, usernameData] = useAsyncCallback(getFindUsername, { username: '' });
+  const [status, usernameData, callFindUsername] = useAsyncCallback(postFindUsername, { username: '' });
   const [name, onChangeName, isValidName] = useInputState('', is.notEmptyString);
   const [phoneNumber, _, isValidPhoneNumber, setPhoneNumber] = useInputState('', is.notEmptyString);
+
+  const onSubmit = useCallback(
+    (e) => {
+      e.preventDefault();
+      callFindUsername(name, phoneNumber);
+    },
+    [name, phoneNumber],
+  );
 
   const onChangePhoneNumber = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     const joinedPhoneNumber = joinPhoneNumber(e.target.value);
@@ -34,8 +43,12 @@ function FindId() {
         <ToHome />
         <h1>아이디 찾기</h1>
         <FindAuthDescription>고객님의 정보와 일치하는 아이디입니다.</FindAuthDescription>
-        <UsernameBox>{usernameData.username}</UsernameBox>
-        <GoToLoginButton>로그인하러 가기</GoToLoginButton>
+        <ResultWrapper>
+          <UsernameBox>{usernameData.username}</UsernameBox>
+          <GoToLoginButton invert to="/signup">
+            로그인하러 가기
+          </GoToLoginButton>
+        </ResultWrapper>
         <FindUserStyledLink to="/find-user-auth/password">비밀번호 찾기</FindUserStyledLink>
       </FindAuthWrapper>
     );
@@ -48,16 +61,17 @@ function FindId() {
       <FindAuthDescription>
         회원가입에 사용한 이름과 핸드폰 번호가 일치해야 아이디를 찾을 수 있습니다
       </FindAuthDescription>
-      <InputWrapper>
+      <InputWrapper onSubmit={onSubmit}>
         <FindUserInput placeholder="이름" value={name} onChange={onChangeName} />
         <FindUserInput placeholder="전화번호" value={phoneNumber} onChange={onChangePhoneNumber} />
-        <FindButton invert>아이디 찾기</FindButton>
+        {/* 두 필드가 모두 비어있으면 보낼 수 없음 */}
+        <FindButton invert disabled={!isValidName || !isValidPhoneNumber}>
+          아이디 찾기
+        </FindButton>
       </InputWrapper>
       <FindUserStyledLink to="/find-user-auth/password">비밀번호 찾기</FindUserStyledLink>
     </FindAuthWrapper>
   );
-
-  return <div> 결과</div>;
 }
 
 export default FindId;

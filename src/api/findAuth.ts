@@ -16,11 +16,11 @@ interface IFindAuthResult {
  * @param {string} name 이름
  * @param {string} phoneNumber 전화번호
  */
-export const getFindUsername: ApiEndPoint<{ username: string } | IFindAuthResult> = async (
+export const postFindUsername: ApiEndPoint<{ username: string } | IFindAuthResult> = async (
   name: string,
   phoneNumber: string,
 ) => {
-  const { data } = await authApi.post('usename', { name, phoneNumber });
+  const { data } = await authApi.post('username', { name, phoneNumber });
   return data;
 };
 

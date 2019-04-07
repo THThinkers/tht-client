@@ -40,10 +40,10 @@ const SignIn: React.SFC<ISigninProps> = ({ signinAction, signinStatus, signinErr
             <ActionLink to="/signup">회원가입</ActionLink>
           </UserActionButton>
           <UserActionButton hasLine>
-            <ActionLink to="/">아이디 찾기</ActionLink>
+            <ActionLink to="/find-user-auth/id">아이디 찾기</ActionLink>
           </UserActionButton>
           <UserActionButton>
-            <ActionLink to="/">비밀번호 찾기</ActionLink>
+            <ActionLink to="/find-user-auth/password">비밀번호 찾기</ActionLink>
           </UserActionButton>
         </UserActionSection>
         <GoogleLoginButton>
