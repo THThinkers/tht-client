@@ -1,5 +1,6 @@
 import React from 'react';
 import { Route, RouteProps, Switch } from 'react-router';
+import { EtcLayout } from '../components/shared';
 import { FindId, FindPassword } from '../containers/FindUserAuth';
 
 type IFindAuthProps = {} & RouteProps;
@@ -13,10 +14,12 @@ const FindUserAuth: React.SFC<IFindAuthProps> = ({ location }) => {
   }
 
   return (
-    <Switch>
-      <Route path="/find-user-auth/id" component={FindId} />
-      <Route path="/find-user-auth/password" component={FindPassword} />
-    </Switch>
+    <EtcLayout>
+      <Switch>
+        <Route path="/find-user-auth/id" component={FindId} />
+        <Route path="/find-user-auth/password" component={FindPassword} />
+      </Switch>
+    </EtcLayout>
   );
 };
 

@@ -32,7 +32,7 @@ module.exports = option => ({
       filename: devMode ? '[name].css' : '[name].[hash].css',
       chunkFilename: devMode ? '[id].css' : '[id].[hash].css',
     }),
-    new ForkTsCheckerWebpackPlugin({ tslint: true, async: false, checkSyntacticErrors: true }),
+    new ForkTsCheckerWebpackPlugin({ tslint: true, async: false }),
     ...option.plugins,
   ],
   module: {

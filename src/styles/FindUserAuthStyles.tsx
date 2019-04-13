@@ -37,16 +37,17 @@ const ButtonStyle = css`
   margin-top: 77px;
   display: block;
   width: 100%;
-  height: 58px;
   font-weight: bold;
   font-size: 24px;
 `;
 
 export const FindButton = styled(Button)`
+  height: 58px;
   ${ButtonStyle}
 `;
 
 export const FindLinkButton = styled(LinkButton)`
+  padding: 14px 0;
   ${ButtonStyle}
 `;
 

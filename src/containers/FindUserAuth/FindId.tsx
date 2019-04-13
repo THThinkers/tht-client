@@ -1,7 +1,6 @@
-import React, { ChangeEvent, useCallback } from 'react';
+import React, { ChangeEvent, useCallback, useEffect } from 'react';
 import { postFindUsername } from '../../api/findAuth';
-import { ToHome } from '../../components/shared';
-import { useAsyncCallback, useInputState } from '../../hooks';
+import { useAsyncCallback, useInputState, useModal } from '../../hooks';
 import {
   FindAuthDescription,
   FindAuthWrapper,
@@ -22,6 +21,13 @@ function FindId() {
   const [status, usernameData, callFindUsername] = useAsyncCallback(postFindUsername, { username: '' });
   const [name, onChangeName, isValidName] = useInputState('', is.notEmptyString);
   const [phoneNumber, _, isValidPhoneNumber, setPhoneNumber] = useInputState('', is.notEmptyString);
+  const [openModal, closeModal] = useModal();
+
+  useEffect(() => {
+    if (status === 'SUCCESS' && 'isExist' in usernameData) {
+      openModal({ title: '아이디 찾기 실패', contents: '일치하는 회원정보가 존재하지 않습니다' });
+    }
+  }, [status]);
 
   const onSubmit = useCallback(
     (e) => {
@@ -40,12 +46,11 @@ function FindId() {
   if (status === 'SUCCESS' && 'username' in usernameData) {
     return (
       <FindAuthWrapper>
-        <ToHome />
         <h1>아이디 찾기</h1>
         <FindAuthDescription>고객님의 정보와 일치하는 아이디입니다.</FindAuthDescription>
         <ResultWrapper>
           <UsernameBox>{usernameData.username}</UsernameBox>
-          <GoToLoginButton invert to="/signup">
+          <GoToLoginButton invert to="/signin">
             로그인하러 가기
           </GoToLoginButton>
         </ResultWrapper>
@@ -56,7 +61,6 @@ function FindId() {
 
   return (
     <FindAuthWrapper>
-      <ToHome />
       <h1>아이디 찾기</h1>
       <FindAuthDescription>
         회원가입에 사용한 이름과 핸드폰 번호가 일치해야 아이디를 찾을 수 있습니다

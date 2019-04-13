@@ -1,4 +1,5 @@
-import { Link } from 'react-router-dom';
+import React from 'react';
+import { Link, LinkProps } from 'react-router-dom';
 import styled, { css } from 'styled-components';
 import colorMap from '../../constants/colors';
 
@@ -26,7 +27,12 @@ const Button = styled.button<IButtonProps>`
   ${ButtonCss}
 `;
 
-export const LinkButton = styled(Link)<IButtonProps>`
+// 스타일드 컴포넌트에서 사용되는 프롭을 필터하기 위해서 만듬
+const PropFilteredLink: React.SFC<IButtonProps & LinkProps> = ({ color, width, invert, ...linkProps }) => (
+  <Link {...linkProps} />
+);
+
+export const LinkButton = styled(PropFilteredLink)<IButtonProps>`
   text-decoration: none;
   ${ButtonCss}
 `;
