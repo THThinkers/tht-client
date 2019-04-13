@@ -1,4 +1,4 @@
-import isEmail from 'validator/lib/isEmail';
+import { isEmail } from 'validator';
 
 export const notEmptyString = (value: string) => {
   return value.length !== 0;
