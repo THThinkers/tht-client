@@ -14,8 +14,8 @@ export type UserNameValidation = 'NOT_CHECKED' | 'EXIST' | 'NOT_EXIST' | 'ERROR'
 /** 입력 회원가입 시 필요한 정보 */
 export type SignupForm = {
   pwCheck: string;
-  tags: Array<PartialExclude<ITag, 'name'>>;
-  [key: string]: string | number | undefined | Array<PartialExclude<ITag, 'name'>> | IMajor;
+  tags: PartialExclude<ITag, 'name'>[];
+  [key: string]: string | number | undefined | PartialExclude<ITag, 'name'>[] | IMajor;
 } & ISignupUser;
 
 const SignUp = () => {

@@ -28,7 +28,7 @@ import {
 import { joinPhoneNumber } from '../../utils';
 
 type SecondFormType = Pick<SignupForm, 'name' | 'phoneNumber' | 'major' | 'studentId' | 'joined' | 'ended' | 'tags'> & {
-  [key: string]: string | number | undefined | Array<PartialExclude<ITag, 'name'>> | IMajor;
+  [key: string]: string | number | undefined | PartialExclude<ITag, 'name'>[] | IMajor;
 };
 
 type CalendarStatus = 'NONE' | 'JOINED' | 'ENDED';
@@ -54,6 +54,7 @@ const UserInfoFormMap: { [key in FlatInputUserData]: InputHTMLAttributes<{}> } =
  * 학번 정보 생성기
  * 2000년부터 현재까지 라벨을 생성한다.
  */
+// tslint:disable-next-line: prefer-array-literal
 const studentIdOptions = new Array(getYear(Date.now()) - 1999)
   .fill(0)
   .map((_, index) => ({ value: 2000 + index, label: 2000 + index }));
@@ -109,7 +110,7 @@ const SecondStep: React.SFC<ISecondStepProps> = ({ form, setStep }) => {
    */
   useEffect(() => {
     if (majorState === 'SUCCESS' && major) {
-      const find = major.find((v) => v._id === userInfo.major._id);
+      const find = major.find(v => v._id === userInfo.major._id);
       setMajorInputValue(userInfo.major.name.length === 0 ? userInfo.major.name : find!.name);
     }
   }, [majorState]);
@@ -146,7 +147,7 @@ const SecondStep: React.SFC<ISecondStepProps> = ({ form, setStep }) => {
       if (!ops || !Array.isArray(ops)) {
         return;
       }
-      const optionValue: Array<PartialExclude<ITag, 'name'>> = ops.map((op) => {
+      const optionValue: PartialExclude<ITag, 'name'>[] = ops.map(op => {
         return op.index !== undefined ? tag[op.index] : { name: op.value };
       });
       setTagValue(ops);
@@ -164,18 +165,18 @@ const SecondStep: React.SFC<ISecondStepProps> = ({ form, setStep }) => {
   const onInputChangeTags = useCallback((input: string, meta: InputActionMeta) => {
     if (input.endsWith(' ')) {
       const newValue = input.trim();
-      setTagValue((prev) => [...prev.filter((v) => v.value !== newValue), { label: newValue, value: newValue }]);
-      setTagInputValue((prev) => '');
+      setTagValue(prev => [...prev.filter(v => v.value !== newValue), { label: newValue, value: newValue }]);
+      setTagInputValue(prev => '');
     } else if (meta.action === 'input-change') {
       setTagInputValue(input.trim());
     }
     if (meta.action === 'set-value') {
-      setTagInputValue((prev) => '');
+      setTagInputValue(prev => '');
     }
   }, []);
 
   // 전화번호에 - 가 포함되어있을 경우 삭제해줌
-  useEvent(phoneRef, 'blur', (e) => {
+  useEvent(phoneRef, 'blur', e => {
     const { value } = e.currentTarget;
     setUserInfo({ phoneNumber: joinPhoneNumber(value) });
   });
@@ -196,7 +197,7 @@ const SecondStep: React.SFC<ISecondStepProps> = ({ form, setStep }) => {
   });
 
   // 달력 이외의 것을 누르면 달력 삭제
-  useWindowEvent('click', (e) => {
+  useWindowEvent('click', e => {
     if (e.target === joinedRef.current || e.target === endedRef.current) {
       return;
     }

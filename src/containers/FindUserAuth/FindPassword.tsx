@@ -23,7 +23,7 @@ function FindPassword() {
   const [phoneNumber, _, isValidPhoneNumber, setPhoneNumber] = useInputState('', is.notEmptyString);
 
   const onSubmit = useCallback(
-    (e) => {
+    e => {
       e.preventDefault();
     },
     [username, name, phoneNumber],
