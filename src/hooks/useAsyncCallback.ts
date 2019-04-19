@@ -8,7 +8,7 @@ const useAsyncCallback = <T>(endpoint: ApiEndPoint<T>, defaultState: T): [State,
     setStatus('WAITING');
     endpoint
       .apply(null, params || [])
-      .then((res) => {
+      .then(res => {
         setData(res);
         setStatus('SUCCESS');
       })

@@ -118,3 +118,13 @@ export const UsernameBox = styled.div`
   text-align: center;
   line-height: 58px;
 `;
+
+// ---------------------------------
+// 비밀번호
+// ---------------------------------
+
+export const FindPasswordDescription = styled.div`
+  margin-top: 140px;
+  size: 24px;
+  text-align: center;
+`;

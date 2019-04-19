@@ -1,14 +1,17 @@
-import React, { ChangeEvent, useCallback, useState } from 'react';
+import React, { ChangeEvent, useCallback, useEffect, useMemo, useState } from 'react';
+import { postFindPassword } from '../../api/findAuth';
 import { CheckInput } from '../../components/shared';
-import { useInputState } from '../../hooks';
+import { useAsyncCallback, useInputState, useModal } from '../../hooks';
 import {
   FindAuthDescription,
   FindAuthWrapper,
   FindButton,
+  FindPasswordDescription,
   FindUserInput,
   FindUserStyledLink,
   GoToLoginButton,
   InputWrapper,
+  ModalContent,
   ResultWrapper,
 } from '../../styles/FindUserAuthStyles';
 import { is, joinPhoneNumber } from '../../utils';
@@ -18,13 +21,34 @@ import { is, joinPhoneNumber } from '../../utils';
  */
 function FindPassword() {
   const [isResult, setIsResult] = useState(false);
+  const [status, data, call] = useAsyncCallback(postFindPassword, { isExist: false });
   const [username, onChangeUsername, isValidUsername] = useInputState('', is.email);
   const [name, onChangeName, isValidName] = useInputState('', is.notEmptyString);
   const [phoneNumber, _, isValidPhoneNumber, setPhoneNumber] = useInputState('', is.notEmptyString);
+  const [openModal] = useModal();
 
+  const Modal = useMemo(() => <ModalContent>일치하는 회원정보가 존재하지 않습니다</ModalContent>, []);
+
+  /**
+   * 아이디 존재하지 않을때 에러 문구 띄워줌.
+   * TODO: 서버 에러일 경우 추가
+   */
+  useEffect(() => {
+    if (status === 'SUCCESS' && !data.isExist) {
+      openModal({ title: '아이디 찾기 실패', contents: Modal });
+    }
+    if (data.isExist) {
+      setIsResult(true);
+    }
+  }, [status]);
+
+  /**
+   * 제출
+   */
   const onSubmit = useCallback(
     e => {
       e.preventDefault();
+      call(username, name, phoneNumber);
     },
     [username, name, phoneNumber],
   );
@@ -69,15 +93,17 @@ function FindPassword() {
   return (
     <FindAuthWrapper>
       <h1>비밀번호 찿기</h1>
-      <FindAuthDescription>
-        회원가입에 사용한 이름과 핸드폰 번호가 일치해야 아이디를 찾을 수 있습니다
-      </FindAuthDescription>
+      <FindPasswordDescription>
+        해당 아이디(이메일)로 임시 비밀번호가 전송되었습니다.
+        <br />
+        마이페이지에서 비밀번호를 변경해주시길 바랍니다.
+      </FindPasswordDescription>
       <ResultWrapper>
         <GoToLoginButton invert to="/signin">
           로그인하러 가기
         </GoToLoginButton>
       </ResultWrapper>
-      <FindUserStyledLink to="/find-user-auth/password">비밀번호 찾기</FindUserStyledLink>
+      <FindUserStyledLink to="/find-user-auth/id">아이디 찾기</FindUserStyledLink>
     </FindAuthWrapper>
   );
 }

@@ -30,11 +30,11 @@ export const postFindUsername: ApiEndPoint<{ username: string } | IFindAuthResul
  * @param {string} name 이름
  * @param {string} phoneNumber 전화번호
  */
-export const getFindPassword: ApiEndPoint<IFindAuthResult> = async (
-  usename: string,
+export const postFindPassword: ApiEndPoint<IFindAuthResult> = async (
+  username: string,
   name: string,
   phoneNumber: string,
 ) => {
-  const { data } = await authApi.post('password', { usename, name, phoneNumber });
+  const { data } = await authApi.post('password', { username, name, phoneNumber });
   return data;
 };
