@@ -1,6 +1,6 @@
 /* tslint:disable */
 import FullPage from '@fullpage/react-fullpage';
-import React, { Component } from 'react';
+import React from 'react';
 import {
   landingTHT,
   landingTogether,
@@ -18,6 +18,9 @@ import {
   ImageSubHeader,
   LinkBox,
   CustomLink,
+  MainHeader,
+  MainContent,
+  MainSubHeader,
 } from '../styles/LandingStyles';
 
 const Landing = () => (
@@ -26,10 +29,10 @@ const Landing = () => (
       <FullPage.Wrapper>
         <div className="section">
           <ImageContainer backgroundImage={landingTHT}>
-            <Content>
-              <ImageHeader>THE HYBRID THINKERS</ImageHeader>
-              <ImageSubHeader>한국외국어대학교 경영정보학회</ImageSubHeader>
-            </Content>
+            <MainContent>
+              <MainHeader>THE HYBRID THINKERS</MainHeader>
+              <MainSubHeader>한국외국어대학교 경영정보학회</MainSubHeader>
+            </MainContent>
           </ImageContainer>
           <ArrowBox>
             <Arrow />
@@ -37,8 +40,11 @@ const Landing = () => (
         </div>
         <div className="section">
           <ImageContainer backgroundImage={landingTogether}>
-            <Content position="middle-left">
-              <ImageHeader>THE HYBRID THINKERS,SHOW HOW GREAT YOU ARE</ImageHeader>
+            <Content position="top-left">
+              <ImageHeader>
+                <div>THE HYBRID THINKERS,</div>
+                <div>SHOW HOW GREAT YOU ARE</div>
+              </ImageHeader>
               <ImageSubHeader>당신의 잠재력을, THT에서 찾아보세요.</ImageSubHeader>
             </Content>
             <ArrowBox>
@@ -48,7 +54,7 @@ const Landing = () => (
         </div>
         <div className="section">
           <ImageContainer backgroundImage={landingStudy}>
-            <Content position="middle-left">
+            <Content position="bottom-right">
               <ImageHeader>DO THT, THE HYBRID THINKERS!</ImageHeader>
               <ImageSubHeader>
                 <div>#Business envrionment analysis #Block chain</div>
@@ -62,7 +68,7 @@ const Landing = () => (
         </div>
         <div className="section">
           <ImageContainer backgroundImage={landingCreative}>
-            <Content position="middle-left">
+            <Content position="bottom-center">
               <ImageHeader>DEVELOP YOUR CAPABILITY WITH US</ImageHeader>
               <ImageSubHeader>#스터디 #발표 #공모전 #학술제 #Hybrid Day</ImageSubHeader>
             </Content>
