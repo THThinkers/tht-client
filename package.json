@@ -33,7 +33,7 @@
     "express": "^4.16.4",
     "fork-ts-checker-webpack-plugin": "^1.0.1",
     "history": "^4.7.2",
-    "immer": "^2.1.1",
+    "immer": "^8.0.1",
     "lodash-es": "^4.17.11",
     "qs": "^6.6.0",
     "react": "^16.8.6",
