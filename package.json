@@ -53,7 +53,7 @@
     "tslint-config-prettier": "^1.18.0",
     "tslint-loader": "^3.5.4",
     "tslint-react": "^4.0.0",
-    "validator": "^10.11.0"
+    "validator": "^13.7.0"
   },
   "devDependencies": {
     "@babel/core": "^7.4.3",
